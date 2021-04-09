@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">EMS Portal</string>
+    <string name="show_all">Show all</string>
+    <string name="next_quote">Next quote</string>
+</resources>
