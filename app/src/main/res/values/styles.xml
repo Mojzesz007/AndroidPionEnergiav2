@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="MyTextStyle">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#FF00FF</item>
     </style>
 
+    <style name="MyTextStyle2">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#0033cc</item>
+        <!--#0099cc-->
+    </style>
 
+    <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">#0033cc</item>
+        <item name="android:textColor">#FFffFF</item>
+    </style>
+    <style name="drawerstyle">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 </resources>
