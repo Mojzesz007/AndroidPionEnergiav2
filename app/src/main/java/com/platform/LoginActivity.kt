@@ -51,7 +51,6 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
         }
         binding.LALoginB.setOnClickListener { t: View? ->
             rotate()
-            saveCredentialsToEncryptedStorage()
             authentication()
         }
     }
