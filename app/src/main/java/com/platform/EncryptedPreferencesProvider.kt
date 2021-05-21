@@ -10,6 +10,11 @@ import java.lang.NullPointerException
 import java.security.GeneralSecurityException
 
 class EncryptedPreferencesProvider(private val mContext: Context) {
+
+    companion object {
+        private const val SHARED_PREFERENCE_NAME = "ems_encrypted_data"
+    }
+
     @get:kotlin.jvm.Throws(NullPointerException::class)
     val sharedPreferences: SharedPreferences
         get() {
@@ -40,7 +45,6 @@ class EncryptedPreferencesProvider(private val mContext: Context) {
      * @param fieldName nazwa pola do zapisu
      * @param content  zawartosc pola
      */
-    //------------------------------ENCRYPTED_STORAGE-----------------------------------------------
     fun saveToEncryptedStorage(fieldName: String?, content: String?) {
         if (fieldName != null) {
             sharedPreferences.edit()
@@ -74,9 +78,5 @@ class EncryptedPreferencesProvider(private val mContext: Context) {
             )
         }
         return ""
-    }
-
-    companion object {
-        private const val SHARED_PREFERENCE_NAME = "ems_encrypted_data"
     }
 }

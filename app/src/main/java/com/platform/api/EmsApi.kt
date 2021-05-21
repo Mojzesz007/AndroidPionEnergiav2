@@ -9,7 +9,7 @@ import retrofit2.http.*
 interface EmsApi {
 
     companion object{
-        const val BASE_URL= "http://10.0.2.2:8080/EMSPortal/"
+        const val BASE_URL= "https://portal.tech-com.pl/"
         const val DOCUMENT_ATTACHMENT_PARENT = "document"
     }
 

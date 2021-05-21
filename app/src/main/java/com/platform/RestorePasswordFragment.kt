@@ -12,33 +12,27 @@ import com.google.android.material.textfield.TextInputEditText
 import com.platform.databinding.FragmentRestorePasswordBinding
 
 class RestorePasswordFragment : Fragment() {
-    private var binding: FragmentRestorePasswordBinding? = null
+    private lateinit var binding: FragmentRestorePasswordBinding
     private var mText: String? = null
     private var mListener: OnFragmentInteractionListener? = null
     private var editTextFragment: EditText? = null
     private val buttonFragment: Button? = null
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentRestorePasswordBinding.inflate(inflater, container, false)
-        val view: View = binding!!.root
-        editTextFragment = binding!!.RPFLoginTextTI
+        val view: View = binding.root
+        editTextFragment = binding.RPFLoginTextTI
         (editTextFragment as TextInputEditText).setText(mText)
         (editTextFragment as TextInputEditText).requestFocus()
-        binding!!.RPFForgotTV.setOnClickListener { it: View? ->
+        binding.RPFForgotTV.setOnClickListener { it: View? ->
             val sendBackText = (editTextFragment as TextInputEditText).text.toString()
             sendBack(sendBackText)
         }
-        val test1 = 0
-        //test1.split()
         return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +42,6 @@ class RestorePasswordFragment : Fragment() {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun sendBack(sendBackText: String?) {
         if (mListener != null) {
             mListener!!.onFragmentInteraction(sendBackText)
@@ -70,16 +63,11 @@ class RestorePasswordFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         fun onFragmentInteraction(sendBackText: String?)
     }
 
     companion object {
-        // TODO: Rename parameter arguments, choose names that match
-        // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private const val TEXT = "text"
-
-        // TODO: Rename and change types and number of parameters
         fun newInstance(text: String?): RestorePasswordFragment {
             val fragment = RestorePasswordFragment()
             val args = Bundle()

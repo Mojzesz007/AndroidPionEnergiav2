@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
             authentication()
         }
     }
-    //---------------------------------------------RESTORE_PASSWORD_FRAGMENT----------------------------------------------------------------------------
+
     fun openFragmentRestorePassword(text: String?) {
         val fragment = RestorePasswordFragment.newInstance(text)
         val fragmentManager = supportFragmentManager
@@ -73,8 +73,6 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
         binding.LAUsernameTI.setText(sendBackText)
         onBackPressed()
     }
-
-    //-----------------------------------------------ENCRYPTED_STORAGE----------------------------------------------------------------------------
 
     fun saveCredentialsToEncryptedStorage() {
         if (binding.LARememberS.isChecked) {
@@ -103,7 +101,7 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
         encryptedPreferencesProvider.saveToEncryptedStorage("Username", null)
         encryptedPreferencesProvider.saveToEncryptedStorage("Password", null)
     }
-    //------------------------------------------------------LOGIN_LOGIC--------------------------------------------------------------------------
+
     var responseCode: String =""
     private fun authentication(){
         val call = emsApi.login(
@@ -133,7 +131,7 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
                 Log.e("APP", t.localizedMessage)
                 Log.e("APP", t.message.toString())
                 responseCode = t.message.toString()
-                openDialog("${resources.getString(R.string.connectiontimeout)}")
+                openDialog(resources.getString(R.string.connectiontimeout))
                 t.printStackTrace()
                 anim.clearAnimation()
             }
@@ -195,7 +193,6 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
         })
     }
 
-    //-----------------------------------------------------------OTHERS----------------------------------------------------------
     fun rotate() {
         val animation =AnimationUtils.loadAnimation(this,R.anim.loadinganim)
         if (anim != null) {
@@ -211,10 +208,5 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
             }
             .show()
     }
-
-
-
-
-
 
 }
