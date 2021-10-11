@@ -21,4 +21,11 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+    <style name="ActionBar" parent="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimary">#0033cc</item>
+        <item name="textColorPrimaryVariant">#0033cc</item>
+        <item name="android:statusBarColor">#0033ff</item>
+    </style>
 </resources>

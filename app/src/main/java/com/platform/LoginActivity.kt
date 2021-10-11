@@ -1,5 +1,6 @@
 package com.platform
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,15 +8,14 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.gson.Gson
 import com.platform.RestorePasswordFragment.OnFragmentInteractionListener
 import com.platform.api.EmsApi
+import com.platform.data.CurrentUser
+import com.platform.data.response.UserDataList
 import com.platform.databinding.ActivityLoginBinding
-import com.platform.pojo.APIError
 import com.platform.utils.ErrorUtil
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,6 +37,8 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
     private lateinit var binding: ActivityLoginBinding
 
     private lateinit var anim :ImageView
+
+    private lateinit var currentUser: CurrentUser
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,8 +85,14 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
     }
 
     private fun saveCredentials() {
-        encryptedPreferencesProvider.saveToEncryptedStorage("Username", binding.LAUsernameTI.text.toString())
-        encryptedPreferencesProvider.saveToEncryptedStorage("Password", binding.LAPasswordTI.text.toString())
+        encryptedPreferencesProvider.saveToEncryptedStorage(
+            "Username",
+            binding.LAUsernameTI.text.toString()
+        )
+        encryptedPreferencesProvider.saveToEncryptedStorage(
+            "Password",
+            binding.LAPasswordTI.text.toString()
+        )
     }
 
     private fun readCredentials() {
@@ -117,13 +125,13 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
 
                 } else {
 
-                   val errorUtil = ee.parseError(response)
+                    val errorUtil = ee.parseError(response)
                     if (errorUtil != null) {
                         openDialog(errorUtil.message)
                         anim.clearAnimation()
-                    }else
+                    } else
                         openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
-                        anim.clearAnimation()
+                    anim.clearAnimation()
                 }
             }
 
@@ -145,6 +153,8 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
                 println("poprawne zalogowanie")//odsyłka do nowego Activity i pobrac uzytkownika
                 saveCredentialsToEncryptedStorage()
                 println(response.message())
+
+
                 anim.clearAnimation()
             }
 
@@ -157,7 +167,7 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
             }
         })
 
-        val getServiceOrders2 = emsApi.getServiceOrders()
+        /*val getServiceOrders2 = emsApi.getServiceOrders()
         getServiceOrders2.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val errorCode = response.toString()
@@ -172,18 +182,36 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
                 t.printStackTrace()
                 anim.clearAnimation()
             }
-        })
+        })*/
         val getUser = emsApi.getUser()
-        getUser.enqueue(object: Callback<ResponseBody>{
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+        getUser.enqueue(object : Callback<UserDataList> {
+            override fun onResponse(call: Call<UserDataList>, response: Response<UserDataList>) {
                 val errorCode = response.toString()
                 println(errorCode)
                 println("uszesz")
-               println(response.body().toString())
+                println(response.message())
+                println("rezultat: " + (response.body()?.results?.get(0)))
+                //getUser.request();
                 //anim?.clearAnimation();
+
+                for (i in 0 until (response.body()!!.results.size)) {
+                    println("login wg rb: " + response.body()!!.results[i].login);
+                    println("login wg bindingu: " + binding.LAUsernameTI.text.toString())
+                    if (binding.LAUsernameTI.text.toString()
+                            .equals(response.body()!!.results[i].login)
+                    ) {
+                        currentUser = CurrentUser(
+                            response.body()!!.results[i].login,
+                            response.body()!!.results[i].name,
+                            response.body()!!.results[i].surname,
+                            response.body()!!.results[i].role
+                        )
+                    }
+                }
+                loginActivity()
             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<UserDataList>, t: Throwable) {
                 Log.e("APP", t.localizedMessage)
                 Log.e("APP", t.message.toString())
                 println("zepsulo sie przy uszesze")
@@ -194,7 +222,7 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
     }
 
     fun rotate() {
-        val animation =AnimationUtils.loadAnimation(this,R.anim.loadinganim)
+        val animation =AnimationUtils.loadAnimation(this, R.anim.loadinganim)
         if (anim != null) {
             anim.startAnimation(animation)
         }
@@ -209,4 +237,12 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
             .show()
     }
 
+    fun loginActivity() {
+        val loginIntent = Intent(this, DrawerActivity::class.java)
+        loginIntent.putExtra("currentUser", currentUser)
+        startActivity(loginIntent)
+
+
+
+    }
 }
