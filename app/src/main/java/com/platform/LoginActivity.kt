@@ -7,12 +7,15 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.platform.RestorePasswordFragment.OnFragmentInteractionListener
 import com.platform.api.EmsApi
 import com.platform.data.CurrentUser
+import com.platform.data.UserData
 import com.platform.data.response.UserDataList
 import com.platform.databinding.ActivityLoginBinding
+import com.platform.pojo.UserProfile
 import com.platform.utils.ErrorUtil
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.ResponseBody
@@ -20,7 +23,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+import org.json.JSONArray
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
+import org.json.JSONObject
 
+
+
+/**
+ * @author Rafał Pasternak
+ * klasa obsługująca funkcjonalność logowania się
+ * do systemu EMS
+ * **/
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
@@ -38,8 +52,8 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
 
     private lateinit var anim :ImageView
 
-    private lateinit var currentUser: CurrentUser
 
+    private lateinit var userProfile: UserProfile
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +70,10 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
             authentication()
         }
     }
-
+    /**
+     * funkcja otwierajaca fragment przywracania hasła
+     * @author Rafał Pasternak
+     **/
     fun openFragmentRestorePassword(text: String?) {
         val fragment = RestorePasswordFragment.newInstance(text)
         val fragmentManager = supportFragmentManager
@@ -70,12 +87,19 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
         transaction.addToBackStack(null)
         transaction.add(R.id.fragment_container, fragment, "RESTORE_PASSWORD_FRAGMENT").commit()
     }
-
+    /**
+     * funkcja przesyłająca dane pomiędzy stroną logowania a stroną odzyskiwania hasła
+     * @author Rafał Pasternak
+     **/
     override fun onFragmentInteraction(sendBackText: String?) {
         binding.LAUsernameTI.setText(sendBackText)
         onBackPressed()
     }
 
+    /**
+     * funkcja zarządzająca danymi zapisanymi na urządzeniu
+     * @author Rafał Pasternak
+     **/
     fun saveCredentialsToEncryptedStorage() {
         if (binding.LARememberS.isChecked) {
             saveCredentials()
@@ -83,7 +107,10 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
             removeCredentials()
         }
     }
-
+    /**
+     * funkcja zapisująca zaszyfrowane dane logowania na urządzeniu
+     * @author Rafał Pasternak
+     **/
     private fun saveCredentials() {
         encryptedPreferencesProvider.saveToEncryptedStorage(
             "Username",
@@ -94,7 +121,10 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
             binding.LAPasswordTI.text.toString()
         )
     }
-
+    /**
+     * funkcja odczytująca zaszyfrowane dane logowania na urządzeniu
+     * @author Rafał Pasternak
+     **/
     private fun readCredentials() {
         val username=encryptedPreferencesProvider.readCredentials("Username")
             if (username != null) {
@@ -104,19 +134,26 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
             }
 
     }
-
+    /**
+     * funkcja usuwająca zaszyfrowane dane logowania na urządzeniu
+     * @author Rafał Pasternak
+     **/
     private fun removeCredentials() {
         encryptedPreferencesProvider.saveToEncryptedStorage("Username", null)
         encryptedPreferencesProvider.saveToEncryptedStorage("Password", null)
     }
 
     var responseCode: String =""
+    /**
+     * funkcja logująca użytkownika do systemu
+     * obsługująca błędne logowanie
+     * @author Rafał Pasternak
+     **/
     private fun authentication(){
         val call = emsApi.login(
             binding.LAUsernameTI.text.toString(),
             binding.LAPasswordTI.text.toString()
         )
-        //val call: Call<ResponseBody> = Ems.getCompanyDetails()
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
 
@@ -145,78 +182,24 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
             }
         })
     }
-
+    /**
+     * funkcja wywoływana w przypadku nawiązania połączenia ze stroną EMS
+     * @author Rafał Pasternak
+     **/
     fun doSampleRequests(){
         val getServiceOrders = emsApi.getServiceOrders()
         getServiceOrders.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                println("poprawne zalogowanie")//odsyłka do nowego Activity i pobrac uzytkownika
                 saveCredentialsToEncryptedStorage()
-                println(response.message())
-
-
-                anim.clearAnimation()
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("APP", t.localizedMessage)
-                Log.e("APP", t.message.toString())
-                println("blad xyz")
-                t.printStackTrace()
-                anim.clearAnimation()
-            }
-        })
-
-        /*val getServiceOrders2 = emsApi.getServiceOrders()
-        getServiceOrders2.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val errorCode = response.toString()
-                println(errorCode)
-                anim.clearAnimation()
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("APP", t.localizedMessage)
-                Log.e("APP", t.message.toString())
-                println("zepsulo sie tu 2")
-                t.printStackTrace()
-                anim.clearAnimation()
-            }
-        })*/
-        val getUser = emsApi.getUser()
-        getUser.enqueue(object : Callback<UserDataList> {
-            override fun onResponse(call: Call<UserDataList>, response: Response<UserDataList>) {
-                val errorCode = response.toString()
-                println(errorCode)
-                println("uszesz")
-                println(response.message())
-                println("rezultat: " + (response.body()?.results?.get(0)))
-                //getUser.request();
-                //anim?.clearAnimation();
-
-                for (i in 0 until (response.body()!!.results.size)) {
-                    println("login wg rb: " + response.body()!!.results[i].login);
-                    println("login wg bindingu: " + binding.LAUsernameTI.text.toString())
-                    if (binding.LAUsernameTI.text.toString()
-                            .equals(response.body()!!.results[i].login)
-                    ) {
-                        currentUser = CurrentUser(
-                            response.body()!!.results[i].login,
-                            response.body()!!.results[i].name,
-                            response.body()!!.results[i].surname,
-                            response.body()!!.results[i].role
-                        )
-                    }
-                }
                 loginActivity()
+                anim.clearAnimation()
             }
 
-            override fun onFailure(call: Call<UserDataList>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.e("APP", t.localizedMessage)
                 Log.e("APP", t.message.toString())
-                println("zepsulo sie przy uszesze")
                 t.printStackTrace()
-                //anim?.clearAnimation();
+                anim.clearAnimation()
             }
         })
     }
@@ -228,6 +211,10 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
         }
         //anim?.clearAnimation();
     }
+    /**
+     * Metoda do wyświetlenia komunikatu użytkownikowi
+     * @author Rafał Pasternak
+     **/
     fun openDialog(message: String) {
         MaterialAlertDialogBuilder(this)
             .setTitle(resources.getString(R.string.messageTitle)) //jako res string
@@ -236,13 +223,12 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
             }
             .show()
     }
-
+    /**
+     *Metoda odsyłająca uzytkownika do głównego menu
+     * @author Rafał Pasternak
+     **/
     fun loginActivity() {
-        val loginIntent = Intent(this, DrawerActivity::class.java)
-        loginIntent.putExtra("currentUser", currentUser)
+        val loginIntent = Intent(this, NavigationDrawerActivity::class.java)
         startActivity(loginIntent)
-
-
-
     }
 }

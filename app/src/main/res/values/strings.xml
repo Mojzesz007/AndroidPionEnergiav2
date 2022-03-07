@@ -1,6 +1,6 @@
 <resources>
     <!--Basic-->
-    <string name="app_name">EMS Portal</string>
+    <string name="app_name">EMS PionEnergia</string>
     <string name="show_all">Show all</string>
     <string name="next_quote">Next quote</string>
     <!-- Login-->
@@ -21,10 +21,21 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <!--  Drawer   -->
-    <string name="opendrawer">Opne drawer</string>
+    <string name="opendrawer">Open drawer</string>
     <string name="closeddrawer">Close drawer</string>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
+    <string name="Contracts">Umowy</string>
+    <string name="Sell_Invoices">Faktury sprzedażowe</string>
+    <string name="SuplierNumber"> Numer umowy dostawcy: </string>
+    <string name="Number">Numer: </string>
+    <string name="Recipient">Odbiorca: </string>
+    <string name="Title">Tytuł: </string>
+    <string name="Date">Data zakończenia umowy: </string>
+    <string name="Contractor">Kontrachent: </string>
+    <string name="IssueDate">Data wystawienia: </string>
+
+    <string name="GrossAmount">Kwota brutto: </string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="Contacts">Contacts</string>
     <string name="open">Open</string>
@@ -42,5 +53,8 @@
     <string name="service">Service</string>
     <string name="serviceOrder">Services</string>
     <string name="statistics">Realization statistics</string>
+    <string name="title_activity_navigation_drawer_n">NavigationDrawerN</string>
+    <string name="title_activity_navigation_drawer_nactivity">NavigationDrawerNActivity</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawer</string>
 
 </resources>

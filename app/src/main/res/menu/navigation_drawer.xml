@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="1"
+        android:title="Tu bedzie wybor sortowania 1"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings2"
+        android:orderInCategory="2"
+        android:title="Tu bedzie wybor sortowania 2"
+        app:showAsAction="never"
+        android:visible="false"/>
+    <item
+        android:id="@+id/action_settings3"
+        android:orderInCategory="2"
+        android:title="Tu bedzie wybor sortowania 3"
+        app:showAsAction="never"
+        android:visible="false"/>
+    <item
+        android:id="@+id/action_settings4"
+        android:orderInCategory="2"
+        android:title="Tu bedzie wybor sortowania 4"
+        app:showAsAction="never"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/outline_search_24"
+        android:title="to jest szukajka"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always"
+        android:visible="false"/>
+
+</menu>

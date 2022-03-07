@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/drawable-hdpi/ic_launcher_background.xml" value="0.1638888888888889" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/drawable-hdpi/ic_launcher_foreground.xml" value="0.12291666666666666" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/activity_main.xml" value="0.12360688956433637" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/activity_navigation_drawer.xml" value="0.12360688956433637" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/activity_tax_types.xml" value="0.1598731884057971" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/app_bar_navigation_drawer.xml" value="0.4" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/content_navigation_drawer.xml" value="0.1" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/contracts_list_item.xml" value="0.42021276595744683" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/drawer_activity.xml" value="0.19882246376811594" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_content.xml" value="0.13020833333333334" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_contracts.xml" value="0.24567474048442905" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_gallery.xml" value="0.1" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_header.xml" value="0.10326086956521739" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_restore_password.xml" value="0.1331521739130435" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_sellInvoices.xml" value="0.12360688956433637" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_sell_invoices.xml" value="0.4" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_slideshow.xml" value="0.13360507246376813" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/list_group.xml" value="0.10326086956521739" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/nav_header_navigation_drawer.xml" value="0.43014705882352944" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/sell_invoice_list_item.xml" value="0.4" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/menu/activity_navigation_drawer_drawer.xml" value="0.8" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/menu/navigation_drawer.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -9,8 +9,12 @@ import java.io.IOException
 import java.lang.NullPointerException
 import java.security.GeneralSecurityException
 
+/**
+ * klasa pozwalająca na bezpieczne przechowywanie
+ * danych na urządzeniu
+ * @author Rafał Pasternak
+ **/
 class EncryptedPreferencesProvider(private val mContext: Context) {
-
     companion object {
         private const val SHARED_PREFERENCE_NAME = "ems_encrypted_data"
     }
@@ -44,6 +48,7 @@ class EncryptedPreferencesProvider(private val mContext: Context) {
      * Funkcja zapisująca pola do Encrypted Storage
      * @param fieldName nazwa pola do zapisu
      * @param content  zawartosc pola
+     * @author Rafał Pasternak
      */
     fun saveToEncryptedStorage(fieldName: String?, content: String?) {
         if (fieldName != null) {
@@ -59,6 +64,7 @@ class EncryptedPreferencesProvider(private val mContext: Context) {
      * Funkcja odczytujaca z Encrypted Storage
      * @param fieldName
      * @return pole albo null
+     * @author Rafał Pasternak
      */
     fun readCredentials(fieldName: String?): String? {
         val prfs = sharedPreferences

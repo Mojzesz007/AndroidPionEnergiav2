@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <item android:title="Umowy">
+        <menu>
+    <group android:checkableBehavior="single"
+        android:id="@+id/group_feature">
+        <item
+            android:id="@+id/nav_contractors"
+            android:icon="@drawable/outline_article_24"
+            android:title="@string/Contracts" />
+    </group>
+        </menu>
+    </item>
+    <item android:title="Finanse">
+        <menu>
+    <group android:checkableBehavior="single"
+        android:id="@+id/group_finanse">
+        <item
+            android:id="@+id/nav_sell_invoices"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/Sell_Invoices" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_slideshow" />
+    </group>
+        </menu>
+    </item>
+</menu>

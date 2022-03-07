@@ -10,7 +10,11 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.platform.databinding.FragmentRestorePasswordBinding
-
+/**
+ * @author Rafał Pasternak
+ * klasa obsługująca funkcjonalność odzyskiwania hasła
+ * dla systemu EMS
+ * **/
 class RestorePasswordFragment : Fragment() {
     private lateinit var binding: FragmentRestorePasswordBinding
     private var mText: String? = null
@@ -29,10 +33,6 @@ class RestorePasswordFragment : Fragment() {
             sendBack(sendBackText)
         }
         return view
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

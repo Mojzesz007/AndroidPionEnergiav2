@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_contractors">
+
+    <fragment
+        android:id="@+id/nav_contractors"
+        android:name="com.platform.ui.contracts.ContractsFragment"
+        android:label="@string/Contracts"
+        tools:layout="@layout/fragment_contracts" />
+
+    <fragment
+        android:id="@+id/nav_sell_invoices"
+        android:name="com.platform.ui.sellInvoices.SellInvoicesFragment"
+        android:label="@string/Sell_Invoices"
+        tools:layout="@layout/fragment_sell_invoices" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.platform.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+
+</navigation>
