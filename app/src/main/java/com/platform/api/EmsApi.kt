@@ -35,11 +35,18 @@ interface EmsApi {
     @GET("rest/contracts/endIn90daysEnding")
     fun getContractsEndingin90days(
         @Query("max") max :Integer,
-        @Query("start") start :Integer): Call<Contracts>
+        @Query("start") start :Integer
+    ): Call<Contracts>
     //SELL INVOICES
-    @GET("rest/sellinvoices?max=100&start=0")
-    fun getSellInvoices(): Call<SellInvoices>
-    @GET("rest/sellinvoices?max=100&notpaid=true&start=0")
-    fun getUnpaidSellInvoices(): Call<SellInvoices>
+    @GET("rest/sellinvoices")
+    fun getSellInvoices(
+        @Query("max") max :Integer,
+        @Query("start"
+        ) start :Integer): Call<SellInvoices>
+    @GET("rest/sellinvoices?notpaid=true")
+    fun getUnpaidSellInvoices(
+        @Query("max") max :Integer,
+        @Query("start") start :Integer
+    ): Call<SellInvoices>
 
 }

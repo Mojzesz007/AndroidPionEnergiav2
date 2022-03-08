@@ -4,19 +4,21 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import com.platform.R
 import com.platform.adapters.SellInvoicesRecyclerAdapter
 import com.platform.api.EmsApi
 import com.platform.databinding.FragmentSellInvoicesBinding
-import com.platform.pojo.contracts.Contracts
 import com.platform.pojo.sellInvoices.SellInvoices
 import com.platform.utils.ErrorUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +27,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.sql.Date
 import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,10 +37,20 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
     @Inject
     lateinit var ee : ErrorUtil
 
+    private lateinit var sellInvoicesViewModel: SellInvoicesViewModel
+    lateinit var progresbar : ProgressBar
+    lateinit var nestedScrollView : NestedScrollView
+    lateinit var swipeContainer: SwipeRefreshLayout
+
     var sellInvoices: SellInvoices = SellInvoices()
     var sellInvoicesAll= SellInvoices()
-    private var sellInvoicesViewModel: SellInvoicesViewModel? = null
     private var binding: FragmentSellInvoicesBinding? = null
+    var start=0 as Integer
+    var max=10 as Integer
+
+    var currentDataSource="All"
+    var dataSourceAll="All"
+    var dataSourcePaid="UnPaid"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +62,39 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
         binding = FragmentSellInvoicesBinding.inflate(inflater, container, false)
         val root: View = binding!!.root
         sellInvoicesViewModel!!.text.observe(viewLifecycleOwner, Observer { })
+        progresbar= binding!!.SLProgresBarPB
+        nestedScrollView= binding!!.SLNestedScrollViewNS
         getSellInvoices()
+        /**
+         * Metoda obsługująca paginację danych
+         * @author Rafał Pasternak
+         **/
+        nestedScrollView!!.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { nestedScrollView, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if(scrollY==nestedScrollView.getChildAt(0).measuredHeight-nestedScrollView.measuredHeight&&start<=sellInvoices.totalCount) {
+                start = max;
+                progresbar!!.visibility=View.VISIBLE
+                var step =max.toInt()+10
+                max= step as Integer
+                if(currentDataSource.equals(dataSourceAll))
+                    getSellInvoices()
+                else if(currentDataSource.equals(dataSourcePaid))
+                    getUnpaidSellInvoices()
+            }
+        })
+        /**
+         *Funkcja króra przy pociągnięciu w dół odświeża dane
+         * @author Rafał Pasternak
+         **/
+        swipeContainer= binding!!.SLSwipeRefreshSR
+        swipeContainer.setOnRefreshListener {
+            start=0 as Integer
+            max=10 as Integer
+            sellInvoices.results.clear()
+            if(currentDataSource.equals(dataSourceAll))
+                getSellInvoices()
+            else if(currentDataSource.equals(dataSourcePaid))
+                getUnpaidSellInvoices()
+        }
         return root
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,20 +113,27 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
      * **/
     private fun getSellInvoices(){
         val call = emsApi.getSellInvoices(
+            max,start
         )
         call.enqueue(object : Callback<SellInvoices> {
             override fun onResponse(call: Call<SellInvoices>, response: Response<SellInvoices>) =
                 if (response.isSuccessful) {
-                    sellInvoices= response.body()!!
+                    if(sellInvoices.results==null)
+                        sellInvoices= response.body()!!
+                    else if(!response.body()!!.results.isEmpty())
+                        sellInvoices.results.addAll( response.body()!!.results)
                     val stringCopier = Gson().toJson(sellInvoices, SellInvoices::class.java)
                     sellInvoicesAll= Gson().fromJson<SellInvoices>(stringCopier, SellInvoices::class.java)
+                    progresbar?.visibility=View.GONE
+                    swipeContainer.setRefreshing(false)
                     initRecyclerView()
                 } else {
 
                     val errorUtil = ee.parseError(response)
                     if (errorUtil != null) {
                         openDialog(errorUtil.message)
-
+                        progresbar?.visibility=View.GONE
+                        swipeContainer.setRefreshing(false)
                     } else
                         openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
                 }
@@ -94,6 +144,8 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
                 responseCode = t.message.toString()
                 openDialog(resources.getString(R.string.connectiontimeout))
                 t.printStackTrace()
+                progresbar?.visibility=View.GONE
+                swipeContainer.setRefreshing(false)
             }
         })
     }
@@ -102,16 +154,30 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
      * @author Rafał Pasternak
      * **/
     private fun getUnpaidSellInvoices(){
-        val call = emsApi.getUnpaidSellInvoices()
+        val call = emsApi.getUnpaidSellInvoices(
+            max,start
+        )
         call.enqueue(object : Callback<SellInvoices> {
             override fun onResponse(call: Call<SellInvoices>, response: Response<SellInvoices>) =
                 if (response.isSuccessful) {
-                    sellInvoices= response.body()!!
+                    if(sellInvoices.results==null)
+                        sellInvoices= response.body()!!
+                    else if(!response.body()!!.results.isEmpty())
+                        sellInvoices.results.addAll( response.body()!!.results)
                     val stringCopier = Gson().toJson(sellInvoices, SellInvoices::class.java)
                     sellInvoicesAll= Gson().fromJson<SellInvoices>(stringCopier, SellInvoices::class.java)
+                    progresbar?.visibility=View.GONE
+                    swipeContainer.setRefreshing(false)
                     initRecyclerView()
                 } else {
+
                     val errorUtil = ee.parseError(response)
+                    if (errorUtil != null) {
+                        openDialog(errorUtil.message)
+                        progresbar?.visibility=View.GONE
+                        swipeContainer.setRefreshing(false)
+                    } else
+                        openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
                 }
 
             override fun onFailure(call: Call<SellInvoices>, t: Throwable) {
@@ -120,6 +186,8 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
                 responseCode = t.message.toString()
                 openDialog(resources.getString(R.string.connectiontimeout))
                 t.printStackTrace()
+                progresbar?.visibility=View.GONE
+                swipeContainer.setRefreshing(false)
             }
         })
     }
@@ -154,11 +222,6 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
                 {
                     sellInvoices.results.clear()
                     var i=0
-                    /*
-                    * sellInvoicesAll.results[i].grossTotal?.toString()?.toLowerCase()
-                                ?.contains(newText.toLowerCase(Locale.ROOT)) == true
-                            ||
-                    * */
                     while(i!=sellInvoicesAll.results.size){
                         if( sellInvoicesAll.results[i].grossTotal?.toString()?.toLowerCase()?.contains(newText.toLowerCase())==true
                             ||sellInvoicesAll.results[i].number.toLowerCase().contains(newText.toLowerCase())
@@ -168,7 +231,6 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
                             sellInvoices.results.add(sellInvoicesAll.results[i])
                         i++
                     }
-
                 }
                 initRecyclerView()
                 return false
@@ -187,10 +249,18 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id= item.itemId
         if(id==R.id.action_settings){
+            currentDataSource=dataSourceAll
+            sellInvoices.results.clear()
+            start=0 as Integer
+            max=10 as Integer
             getSellInvoices()
             Toast.makeText(activity,"Wszystkie",Toast.LENGTH_SHORT).show()
         }
         if(id==R.id.action_settings2){
+            currentDataSource=dataSourceAll
+            sellInvoices.results.clear()
+            start=0 as Integer
+            max=10 as Integer
             getUnpaidSellInvoices()
             Toast.makeText(activity,"Niezapłacone",Toast.LENGTH_SHORT).show()
         }

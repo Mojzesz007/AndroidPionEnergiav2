@@ -11,6 +11,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import com.platform.adapters.ContractRecyclerAdapter
@@ -41,17 +42,20 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
     @Inject
     lateinit var ee : ErrorUtil
 
+    lateinit var swipeContainer: SwipeRefreshLayout
+    lateinit var progresbar :ProgressBar
+    private lateinit  var contractsViewModel: ContractsViewModel
+    lateinit var nestedScrollView :NestedScrollView
+    private var binding: FragmentContractsBinding? = null
+
     var contracts: Contracts = Contracts()
     var contractsAll=Contracts()
-    private var contractsViewModel: ContractsViewModel? = null
-    private var binding: FragmentContractsBinding? = null
     var start=0 as Integer
     var max=10 as Integer
-    var progresbar :ProgressBar?= null
-    var nestedScrollView :NestedScrollView?=null;
     var currentDataSource="All"
     var dataSourceAll="All"
     var dataSourceIn90Days="In90Days"
+
     override  fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
@@ -67,8 +71,9 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
         * @author Rafał Pasternak
         **/
         nestedScrollView!!.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { nestedScrollView, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if(scrollY==nestedScrollView.getChildAt(0).measuredHeight-nestedScrollView.measuredHeight) {
+            if(scrollY==nestedScrollView.getChildAt(0).measuredHeight-nestedScrollView.measuredHeight&&start<=contracts.totalCount) {
                 start = max;
+                progresbar!!.visibility=View.VISIBLE
                 var step =max.toInt()+10
                 max= step as Integer
                 if(currentDataSource.equals(dataSourceAll))
@@ -77,6 +82,20 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
                     getEndingIn90Days()
             }
         })
+        /**
+         *Funkcja króra przy pociągnięciu w dół odświeża dane
+         * @author Rafał Pasternak
+         **/
+        swipeContainer= binding!!.FCSwipeRefreshSR
+        swipeContainer.setOnRefreshListener {
+            start=0 as Integer
+            max=10 as Integer
+            contracts.results.clear()
+            if(currentDataSource.equals(dataSourceAll))
+                getContracts()
+            else if(currentDataSource.equals(dataSourceIn90Days))
+                getEndingIn90Days()
+        }
         return root
     }
 
@@ -182,13 +201,14 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
                     val stringCopier = Gson().toJson(contracts, Contracts::class.java)
                     contractsAll= Gson().fromJson<Contracts>(stringCopier, Contracts::class.java)
                     progresbar?.visibility=View.GONE
+                    swipeContainer.setRefreshing(false)
                     initRecyclerView()
                 } else {
-
+                    progresbar?.visibility=View.GONE
+                    swipeContainer.setRefreshing(false)
                     val errorUtil = ee.parseError(response)
                     if (errorUtil != null) {
                         openDialog(errorUtil.message)
-
                     } else
                         openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
                 }
@@ -197,9 +217,12 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
                 Log.e("APP", t.localizedMessage)
                 Log.e("APP", t.message.toString())
                 responseCode = t.message.toString()
+                progresbar?.visibility=View.GONE
+                swipeContainer.setRefreshing(false)
                 openDialog(resources.getString(R.string.connectiontimeout))
                 t.printStackTrace()
             }
+
         })
     }
     /**
@@ -219,18 +242,22 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
                         contracts.results.addAll( response.body()!!.results)
                     val stringCopier = Gson().toJson(contracts, Contracts::class.java)
                     contractsAll= Gson().fromJson<Contracts>(stringCopier, Contracts::class.java)
+                    progresbar?.visibility=View.GONE
+                    swipeContainer.setRefreshing(false)
                     initRecyclerView()
                 } else {
-
+                    progresbar?.visibility=View.GONE
+                    swipeContainer.setRefreshing(false)
                     val errorUtil = ee.parseError(response)
                     if (errorUtil != null) {
                         openDialog(errorUtil.message)
-
                     } else
                         openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
                 }
 
             override fun onFailure(call: Call<Contracts>, t: Throwable) {
+                progresbar?.visibility=View.GONE
+                swipeContainer.setRefreshing(false)
                 Log.e("APP", t.localizedMessage)
                 Log.e("APP", t.message.toString())
                 responseCode = t.message.toString()
