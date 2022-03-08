@@ -37,9 +37,13 @@ class ContractRecyclerAdapter(
      **/
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.number.text = contracts.results[position].supplierNumber
-        holder.date.text = convertLongToTime(contracts.results[position].endDate)
-        holder.title.text = contracts.results[position].title
+        if(contracts.results[position].supplierNumber!=null)
+            holder.number.text = contracts.results[position].supplierNumber
+        if(contracts.results[position].endDate!=null)
+            holder.date.text = convertLongToTime(contracts.results[position].endDate)
+        if(contracts.results[position].title!=null)
+            holder.title.text = contracts.results[position].title
+        if(contracts.results[position].recipient.shortName!=null)
         holder.recipientName.text = contracts.results[position].recipient.shortName
         val color: Int = Color.rgb(248,156,20)
         if(contracts.results[position].color!=null)

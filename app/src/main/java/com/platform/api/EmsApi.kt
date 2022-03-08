@@ -26,11 +26,16 @@ interface EmsApi {
     @GET("rest/userprofile")
         fun getEntityByLogin(): Call<UserProfile>
     //CONTRACTS
-    @GET("rest/contracts/listAllEnding?max=100&start=0")
-    fun getContracts(): Call<Contracts>
+    @GET("rest/contracts/listAllEnding")
+    fun getContracts(
+        @Query("max") max :Integer,
+        @Query("start") start :Integer
+    ): Call<Contracts>
 
-    @GET("rest/contracts/endIn90daysEnding?max=100&start=0")
-    fun getContractsEndingin90days(): Call<Contracts>
+    @GET("rest/contracts/endIn90daysEnding")
+    fun getContractsEndingin90days(
+        @Query("max") max :Integer,
+        @Query("start") start :Integer): Call<Contracts>
     //SELL INVOICES
     @GET("rest/sellinvoices?max=100&start=0")
     fun getSellInvoices(): Call<SellInvoices>

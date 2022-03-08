@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,15 +45,38 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
     var contractsAll=Contracts()
     private var contractsViewModel: ContractsViewModel? = null
     private var binding: FragmentContractsBinding? = null
-
-    override fun onCreateView(
+    var start=0 as Integer
+    var max=10 as Integer
+    var progresbar :ProgressBar?= null
+    var nestedScrollView :NestedScrollView?=null;
+    var currentDataSource="All"
+    var dataSourceAll="All"
+    var dataSourceIn90Days="In90Days"
+    override  fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         contractsViewModel = ViewModelProvider(this).get(ContractsViewModel::class.java)
         binding = FragmentContractsBinding.inflate(inflater, container, false)
         val root: View = binding!!.root
+        progresbar= binding!!.FCProgresBarPB
+        nestedScrollView= binding!!.FCNestedScrollViewNS
         getContracts()
+       /**
+        * Metoda obsługująca paginację danych
+        * @author Rafał Pasternak
+        **/
+        nestedScrollView!!.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { nestedScrollView, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if(scrollY==nestedScrollView.getChildAt(0).measuredHeight-nestedScrollView.measuredHeight) {
+                start = max;
+                var step =max.toInt()+10
+                max= step as Integer
+                if(currentDataSource.equals(dataSourceAll))
+                    getContracts()
+                else if(currentDataSource.equals(dataSourceIn90Days))
+                    getEndingIn90Days()
+            }
+        })
         return root
     }
 
@@ -89,9 +114,9 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
                 contracts.results.clear()
                 var i=0
                 while(i!=contractsAll.results.size){
-                    if(contractsAll.results[i].title.toLowerCase().contains(newText.toLowerCase())
-                        ||contractsAll.results[i].supplierNumber.toLowerCase().contains(newText.toLowerCase())
-                        ||contractsAll.results[i].recipient.shortName.toLowerCase().contains(newText.toLowerCase())
+                    if(contractsAll?.results[i]?.title?.toLowerCase()?.contains(newText.toLowerCase())==true
+                        ||contractsAll?.results[i]?.supplierNumber?.toLowerCase()?.contains(newText.toLowerCase())==true
+                        ||contractsAll?.results[i]?.recipient?.shortName?.toLowerCase()?.contains(newText.toLowerCase())==true
                         ||convertLongToTime(contractsAll.results[i].endDate).toLowerCase().contains(newText.toLowerCase())
                     )
                         contracts.results.add(contractsAll.results[i])
@@ -115,10 +140,18 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id= item.itemId
         if(id==R.id.action_settings){
+            currentDataSource=dataSourceAll
+            contracts.results.clear()
+            start=0 as Integer
+            max=10 as Integer
             getContracts()
             Toast.makeText(activity,"Wszystkie",Toast.LENGTH_SHORT).show()
         }
         if(id==R.id.action_settings2){
+            currentDataSource=dataSourceIn90Days
+            contracts.results.clear()
+            start=0 as Integer
+            max=10 as Integer
             getEndingIn90Days()
             Toast.makeText(activity,"90 dni do wypowiedzenia",Toast.LENGTH_SHORT).show()
         }
@@ -137,13 +170,18 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
      * **/
     private fun getContracts(){
         val call = emsApi.getContracts(
+            max,start
         )
         call.enqueue(object : Callback<Contracts> {
             override fun onResponse(call: Call<Contracts>, response: Response<Contracts>) =
                 if (response.isSuccessful) {
-                    contracts= response.body()!!
+                    if(contracts.results==null)
+                        contracts= response.body()!!
+                    else if(!response.body()!!.results.isEmpty())
+                        contracts.results.addAll( response.body()!!.results)
                     val stringCopier = Gson().toJson(contracts, Contracts::class.java)
                     contractsAll= Gson().fromJson<Contracts>(stringCopier, Contracts::class.java)
+                    progresbar?.visibility=View.GONE
                     initRecyclerView()
                 } else {
 
@@ -170,11 +208,15 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
      * **/
     private fun getEndingIn90Days(){
         val call = emsApi.getContractsEndingin90days(
+            max,start
         )
         call.enqueue(object : Callback<Contracts> {
             override fun onResponse(call: Call<Contracts>, response: Response<Contracts>) =
                 if (response.isSuccessful) {
-                    contracts= response.body()!!
+                    if(contracts.results==null)
+                        contracts= response.body()!!
+                    else if(!response.body()!!.results.isEmpty())
+                        contracts.results.addAll( response.body()!!.results)
                     val stringCopier = Gson().toJson(contracts, Contracts::class.java)
                     contractsAll= Gson().fromJson<Contracts>(stringCopier, Contracts::class.java)
                     initRecyclerView()
@@ -241,9 +283,12 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
      * @return data w formacie ludzkim
      **/
     @SuppressLint("SimpleDateFormat")
-    fun convertLongToTime(time: Long): String {
-        val date = Date(time)
-        val format = SimpleDateFormat("yyyy.MM.dd")
-        return format.format(date)
+    fun convertLongToTime(time: Long?): String {
+        if(time!=null){val date = Date(time)
+            val format = SimpleDateFormat("yyyy.MM.dd")
+            return format.format(date)
+        }
+        else
+            return ""
     }
 }

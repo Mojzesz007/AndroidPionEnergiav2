@@ -34,12 +34,16 @@ class SellInvoicesRecyclerAdapter(
      * @author Rafał Pasternak
      **/
     override fun onBindViewHolder(holder: SellInvoicesRecyclerAdapter.MyViewHolder, position: Int) {
-        holder.number.text = sellInvoices.results[position].number
-        holder.date.text = convertLongToTime(sellInvoices.results[position].issueDate)
+        if(sellInvoices.results[position].number!=null)
+            holder.number.text = sellInvoices.results[position].number
+        if(sellInvoices.results[position].issueDate!=null)
+            holder.date.text = convertLongToTime(sellInvoices.results[position].issueDate)
         if(sellInvoices.results[position].grossTotal!=null)
             holder.grossAmount.text = sellInvoices.results[position].grossTotal.toString()
-        holder.contractorName.text = sellInvoices.results[position].contractorName
-        holder.currency.text = sellInvoices.results[position].currency.name
+        if(sellInvoices.results[position].contractorName!=null)
+            holder.contractorName.text = sellInvoices.results[position].contractorName
+        if(sellInvoices.results[position].currency.name!=null)
+            holder.currency.text = sellInvoices.results[position].currency.name
     }
 
     override fun getItemCount(): Int {
