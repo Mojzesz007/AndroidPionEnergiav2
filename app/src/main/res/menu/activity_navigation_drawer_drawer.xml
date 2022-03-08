@@ -22,9 +22,9 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/Sell_Invoices" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_cost_invoices"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="@string/Cost_Invoices" />
     </group>
         </menu>
     </item>

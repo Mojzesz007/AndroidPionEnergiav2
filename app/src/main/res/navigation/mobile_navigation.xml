@@ -18,9 +18,9 @@
         tools:layout="@layout/fragment_sell_invoices" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.platform.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_cost_invoices"
+        android:name="com.platform.ui.costInvoices.CostInvoicesFragment"
+        android:label="@string/Cost_Invoices"
+        tools:layout="@layout/fragment_cost_invoices" />
 
 </navigation>

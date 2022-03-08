@@ -27,6 +27,7 @@
     <string name="menu_gallery">Gallery</string>
     <string name="Contracts">Umowy</string>
     <string name="Sell_Invoices">Faktury sprzedażowe</string>
+    <string name="Cost_Invoices">Faktury kosztowe</string>
     <string name="SuplierNumber"> Numer umowy dostawcy: </string>
     <string name="Number">Numer: </string>
     <string name="Recipient">Odbiorca: </string>

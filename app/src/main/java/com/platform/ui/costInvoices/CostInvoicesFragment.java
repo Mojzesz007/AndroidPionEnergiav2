@@ -1,4 +1,4 @@
-package com.platform.ui.slideshow;
+package com.platform.ui.costInvoices;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,23 +12,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.platform.databinding.FragmentSlideshowBinding;
+import com.platform.databinding.FragmentCostInvoicesBinding;
 
-public class SlideshowFragment extends Fragment {
+public class CostInvoicesFragment extends Fragment {
 
-    private com.platform.ui.slideshow.SlideshowViewModel slideshowViewModel;
-    private FragmentSlideshowBinding binding;
+    private CostInvoicesViewModel costInvoicesViewModel;
+    private FragmentCostInvoicesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                new ViewModelProvider(this).get(com.platform.ui.slideshow.SlideshowViewModel.class);
+        costInvoicesViewModel =
+                new ViewModelProvider(this).get(CostInvoicesViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentCostInvoicesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textSlideshow;
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        costInvoicesViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

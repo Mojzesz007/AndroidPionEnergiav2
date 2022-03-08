@@ -43,7 +43,7 @@ class NavigationDrawerActivity : AppCompatActivity() {
         val username = navheaderView.findViewById<TextView>(R.id.ND_fullName_TV)
 
         mAppBarConfiguration = AppBarConfiguration.Builder(
-            R.id.nav_contractors, R.id.nav_sell_invoices, R.id.nav_slideshow
+            R.id.nav_contractors, R.id.nav_sell_invoices, R.id.nav_cost_invoices
         ) //lista fragmentow aktywnych w menu
             .setOpenableLayout(drawer)
             .build()
