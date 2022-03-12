@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -34,7 +35,7 @@ import javax.inject.Inject
  * @author Rafał Pasternak
  * **/
 @AndroidEntryPoint
-class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListener{
+class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListener {
 
     @Inject
     lateinit var emsApi: EmsApi

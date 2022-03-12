@@ -28,15 +28,29 @@
     <string name="Contracts">Umowy</string>
     <string name="Sell_Invoices">Faktury sprzedażowe</string>
     <string name="Cost_Invoices">Faktury kosztowe</string>
+    <string name="Cost_Invoice">Faktura kosztowa</string>
     <string name="SuplierNumber"> Numer umowy dostawcy: </string>
     <string name="Number">Numer: </string>
     <string name="Recipient">Odbiorca: </string>
     <string name="Title">Tytuł: </string>
     <string name="Date">Data zakończenia umowy: </string>
-    <string name="Contractor">Kontrachent: </string>
+    <string name="Contractor">Kontrahent: </string>
     <string name="IssueDate">Data wystawienia: </string>
-
     <string name="GrossAmount">Kwota brutto: </string>
+    <!-- Cost invoice hints  -->
+    <string name="ForeignNumber_hint">Numer obcy faktury</string>
+    <string name="IssueDate_hint">Data wystawienia</string>
+    <string name="Contractor_hint">Kontrahent</string>
+    <string name="Author_hint">Wprowadził</string>
+    <string name="PaymentDate_hint">Termin płatności</string>
+    <string name="InvoicePaid_hint">Faktura opłacona</string>
+    <string name="NetTotal_hint">Kwota netto</string>
+    <string name="VatTotal_hint">Kwota vat</string>
+    <string name="GrossTotal_hint">Kwota brutto</string>
+    <string name="Sum_hint">Suma</string>
+    <string name="Comment_hint">Uwagi</string>
+    <string name="Attachments_hint">Załączniki</string>
+
     <string name="menu_slideshow">Slideshow</string>
     <string name="Contacts">Contacts</string>
     <string name="open">Open</string>

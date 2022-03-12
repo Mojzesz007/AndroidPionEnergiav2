@@ -7,13 +7,9 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.platform.RestorePasswordFragment.OnFragmentInteractionListener
 import com.platform.api.EmsApi
-import com.platform.data.CurrentUser
-import com.platform.data.UserData
-import com.platform.data.response.UserDataList
 import com.platform.databinding.ActivityLoginBinding
 import com.platform.pojo.UserProfile
 import com.platform.utils.ErrorUtil
@@ -23,11 +19,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-import org.json.JSONArray
-import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
-import org.json.JSONObject
-
 
 
 /**
