@@ -5,10 +5,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -19,6 +16,8 @@ import com.platform.databinding.ActivityLoginBinding
 
 import com.platform.utils.ErrorUtil
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_cost_invoice.*
+import kotlinx.android.synthetic.main.app_bar_navigation_drawer.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -61,6 +60,7 @@ class CostInvoiceActivity : AppCompatActivity() {
         sum=binding.CISumTV
         comment=binding.CICommentsTV
         attachments=binding.CIAttachmentsTV
+
         val calendar = Calendar.getInstance()
         /**
          * Metoda pozwalająca wybrać datę
@@ -81,7 +81,20 @@ class CostInvoiceActivity : AppCompatActivity() {
                 calendar.get(Calendar.DAY_OF_MONTH)).show()
             updatePaymentDate(calendar)
         }
+        setSupportActionBar(toolbar_typical)
+        toolbar_typical.setTitle(R.string.Cost_Invoice)
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.typical_menu,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id= item.itemId
+        if(id==R.id.action_save){
+            Toast.makeText(this,"Wszystkie",Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     /**
