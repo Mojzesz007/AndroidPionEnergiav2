@@ -1,12 +1,12 @@
 
-package com.platform.pojo.costInvoice;
+package com.platform.pojo.costInvoices;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("jsonschema2pojo")
-public class Currency {
+public class Country {
 
     @SerializedName("version")
     @Expose
@@ -16,7 +16,7 @@ public class Currency {
     private Long createdAt;
     @SerializedName("updatedAt")
     @Expose
-    private Object updatedAt;
+    private Long updatedAt;
     @SerializedName("draft")
     @Expose
     private Boolean draft;
@@ -26,21 +26,12 @@ public class Currency {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("format")
+    @SerializedName("code")
     @Expose
-    private String format;
-    @SerializedName("iban")
+    private String code;
+    @SerializedName("phoneNoPrefix")
     @Expose
-    private Object iban;
-    @SerializedName("bank")
-    @Expose
-    private Object bank;
-    @SerializedName("swiftCode")
-    @Expose
-    private Object swiftCode;
-    @SerializedName("primary")
-    @Expose
-    private Boolean primary;
+    private String phoneNoPrefix;
     @SerializedName("entityDescription")
     @Expose
     private String entityDescription;
@@ -67,11 +58,11 @@ public class Currency {
         this.createdAt = createdAt;
     }
 
-    public Object getUpdatedAt() {
+    public Long getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Object updatedAt) {
+    public void setUpdatedAt(Long updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -99,44 +90,20 @@ public class Currency {
         this.name = name;
     }
 
-    public String getFormat() {
-        return format;
+    public String getCode() {
+        return code;
     }
 
-    public void setFormat(String format) {
-        this.format = format;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public Object getIban() {
-        return iban;
+    public String getPhoneNoPrefix() {
+        return phoneNoPrefix;
     }
 
-    public void setIban(Object iban) {
-        this.iban = iban;
-    }
-
-    public Object getBank() {
-        return bank;
-    }
-
-    public void setBank(Object bank) {
-        this.bank = bank;
-    }
-
-    public Object getSwiftCode() {
-        return swiftCode;
-    }
-
-    public void setSwiftCode(Object swiftCode) {
-        this.swiftCode = swiftCode;
-    }
-
-    public Boolean getPrimary() {
-        return primary;
-    }
-
-    public void setPrimary(Boolean primary) {
-        this.primary = primary;
+    public void setPhoneNoPrefix(String phoneNoPrefix) {
+        this.phoneNoPrefix = phoneNoPrefix;
     }
 
     public String getEntityDescription() {

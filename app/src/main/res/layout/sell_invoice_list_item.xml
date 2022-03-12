@@ -86,31 +86,31 @@
                 android:id="@+id/SL_Currency_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:text="PLN"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/SL_GrossAmount_TV"
                 app:layout_constraintTop_toBottomOf="@+id/SL_Contractor_TV" />
 
             <TextView
                 android:id="@+id/SL_GrossAmount_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:text="0"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/SL_Currency_TV"
+                app:layout_constraintStart_toEndOf="@+id/GrossAmountDescription"
                 app:layout_constraintTop_toBottomOf="@+id/SL_Contractor_TV" />
 
             <TextView
                 android:id="@+id/GrossAmountDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:text="@string/GrossAmount"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/SL_GrossAmount_TV"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/SL_Contractor_TV" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

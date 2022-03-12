@@ -1,5 +1,5 @@
 
-package com.platform.pojo.costInvoice;
+package com.platform.pojo.costInvoices;
 
 import java.util.List;
 import javax.annotation.Generated;
@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("jsonschema2pojo")
-public class CostInvoice {
+public class CostInvoices {
 
     @SerializedName("totalCount")
     @Expose

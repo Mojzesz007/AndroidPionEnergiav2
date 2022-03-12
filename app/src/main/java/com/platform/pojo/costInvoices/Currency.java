@@ -1,12 +1,12 @@
 
-package com.platform.pojo.costInvoice;
+package com.platform.pojo.costInvoices;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("jsonschema2pojo")
-public class User {
+public class Currency {
 
     @SerializedName("version")
     @Expose
@@ -26,27 +26,24 @@ public class User {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("surname")
+    @SerializedName("format")
     @Expose
-    private String surname;
-    @SerializedName("initials")
+    private String format;
+    @SerializedName("iban")
     @Expose
-    private String initials;
-    @SerializedName("login")
+    private Object iban;
+    @SerializedName("bank")
     @Expose
-    private String login;
-    @SerializedName("currentPassword")
+    private Object bank;
+    @SerializedName("swiftCode")
     @Expose
-    private Object currentPassword;
+    private Object swiftCode;
+    @SerializedName("primary")
+    @Expose
+    private Boolean primary;
     @SerializedName("entityDescription")
     @Expose
     private String entityDescription;
-    @SerializedName("securityPrincipalName")
-    @Expose
-    private String securityPrincipalName;
-    @SerializedName("fullname")
-    @Expose
-    private String fullname;
     @SerializedName("entityType")
     @Expose
     private String entityType;
@@ -102,36 +99,44 @@ public class User {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getFormat() {
+        return format;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setFormat(String format) {
+        this.format = format;
     }
 
-    public String getInitials() {
-        return initials;
+    public Object getIban() {
+        return iban;
     }
 
-    public void setInitials(String initials) {
-        this.initials = initials;
+    public void setIban(Object iban) {
+        this.iban = iban;
     }
 
-    public String getLogin() {
-        return login;
+    public Object getBank() {
+        return bank;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setBank(Object bank) {
+        this.bank = bank;
     }
 
-    public Object getCurrentPassword() {
-        return currentPassword;
+    public Object getSwiftCode() {
+        return swiftCode;
     }
 
-    public void setCurrentPassword(Object currentPassword) {
-        this.currentPassword = currentPassword;
+    public void setSwiftCode(Object swiftCode) {
+        this.swiftCode = swiftCode;
+    }
+
+    public Boolean getPrimary() {
+        return primary;
+    }
+
+    public void setPrimary(Boolean primary) {
+        this.primary = primary;
     }
 
     public String getEntityDescription() {
@@ -140,22 +145,6 @@ public class User {
 
     public void setEntityDescription(String entityDescription) {
         this.entityDescription = entityDescription;
-    }
-
-    public String getSecurityPrincipalName() {
-        return securityPrincipalName;
-    }
-
-    public void setSecurityPrincipalName(String securityPrincipalName) {
-        this.securityPrincipalName = securityPrincipalName;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
     }
 
     public String getEntityType() {

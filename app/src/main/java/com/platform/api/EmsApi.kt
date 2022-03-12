@@ -2,6 +2,7 @@ package com.platform.api
 
 import com.platform.pojo.UserProfile
 import com.platform.pojo.contracts.Contracts
+import com.platform.pojo.costInvoices.CostInvoices
 import com.platform.pojo.sellInvoices.SellInvoices
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -52,11 +53,11 @@ interface EmsApi {
     fun getCostInvoices(
         @Query("max") max :Integer,
         @Query("start"
-        ) start :Integer): Call<SellInvoices>
+        ) start :Integer): Call<CostInvoices>
     @GET("rest/costinvoices?notpaid=true")
     fun getUnpaidCostInvoices(
         @Query("max") max :Integer,
         @Query("start") start :Integer
-    ): Call<SellInvoices>
+    ): Call<CostInvoices>
 
 }

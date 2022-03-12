@@ -1,4 +1,4 @@
-package com.platform.ui.sellInvoices
+package com.platform.ui.costInvoices
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -16,10 +16,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import com.platform.R
-import com.platform.adapters.SellInvoicesRecyclerAdapter
+import com.platform.adapters.CostInvoicesRecyclerAdapter
 import com.platform.api.EmsApi
-import com.platform.databinding.FragmentSellInvoicesBinding
-import com.platform.pojo.sellInvoices.SellInvoices
+import com.platform.databinding.FragmentCostInvoicesBinding
+import com.platform.pojo.costInvoices.CostInvoices
 import com.platform.utils.ErrorUtil
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Call
@@ -30,21 +30,21 @@ import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClickListener {
+class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClickListener {
     @Inject
     lateinit var emsApi: EmsApi
 
     @Inject
     lateinit var ee : ErrorUtil
 
-    private lateinit var sellInvoicesViewModel: SellInvoicesViewModel
+    private lateinit var costInvoicesViewModel: CostInvoicesViewModel
     lateinit var progresbar : ProgressBar
     lateinit var nestedScrollView : NestedScrollView
     lateinit var swipeContainer: SwipeRefreshLayout
 
-    var sellInvoices: SellInvoices = SellInvoices()
-    var sellInvoicesAll= SellInvoices()
-    private var binding: FragmentSellInvoicesBinding? = null
+    var costInvoices: CostInvoices = CostInvoices()
+    var costInvoicesAll= CostInvoices()
+    private var binding: FragmentCostInvoicesBinding? = null
     var start=0 as Integer
     var max=10 as Integer
 
@@ -56,44 +56,44 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        sellInvoicesViewModel = ViewModelProvider(this).get(
-            SellInvoicesViewModel::class.java
+        costInvoicesViewModel = ViewModelProvider(this).get(
+            CostInvoicesViewModel::class.java
         )
-        binding = FragmentSellInvoicesBinding.inflate(inflater, container, false)
+        binding = FragmentCostInvoicesBinding.inflate(inflater, container, false)
         val root: View = binding!!.root
-        sellInvoicesViewModel!!.text.observe(viewLifecycleOwner, Observer { })
-        progresbar= binding!!.SLProgresBarPB
-        nestedScrollView= binding!!.SLNestedScrollViewNS
-        getSellInvoices()
+        costInvoicesViewModel!!.text.observe(viewLifecycleOwner, Observer { })
+        progresbar= binding!!.CLProgresBarPB
+        nestedScrollView= binding!!.CLNestedScrollViewNS
+        getCostInvoices()
         /**
          * Metoda obsługująca paginację danych
          * @author Rafał Pasternak
          **/
         nestedScrollView!!.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { nestedScrollView, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if(scrollY==nestedScrollView.getChildAt(0).measuredHeight-nestedScrollView.measuredHeight&&start<=sellInvoices.totalCount) {
+            if(scrollY==nestedScrollView.getChildAt(0).measuredHeight-nestedScrollView.measuredHeight&&start<=costInvoices.totalCount) {
                 start = max;
                 progresbar!!.visibility=View.VISIBLE
                 var step =max.toInt()+10
                 max= step as Integer
                 if(currentDataSource.equals(dataSourceAll))
-                    getSellInvoices()
+                    getCostInvoices()
                 else if(currentDataSource.equals(dataSourcePaid))
-                    getUnpaidSellInvoices()
+                    getUnpaidCostInvoices()
             }
         })
         /**
          *Funkcja króra przy pociągnięciu w dół odświeża dane
          * @author Rafał Pasternak
          **/
-        swipeContainer= binding!!.SLSwipeRefreshSR
+        swipeContainer= binding!!.CLSwipeRefreshSR
         swipeContainer.setOnRefreshListener {
             start=0 as Integer
             max=10 as Integer
-            sellInvoices.results.clear()
+            costInvoices.results.clear()
             if(currentDataSource.equals(dataSourceAll))
-                getSellInvoices()
+                getCostInvoices()
             else if(currentDataSource.equals(dataSourcePaid))
-                getUnpaidSellInvoices()
+                getUnpaidCostInvoices()
         }
         return root
     }
@@ -111,19 +111,19 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
      * Metoda pobierająca wszystkie faktory sprzedażowe
      * @author Rafał Pasternak
      * **/
-    private fun getSellInvoices(){
-        val call = emsApi.getSellInvoices(
+    private fun getCostInvoices(){
+        val call = emsApi.getCostInvoices(
             max,start
         )
-        call.enqueue(object : Callback<SellInvoices> {
-            override fun onResponse(call: Call<SellInvoices>, response: Response<SellInvoices>) =
+        call.enqueue(object : Callback<CostInvoices> {
+            override fun onResponse(call: Call<CostInvoices>, response: Response<CostInvoices>) =
                 if (response.isSuccessful) {
-                    if(sellInvoices.results==null)
-                        sellInvoices= response.body()!!
+                    if(costInvoices.results==null)
+                        costInvoices= response.body()!!
                     else if(!response.body()!!.results.isEmpty())
-                        sellInvoices.results.addAll( response.body()!!.results)
-                    val stringCopier = Gson().toJson(sellInvoices, SellInvoices::class.java)
-                    sellInvoicesAll= Gson().fromJson<SellInvoices>(stringCopier, SellInvoices::class.java)
+                        costInvoices.results.addAll( response.body()!!.results)
+                    val stringCopier = Gson().toJson(costInvoices, CostInvoices::class.java)
+                    costInvoicesAll= Gson().fromJson<CostInvoices>(stringCopier, CostInvoices::class.java)
                     progresbar?.visibility=View.GONE
                     swipeContainer.setRefreshing(false)
                     initRecyclerView()
@@ -138,7 +138,7 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
                         openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
                 }
 
-            override fun onFailure(call: Call<SellInvoices>, t: Throwable) {
+            override fun onFailure(call: Call<CostInvoices>, t: Throwable) {
                 Log.e("APP", t.localizedMessage)
                 Log.e("APP", t.message.toString())
                 responseCode = t.message.toString()
@@ -153,19 +153,19 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
      * Metoda pobierająca niezapłacone faktory sprzedażowe
      * @author Rafał Pasternak
      * **/
-    private fun getUnpaidSellInvoices(){
-        val call = emsApi.getUnpaidSellInvoices(
+    private fun getUnpaidCostInvoices(){
+        val call = emsApi.getUnpaidCostInvoices(
             max,start
         )
-        call.enqueue(object : Callback<SellInvoices> {
-            override fun onResponse(call: Call<SellInvoices>, response: Response<SellInvoices>) =
+        call.enqueue(object : Callback<CostInvoices> {
+            override fun onResponse(call: Call<CostInvoices>, response: Response<CostInvoices>) =
                 if (response.isSuccessful) {
-                    if(sellInvoices.results==null)
-                        sellInvoices= response.body()!!
+                    if(costInvoices.results==null)
+                        costInvoices= response.body()!!
                     else if(!response.body()!!.results.isEmpty())
-                        sellInvoices.results.addAll( response.body()!!.results)
-                    val stringCopier = Gson().toJson(sellInvoices, SellInvoices::class.java)
-                    sellInvoicesAll= Gson().fromJson<SellInvoices>(stringCopier, SellInvoices::class.java)
+                        costInvoices.results.addAll( response.body()!!.results)
+                    val stringCopier = Gson().toJson(costInvoices, CostInvoices::class.java)
+                    costInvoicesAll= Gson().fromJson<CostInvoices>(stringCopier, CostInvoices::class.java)
                     progresbar?.visibility=View.GONE
                     swipeContainer.setRefreshing(false)
                     initRecyclerView()
@@ -180,7 +180,7 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
                         openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
                 }
 
-            override fun onFailure(call: Call<SellInvoices>, t: Throwable) {
+            override fun onFailure(call: Call<CostInvoices>, t: Throwable) {
                 Log.e("APP", t.localizedMessage)
                 Log.e("APP", t.message.toString())
                 responseCode = t.message.toString()
@@ -215,20 +215,20 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
             override fun onQueryTextChange(newText: String): Boolean {
                 if(newText.isEmpty()){
                     //beznadziejne rozwiązanie ale kotlin ogranicza meh
-                    val stringCopier = Gson().toJson(sellInvoicesAll, SellInvoices::class.java)
-                    sellInvoices= Gson().fromJson<SellInvoices>(stringCopier, SellInvoices::class.java)
+                    val stringCopier = Gson().toJson(costInvoicesAll, CostInvoices::class.java)
+                    costInvoices= Gson().fromJson<CostInvoices>(stringCopier, CostInvoices::class.java)
                 }
                 else
                 {
-                    sellInvoices.results.clear()
+                    costInvoices.results.clear()
                     var i=0
-                    while(i!=sellInvoicesAll.results.size){
-                        if( sellInvoicesAll.results[i].grossTotal?.toString()?.toLowerCase()?.contains(newText.toLowerCase())==true
-                            ||sellInvoicesAll.results[i].number.toLowerCase().contains(newText.toLowerCase())
-                            ||sellInvoicesAll.results[i].contractorName?.toString()?.toLowerCase()?.contains(newText.toLowerCase())==true
-                            ||convertLongToTime(sellInvoicesAll.results[i].issueDate).toLowerCase().contains(newText.toLowerCase())
+                    while(i!=costInvoicesAll.results.size){
+                        if( costInvoicesAll.results[i].grossTotal?.toString()?.toLowerCase()?.contains(newText.toLowerCase())==true
+                            ||costInvoicesAll.results[i].number.toLowerCase().contains(newText.toLowerCase())
+                            ||costInvoicesAll.results[i].contractor?.shortName?.toString()?.toLowerCase()?.contains(newText.toLowerCase())==true
+                            ||convertLongToTime(costInvoicesAll.results[i].issueDate).toLowerCase().contains(newText.toLowerCase())
                         )
-                            sellInvoices.results.add(sellInvoicesAll.results[i])
+                            costInvoices.results.add(costInvoicesAll.results[i])
                         i++
                     }
                 }
@@ -250,18 +250,18 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
         val id= item.itemId
         if(id==R.id.action_settings){
             currentDataSource=dataSourceAll
-            sellInvoices.results.clear()
+            costInvoices.results.clear()
             start=0 as Integer
             max=10 as Integer
-            getSellInvoices()
+            getCostInvoices()
             Toast.makeText(activity,"Wszystkie",Toast.LENGTH_SHORT).show()
         }
         if(id==R.id.action_settings2){
             currentDataSource=dataSourcePaid
-            sellInvoices.results.clear()
+            costInvoices.results.clear()
             start=0 as Integer
             max=10 as Integer
-            getUnpaidSellInvoices()
+            getUnpaidCostInvoices()
             Toast.makeText(activity,"Niezapłacone",Toast.LENGTH_SHORT).show()
         }
 
@@ -287,12 +287,12 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
      * **/
     fun initRecyclerView() {
         val recycleAdapter= activity?.let {
-            SellInvoicesRecyclerAdapter(
+            CostInvoicesRecyclerAdapter(
                 it,
-                sellInvoices,this
+                costInvoices,this
             )
         }
-        val recyclerView = binding!!.SLRowsRV
+        val recyclerView = binding!!.CLRowsRV
         recyclerView.adapter = recycleAdapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
     }

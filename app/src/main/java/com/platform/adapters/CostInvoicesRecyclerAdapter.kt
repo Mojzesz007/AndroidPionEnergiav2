@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.platform.R
-import com.platform.adapters.SellInvoicesRecyclerAdapter.MyViewHolder
-import com.platform.pojo.sellInvoices.SellInvoices
+import com.platform.adapters.CostInvoicesRecyclerAdapter.MyViewHolder
+import com.platform.pojo.costInvoices.CostInvoices
 import java.sql.Date
 import java.text.SimpleDateFormat
 
@@ -19,9 +19,9 @@ import java.text.SimpleDateFormat
  * Adapter dla recycler viewera dla umów
  * @author Rafał Pasternak
  **/
-class SellInvoicesRecyclerAdapter(
+class CostInvoicesRecyclerAdapter(
     var context: Context,
-    var sellInvoices: SellInvoices = SellInvoices(),//orginalne dane
+    var costInvoices: CostInvoices = CostInvoices(),//orginalne dane
 
     private val listener:OnItemClickListener
 ) : RecyclerView.Adapter<MyViewHolder>() {
@@ -35,24 +35,24 @@ class SellInvoicesRecyclerAdapter(
      * Metoda przypisująca dane do widoku
      * @author Rafał Pasternak
      **/
-    override fun onBindViewHolder(holder: SellInvoicesRecyclerAdapter.MyViewHolder, position: Int) {
-        if(sellInvoices.results[position].number!=null)
-            holder.number.text = sellInvoices.results[position].number
-        if(sellInvoices.results[position].issueDate!=null)
-            holder.date.text = convertLongToTime(sellInvoices.results[position].issueDate)
-        if(sellInvoices.results[position].grossTotal!=null)
-            holder.grossAmount.text = sellInvoices.results[position].grossTotal.toString()
-        if(sellInvoices.results[position].contractorName!=null)
-            holder.contractorName.text = sellInvoices.results[position].contractorName
-        if(sellInvoices.results[position].currency.name!=null)
-            holder.currency.text = sellInvoices.results[position].currency.name
+    override fun onBindViewHolder(holder: CostInvoicesRecyclerAdapter.MyViewHolder, position: Int) {
+        if(costInvoices.results[position].number!=null)
+            holder.number.text = costInvoices.results[position].number
+        if(costInvoices.results[position].issueDate!=null)
+            holder.date.text = convertLongToTime(costInvoices.results[position].issueDate)
+        if(costInvoices.results[position].grossTotal!=null)
+            holder.grossAmount.text = costInvoices.results[position].grossTotal.toString()
+        if(costInvoices.results[position].contractor.shortName!=null)
+            holder.contractorName.text = costInvoices.results[position].contractor.shortName
+        if(costInvoices.results[position].currency.name!=null)
+            holder.currency.text = costInvoices.results[position].currency.name
         val color: Int = Color.rgb(184,184,184)
         if(position%2==1)
             holder.background.setBackgroundColor(color)
     }
 
     override fun getItemCount(): Int {
-        return sellInvoices.results.size
+        return costInvoices.results.size
     }
 
 

@@ -1,5 +1,5 @@
 
-package com.platform.pojo.costInvoice;
+package com.platform.pojo.costInvoices;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
@@ -37,10 +37,10 @@ public class Result {
     private Boolean paid;
     @SerializedName("contractor")
     @Expose
-    private Object contractor;
+    private Contractor contractor;
     @SerializedName("paymentTerm")
     @Expose
-    private Object paymentTerm;
+    private Long paymentTerm;
     @SerializedName("paymentDate")
     @Expose
     private Object paymentDate;
@@ -150,19 +150,19 @@ public class Result {
         this.paid = paid;
     }
 
-    public Object getContractor() {
+    public Contractor getContractor() {
         return contractor;
     }
 
-    public void setContractor(Object contractor) {
+    public void setContractor(Contractor contractor) {
         this.contractor = contractor;
     }
 
-    public Object getPaymentTerm() {
+    public Long getPaymentTerm() {
         return paymentTerm;
     }
 
-    public void setPaymentTerm(Object paymentTerm) {
+    public void setPaymentTerm(Long paymentTerm) {
         this.paymentTerm = paymentTerm;
     }
 
