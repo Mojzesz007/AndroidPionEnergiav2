@@ -36,13 +36,13 @@ class CostInvoicesRecyclerAdapter(
      * @author Rafał Pasternak
      **/
     override fun onBindViewHolder(holder: CostInvoicesRecyclerAdapter.MyViewHolder, position: Int) {
-        if(costInvoices.results[position].number!=null)
-            holder.number.text = costInvoices.results[position].number
+        if(costInvoices.results[position].foreignNumber!=null)
+            holder.number.text = costInvoices.results[position].foreignNumber
         if(costInvoices.results[position].issueDate!=null)
             holder.date.text = convertLongToTime(costInvoices.results[position].issueDate)
         if(costInvoices.results[position].grossTotal!=null)
             holder.grossAmount.text = costInvoices.results[position].grossTotal.toString()
-        if(costInvoices.results[position].contractor.shortName!=null)
+        if(costInvoices.results[position]?.contractor?.shortName!=null)
             holder.contractorName.text = costInvoices.results[position].contractor.shortName
         if(costInvoices.results[position].currency.name!=null)
             holder.currency.text = costInvoices.results[position].currency.name

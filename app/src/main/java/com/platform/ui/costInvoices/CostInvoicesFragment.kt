@@ -1,6 +1,7 @@
 package com.platform.ui.costInvoices
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
+import com.platform.CostInvoiceActivity
+import com.platform.NavigationDrawerActivity
 import com.platform.R
 import com.platform.adapters.CostInvoicesRecyclerAdapter
 import com.platform.api.EmsApi
@@ -303,7 +306,10 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
      * **/
     override fun onItemClick(position: Int) {
         Toast.makeText(activity, "Item $position clicked", Toast.LENGTH_SHORT).show()
-        //tu bedize odsyłka do nowego activity z przesłanym id
+        var index=costInvoices.results[position].id
+        val costInvoiceIntent = Intent(context, CostInvoiceActivity::class.java)
+        costInvoiceIntent.putExtra("index",index)
+        startActivity(costInvoiceIntent)
     }
     /**
      *Metoda konwertująca datę w formacie Long do formatu czytelnego dla użytkownika
