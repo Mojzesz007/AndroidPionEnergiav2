@@ -30,4 +30,7 @@
         <item name="textColorPrimaryVariant">#0033cc</item>
         <item name="android:statusBarColor">#0033ff</item>
     </style>
+    <style name="Widget.Theme.EMS.ButtonBar.Fullscreen" parent="">
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
 </resources>

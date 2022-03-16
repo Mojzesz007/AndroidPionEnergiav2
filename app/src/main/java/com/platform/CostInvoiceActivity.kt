@@ -2,6 +2,7 @@ package com.platform
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -38,11 +39,13 @@ import android.widget.AdapterView.OnItemSelectedListener
 import com.platform.pojo.contractors.Contractors
 import com.platform.pojo.costInvoice.Contractor
 import com.platform.pojo.costInvoice.Currency
+import com.platform.pojo.costInvoice.User
 import com.platform.pojo.employees.Employees
+import com.platform.ui.costInvoices.CostInvoicesFragment
 
 
 @AndroidEntryPoint
-class CostInvoiceActivity : AppCompatActivity() {
+class CostInvoiceActivity : AppCompatActivity(){
     @Inject
     lateinit var emsApi: EmsApi
 
@@ -155,6 +158,7 @@ class CostInvoiceActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+
         }
         user.adapter=ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,listOfEmployeesName)
         user.onItemSelectedListener= object :AdapterView.OnItemSelectedListener{
@@ -169,6 +173,11 @@ class CostInvoiceActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+        }
+
+        attachments.setOnClickListener(){
+            var index=costInvoice.id
+            openFragmentRestorePassword(index)
         }
 
 
@@ -189,6 +198,8 @@ class CostInvoiceActivity : AppCompatActivity() {
                             costInvoice.contractor= Contractor()
                         if(costInvoice.currency==null)
                             costInvoice.currency= Currency()
+                        if(costInvoice.user==null)
+                            costInvoice.user= User()
                         applyData()
                     } else {
                         val errorUtil = ee.parseError(response)
@@ -419,5 +430,18 @@ class CostInvoiceActivity : AppCompatActivity() {
         val date = format.parse(time)
         val milis=date.time
         return milis
+    }
+    fun openFragmentRestorePassword(text: Int?) {
+        val fragment = com.platform.Myfragments.attachments.AttachmentsFragment.newInstance(text)
+        val fragmentManager = supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        transaction.setCustomAnimations(
+            R.anim.enter_from_right,
+            R.anim.exit_to_right,
+            R.anim.enter_from_right,
+            R.anim.exit_to_right
+        )
+        transaction.addToBackStack(null)
+        transaction.add(R.id.fragment_container, fragment, "RESTORE_PASSWORD_FRAGMENT").commit()
     }
 }

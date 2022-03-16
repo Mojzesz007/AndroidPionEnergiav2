@@ -4,26 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.sellInvoices.SellInvoicesFragment"
+    tools:context=".Myfragments.attachments.AttachmentsFragment"
     android:background="@color/white"
-    android:id="@+id/CL_swipeRefresh_SR">
+    android:id="@+id/A_swipeRefresh_SR">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/CL_nestedScrollView_NS"
+        android:id="@+id/A_nestedScrollView_NS"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/CL_rows_RV"
+                android:id="@+id/A_rows_RV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
             <ProgressBar
-                android:id="@+id/CL_progresBar_PB"
+                android:id="@+id/A_progresBar_PB"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

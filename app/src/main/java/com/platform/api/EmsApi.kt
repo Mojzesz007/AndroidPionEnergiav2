@@ -4,6 +4,8 @@ import com.platform.pojo.UserProfile
 import com.platform.pojo.contractors.Contractors
 import com.platform.pojo.contracts.Contracts
 import com.platform.pojo.costInvoice.CostInvoice
+import com.platform.pojo.costInvoice.attachments.Attachment
+import com.platform.pojo.costInvoice.attachments.Attachments
 import com.platform.pojo.costInvoices.CostInvoices
 import com.platform.pojo.currencies.Currencies
 import com.platform.pojo.employees.Employees
@@ -82,6 +84,14 @@ interface EmsApi {
         @Body costInvoice :CostInvoice?
     ): Call<ResponseBody>
 
+    @GET("rest/attachments/com.platform.finanse.model.CostInvoice/{id}?section=document")
+    fun getCostInvoiceAttachments(
+        @Path("id") id: Int?
+    ): Call<ResponseBody>
+
+
+
+    //---------------------------------------------RESOURCES---------------------------------------------
     @GET("rest/currencies?max=50")
     fun getCurrencies(
     ): Call<Currencies>
@@ -93,7 +103,4 @@ interface EmsApi {
     @GET("rest/users/employees?max=10&start=0")
     fun getEmployees(
     ): Call<Employees>
-
-
-
 }

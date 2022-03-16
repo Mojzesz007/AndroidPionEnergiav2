@@ -14,17 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EMS"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".CostInvoiceActivity"
             android:exported="false"
-            android:theme="@style/ActionBar"
-            />
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".NavigationDrawerActivity"
             android:exported="false"
             android:label="@string/title_activity_navigation_drawer"
             android:theme="@style/ActionBar" />
-
         <activity
             android:name=".LoginActivity"
             android:theme="@style/ActionBar">

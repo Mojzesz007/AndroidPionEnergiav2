@@ -50,6 +50,10 @@
     <string name="Sum_hint">Suma</string>
     <string name="Comment_hint">Uwagi</string>
     <string name="Attachments_hint">Załączniki</string>
+    <string name="Name_hint">Nazwa:</string>
+    <string name="Size_hint">Rozmiar:</string>
+    <string name="Date_hint">Data:</string>
+
 
     <string name="menu_slideshow">Slideshow</string>
     <string name="Contacts">Contacts</string>
@@ -71,5 +75,16 @@
     <string name="title_activity_navigation_drawer_n">NavigationDrawerN</string>
     <string name="title_activity_navigation_drawer_nactivity">NavigationDrawerNActivity</string>
     <string name="title_activity_navigation_drawer">NavigationDrawer</string>
+    <string name="title_activity_cost_invoice_attachments">CostInvoiceAttachments</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>
