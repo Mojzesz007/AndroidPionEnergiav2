@@ -32,8 +32,15 @@ import java.sql.Date
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 import android.app.Activity
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Context.DOWNLOAD_SERVICE
+import android.content.IntentFilter
+import android.net.Uri
+import android.os.Environment
+import androidx.core.content.ContextCompat.getSystemService
 import com.platform.*
 
 
@@ -46,7 +53,7 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
     lateinit var ee : ErrorUtil
     var index: Int =-1
     var attachments: Attachments=Attachments()
-
+    var downloadid: Long = 0
     private lateinit var attachmentsViewModel: AttachmentsViewModel
     lateinit var progresbar : ProgressBar
     lateinit var nestedScrollView : NestedScrollView
@@ -205,8 +212,9 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
             }
         })
     }
+    fun downloadAttachment(position: Int){
 
 
 
-
+    }
 }

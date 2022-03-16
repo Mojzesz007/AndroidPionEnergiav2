@@ -93,7 +93,6 @@ interface EmsApi {
         @Path("id") id: Int?
     ):Call<ResponseBody>
 
-
     //---------------------------------------------RESOURCES---------------------------------------------
     @GET("rest/currencies?max=50")
     fun getCurrencies(
