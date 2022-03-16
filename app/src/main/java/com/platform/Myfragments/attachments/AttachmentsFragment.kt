@@ -85,9 +85,7 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
         setHasOptionsMenu(true)
         if (arguments != null) {
             index = requireArguments().getString(TEXT.toString()).toString().toInt()
-            println(index)
-            //index = requireArguments().getString(RestorePasswordFragment.TEXT).toString().toInt()
-        }
+            println(index) }
         getAttachmentAttachments()
         super.onCreate(savedInstanceState)
     }
@@ -106,16 +104,6 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
      **/
 
     fun openDialog(message: String) {
-        /*activity?.let {
-            MaterialAlertDialogBuilder(it.applicationContext)
-                .setTitle(resources.getString(R.string.messageTitle)) //jako res string
-                .setMessage(message)
-                .setPositiveButton("OK") { _, _ ->
-                }
-                .show()
-        }*/
-
-
 
     }
     private fun getAttachmentAttachments() {
@@ -164,13 +152,15 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
      * odsyła do wybranej przez użytkownika umowy
      * @author Rafał Pasternak
      * **/
-    override fun onItemClick(position: Int) {
-        Toast.makeText(activity, "Item $position clicked", Toast.LENGTH_SHORT).show()
-        /*var index=costInvoices.results[position].id
-       val costInvoiceIntent = Intent(context, CostInvoiceActivity::class.java)
-        costInvoiceIntent.putExtra("index",index)
-        startActivity(costInvoiceIntent)*/
+    override fun onItemClick(position: Int,type :Int) {
+        if(type==0)
+            Toast.makeText(activity, "Item $position Pobierz kiedyś", Toast.LENGTH_SHORT).show()
+        else if(type==1) {
+            removeAttachment(attachments.attachments[position].id)
+            Toast.makeText(activity, "Item $position Usuń", Toast.LENGTH_SHORT).show()
+        }
     }
+
     /**
      *Metoda konwertująca datę w formacie Long do formatu czytelnego dla użytkownika
      * @param time data w formacie long
@@ -183,8 +173,6 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
         return format.format(date)
     }
 
-
-    ////////////////////////////////////////////////////////
     companion object {
         private const val TEXT = -1
         fun newInstance(text: Int?): AttachmentsFragment {
@@ -195,4 +183,30 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
             return fragment
         }
     }
+    fun removeAttachment(position: Int){
+
+        val call = emsApi.removeAttachment(position)
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) =
+                if (response.isSuccessful) {
+                   getAttachmentAttachments()
+
+                } else {
+                    val errorUtil = ee.parseError(response)
+                    if (errorUtil != null) {
+                        openDialog(errorUtil.message)
+                    } else
+                        openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
+                }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("APP", t.localizedMessage)
+                Log.e("APP", t.message.toString())
+            }
+        })
+    }
+
+
+
+
 }

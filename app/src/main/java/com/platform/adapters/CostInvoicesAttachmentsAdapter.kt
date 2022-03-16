@@ -5,7 +5,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.platform.R
 import com.platform.adapters.CostInvoicesAttachmentsAdapter.MyViewHolder
@@ -58,18 +60,26 @@ class CostInvoicesAttachmentsAdapter(
         var date: TextView
         var title: TextView
         var size: TextView
+        var delateIcone : ImageView
         init {
             date = itemView.findViewById(R.id.CL_Date_TV)
             title = itemView.findViewById(R.id.CL_Title_TV)
             size=itemView.findViewById(R.id.CL_Size_TV)
-
+            delateIcone=itemView.findViewById(R.id.CL_Delate_IV)
             itemView.setOnClickListener(this)
+            delateIcone.setOnClickListener(this)
         }
-
         override fun onClick(v: View?) {
+            var type=0;
+            if (v != null) {
+                if(v.id==delateIcone.id){
+                    type=1;
+                }else
+                    type=0
+            }
             val position=adapterPosition
             if(position!=RecyclerView.NO_POSITION){
-                listener.onItemClick(position)}
+                listener.onItemClick(position,type)}
         }
     }
     /**
@@ -81,8 +91,10 @@ class CostInvoicesAttachmentsAdapter(
          *Metoda intefejsu pozwalająca zidentyfikować kliknięty element
          * @param position pozycja kliknietego elementu
          **/
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int,type: Int)
+
     }
+
     /**
      *Metoda konwertująca datę w formacie Long do formatu czytelnego dla użytkownika
      * @param time data w formacie long

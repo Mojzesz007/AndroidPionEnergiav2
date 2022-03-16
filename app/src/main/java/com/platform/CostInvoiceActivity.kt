@@ -153,7 +153,7 @@ class CostInvoiceActivity : AppCompatActivity(){
                 position: Int,
                 id: Long
             ) {
-                costInvoice.contractor.id=contractors.results[position].id
+                costInvoice?.contractor?.id=contractors?.results[position]?.id
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

@@ -88,7 +88,10 @@ interface EmsApi {
     fun getCostInvoiceAttachments(
         @Path("id") id: Int?
     ): Call<ResponseBody>
-
+    @DELETE("rest/attachments/{id}")
+    fun removeAttachment(
+        @Path("id") id: Int?
+    ):Call<ResponseBody>
 
 
     //---------------------------------------------RESOURCES---------------------------------------------
