@@ -1,47 +1,35 @@
 package com.platform.Myfragments.attachments
 
-import android.annotation.SuppressLint
-import android.content.Intent
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.appcompat.widget.SearchView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
+import com.platform.R
 import com.platform.adapters.CostInvoicesAttachmentsAdapter
-import com.platform.adapters.CostInvoicesRecyclerAdapter
 import com.platform.api.EmsApi
 import com.platform.databinding.FragmentAttachmentsBinding
 import com.platform.pojo.costInvoice.attachments.Attachments
-import com.platform.pojo.costInvoices.CostInvoices
 import com.platform.utils.ErrorUtil
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.sql.Date
-import java.text.SimpleDateFormat
+import java.io.FileOutputStream
+import java.io.InputStream
 import javax.inject.Inject
-import android.app.Activity
-import android.app.DownloadManager
-import android.content.BroadcastReceiver
-import android.content.ContentValues.TAG
-import android.content.Context
-import android.content.Context.DOWNLOAD_SERVICE
-import android.content.IntentFilter
-import android.net.Uri
-import android.os.Environment
-import androidx.core.content.ContextCompat.getSystemService
-import com.platform.*
 
 
 @AndroidEntryPoint
@@ -101,8 +89,6 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
         super.onDestroyView()
         binding = null
     }
-    var responseCode: String =""
-
 
 
     /**
@@ -160,24 +146,14 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
      * @author Rafał Pasternak
      * **/
     override fun onItemClick(position: Int,type :Int) {
-        if(type==0)
-            Toast.makeText(activity, "Item $position Pobierz kiedyś", Toast.LENGTH_SHORT).show()
+        if(type==0){
+            downloadAttachment(position)
+            Toast.makeText(activity, "Pobieranie załącznika", Toast.LENGTH_SHORT).show()
+        }
         else if(type==1) {
             removeAttachment(attachments.attachments[position].id)
             Toast.makeText(activity, "Item $position Usuń", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    /**
-     *Metoda konwertująca datę w formacie Long do formatu czytelnego dla użytkownika
-     * @param time data w formacie long
-     * @return data w formacie ludzkim
-     **/
-    @SuppressLint("SimpleDateFormat")
-    fun convertLongToTime(time: Long): String {
-        val date = Date(time)
-        val format = SimpleDateFormat("yyyy.MM.dd")
-        return format.format(date)
     }
 
     companion object {
@@ -190,6 +166,10 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
             return fragment
         }
     }
+    /**
+     *Metoda usuwająca załącznik
+     * @return data w formacie ludzkim
+     **/
     fun removeAttachment(position: Int){
 
         val call = emsApi.removeAttachment(position)
@@ -212,9 +192,65 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
             }
         })
     }
+
+    /**
+     *Metoda pobierająca załącznik
+     * @return data w formacie ludzkim
+     **/
     fun downloadAttachment(position: Int){
 
+        val call: Call<ResponseBody> = emsApi.downloadAttachment(attachments.attachments[position].id)
 
+        call.enqueue(object : Callback<ResponseBody?> {
+            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "server contacted and has file")
+                    val fileName=attachments.attachments[position].filename.toString()
+                    val path = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DOWNLOADS
+                    ).toString()
+                    val pathWhereYouWantToSaveFile = path+"/"+fileName
+
+                    val writtenToDisk: String = saveFile(response.body(),pathWhereYouWantToSaveFile)
+                    Toast.makeText(activity, "Pobrano", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(activity, "Nie udało się pobrać załącznika", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                Log.e(TAG, "error")
+            }
+        })
 
     }
+    /**
+     *Metoda zapisująca załącznik do pamięci wewnętrznej urządzenia
+     * @return data w formacie ludzkim
+     **/
+    fun saveFile(body: ResponseBody?, pathWhereYouWantToSaveFile: String):String{
+        if (body==null)
+            return ""
+        var input: InputStream? = null
+        try {
+            input = body.byteStream()
+            val fos = FileOutputStream(pathWhereYouWantToSaveFile)
+            fos.use { output ->
+                val buffer = ByteArray(4 * 1024) // or other buffer size
+                var read: Int
+                while (input.read(buffer).also { read = it } != -1) {
+                    output.write(buffer, 0, read)
+                }
+                output.flush()
+            }
+            return pathWhereYouWantToSaveFile
+        }catch (e:Exception){
+            Log.e("saveFile",e.toString())
+        }
+        finally {
+            input?.close()
+        }
+        return ""
+    }
+
 }

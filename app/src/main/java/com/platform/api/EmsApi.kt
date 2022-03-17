@@ -4,8 +4,6 @@ import com.platform.pojo.UserProfile
 import com.platform.pojo.contractors.Contractors
 import com.platform.pojo.contracts.Contracts
 import com.platform.pojo.costInvoice.CostInvoice
-import com.platform.pojo.costInvoice.attachments.Attachment
-import com.platform.pojo.costInvoice.attachments.Attachments
 import com.platform.pojo.costInvoices.CostInvoices
 import com.platform.pojo.currencies.Currencies
 import com.platform.pojo.employees.Employees
@@ -84,15 +82,40 @@ interface EmsApi {
         @Body costInvoice :CostInvoice?
     ): Call<ResponseBody>
 
+
+    @POST("rest/costinvoices")
+    fun createCostInvoice(
+    ): Call<ResponseBody>
+
+
+
     @GET("rest/attachments/com.platform.finanse.model.CostInvoice/{id}?section=document")
     fun getCostInvoiceAttachments(
         @Path("id") id: Int?
     ): Call<ResponseBody>
+
+    @GET("rest/attachments/{id}")
+    fun downloadAttachment(
+        @Path("id") id: Int?
+    ):Call<ResponseBody>
+
+
+
     @DELETE("rest/attachments/{id}")
     fun removeAttachment(
         @Path("id") id: Int?
     ):Call<ResponseBody>
 
+
+
+    @FormUrlEncoded
+    @POST("upload")
+    fun uploadAttachment(
+        @Field("parentId") parentId: Long?,
+        @Field("parentEntityType") parentEntityType: String?,
+        @Field("section") section: String?,
+        @Field("single") single: Boolean?
+    ): Call<Contracts>
     //---------------------------------------------RESOURCES---------------------------------------------
     @GET("rest/currencies?max=50")
     fun getCurrencies(

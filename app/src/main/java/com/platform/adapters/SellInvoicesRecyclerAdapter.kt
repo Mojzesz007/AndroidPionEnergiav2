@@ -46,7 +46,7 @@ class SellInvoicesRecyclerAdapter(
             holder.contractorName.text = sellInvoices.results[position].contractorName
         if(sellInvoices.results[position].currency.name!=null)
             holder.currency.text = sellInvoices.results[position].currency.name
-        val color: Int = Color.rgb(184,184,184)
+        val color: Int = Color.rgb(230,230,230)
         if(position%2==1)
             holder.background.setBackgroundColor(color)
     }

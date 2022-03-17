@@ -100,6 +100,11 @@ class CostInvoiceActivity : AppCompatActivity(){
         val paymentDateField="PaymentDate"
         var dateField=issueDateField
         val calendar = Calendar.getInstance()
+
+        //wybór waluty,kontrachenta,pracownika inicjalizacja
+        getCurrencies()
+        getEmployees()
+        getContractors()
         /**
          * Metoda pozwalająca wybrać datę
          *@author Rafał Pasternak
@@ -125,12 +130,9 @@ class CostInvoiceActivity : AppCompatActivity(){
         }
         setSupportActionBar(toolbar_typical)
         toolbar_typical.setTitle(R.string.Cost_Invoice)
-        //wybór waluty,kontrachenta,pracownika inicjalizacja
-        getCurrencies()
-        getEmployees()
-        getContractors()
-        if(index!=-1)
-            getCostInvoice()
+
+
+
         currency.adapter=ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,listOfCurrenciesName)
         currency.onItemSelectedListener= object :AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
@@ -144,6 +146,7 @@ class CostInvoiceActivity : AppCompatActivity(){
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+
         }
         contractor.adapter=ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,listOfContractorsName)
         contractor.onItemSelectedListener= object :AdapterView.OnItemSelectedListener{
@@ -159,6 +162,7 @@ class CostInvoiceActivity : AppCompatActivity(){
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
+
         }
         user.adapter=ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,listOfEmployeesName)
         user.onItemSelectedListener= object :AdapterView.OnItemSelectedListener{
@@ -168,7 +172,7 @@ class CostInvoiceActivity : AppCompatActivity(){
                 position: Int,
                 id: Long
             ) {
-                costInvoice.user.id=employees.results[position].id
+                costInvoice?.user?.id=employees.results[position].id
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -179,7 +183,8 @@ class CostInvoiceActivity : AppCompatActivity(){
             var index=costInvoice.id
             openFragmentRestorePassword(index)
         }
-
+        if(index!=-1)
+            getCostInvoice()
 
     }
     /**
@@ -224,7 +229,7 @@ class CostInvoiceActivity : AppCompatActivity(){
         if(costInvoice.issueDate!=null)
             issueDate.text = convertLongToTime(costInvoice.issueDate)
         contractor.setSelection(listOfContractorsName.indexOf(costInvoice?.contractor?.name?.toString()))
-        user.setSelection(listOfEmployeesName.indexOf(costInvoice?.user?.name?.toString()))
+        user.setSelection(listOfEmployeesName.indexOf(costInvoice?.user?.name?.toString()+" "+costInvoice.user.surname.toString()))
         paid.isChecked=costInvoice?.paid
         if(costInvoice.paymentDate!=null)
             paymentDate.text = convertLongToTime(costInvoice.paymentTerm)
@@ -320,7 +325,7 @@ class CostInvoiceActivity : AppCompatActivity(){
                     contractors = response.body()!!
                     var i=0;
                     listOfContractorsName.clear()
-                    while(i!=currencies.results.size){
+                    while(i!=contractors.results.size){
                         listOfContractorsName.add(contractors.results[i].name)
                         i++
                     }

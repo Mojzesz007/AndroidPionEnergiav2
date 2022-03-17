@@ -15,17 +15,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.platform.CostInvoiceActivity
-import com.platform.NavigationDrawerActivity
 import com.platform.R
-import com.platform.RestorePasswordFragment
 import com.platform.adapters.CostInvoicesRecyclerAdapter
 import com.platform.api.EmsApi
 import com.platform.databinding.FragmentCostInvoicesBinding
 import com.platform.pojo.costInvoices.CostInvoices
 import com.platform.utils.ErrorUtil
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,7 +45,7 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
     lateinit var progresbar : ProgressBar
     lateinit var nestedScrollView : NestedScrollView
     lateinit var swipeContainer: SwipeRefreshLayout
-
+    lateinit var addButton: FloatingActionButton
     var costInvoices: CostInvoices = CostInvoices()
     var costInvoicesAll= CostInvoices()
     private var binding: FragmentCostInvoicesBinding? = null
@@ -68,6 +68,14 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
         costInvoicesViewModel!!.text.observe(viewLifecycleOwner, Observer { })
         progresbar= binding!!.CLProgresBarPB
         nestedScrollView= binding!!.CLNestedScrollViewNS
+        addButton=binding!!.CLAddButtonFAB
+        addButton.setOnClickListener(){
+            Toast.makeText(activity,"Wszystkie",Toast.LENGTH_SHORT).show()
+            createNewCostInvoice()
+            /*val costInvoiceIntent = Intent(context, CostInvoiceActivity::class.java)
+            costInvoiceIntent.putExtra("index",0)
+            startActivity(costInvoiceIntent)*/
+        }
         getCostInvoices()
         /**
          * Metoda obsługująca paginację danych
@@ -322,5 +330,37 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
         val date = Date(time)
         val format = SimpleDateFormat("yyyy.MM.dd")
         return format.format(date)
+    }
+
+
+
+
+    /**
+     * Metoda pobierająca niezapłacone faktory sprzedażowe
+     * @author Rafał Pasternak
+     * **/
+    private fun createNewCostInvoice(){
+        val call = emsApi.createCostInvoice(
+
+        )
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) =
+                if (response.isSuccessful) {
+                    println(response)
+                    println(response.body())
+                } else {
+                    val errorUtil = ee.parseError(response)
+                    if (errorUtil != null) {
+                        Toast.makeText(activity,"Failed to download data",Toast.LENGTH_SHORT).show()
+                    } else
+                        Toast.makeText(activity,"Failed to download data",Toast.LENGTH_SHORT).show()                }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("APP", t.localizedMessage)
+                Log.e("APP", t.message.toString())
+                responseCode = t.message.toString()
+                t.printStackTrace()
+            }
+        })
     }
 }
