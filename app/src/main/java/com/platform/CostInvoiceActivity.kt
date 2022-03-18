@@ -246,6 +246,7 @@ class CostInvoiceActivity : AppCompatActivity(){
         if(issueDate.text!=null)
         costInvoice.issueDate = convertStingToLong(issueDate.text.toString())
         costInvoice?.paid=paid.isChecked
+        costInvoice.draft=false
         if(costInvoice.paymentDate!=null)
             costInvoice.paymentDate = convertStingToLong(paymentDate.text.toString())
         costInvoice?.netTotal=netTotal.text?.toString()?.toDouble()
@@ -380,6 +381,9 @@ class CostInvoiceActivity : AppCompatActivity(){
             PackData()
             //Toast.makeText(this,"Wszystkie",Toast.LENGTH_SHORT).show()
         }
+        if(id==R.id.action_delete){
+            deleteCostInvocie()
+        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -448,5 +452,41 @@ class CostInvoiceActivity : AppCompatActivity(){
         )
         transaction.addToBackStack(null)
         transaction.add(R.id.fragment_container, fragment, "RESTORE_PASSWORD_FRAGMENT").commit()
+    }
+    private fun deleteCostInvocie(){
+        val call = emsApi.deleateCostInvoice(
+            index,
+            "application/json, text/plain, */*",
+            "gzip, deflate, br",
+            "pl,en-US;q=0.7,en;q=0.3",
+            "no-cache",
+            "keep-alive",
+            2,
+            "application/json;charset=utf-8"
+        )
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+                if (response.isSuccessful) {
+                    Toast.makeText(applicationContext,"Usunięto",Toast.LENGTH_SHORT).show()
+                    val drawerIntent = Intent(applicationContext, NavigationDrawerActivity::class.java)
+                    startActivity(drawerIntent)
+                } else {
+
+                    val errorUtil = ee.parseError(response)
+                    if (errorUtil != null) {
+                        openDialog(errorUtil.message)
+                    } else
+                        openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("APP", t.localizedMessage)
+                Log.e("APP", t.message.toString())
+                openDialog(resources.getString(R.string.connectiontimeout))
+                t.printStackTrace()
+            }
+        })
     }
 }

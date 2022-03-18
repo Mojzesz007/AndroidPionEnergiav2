@@ -22,6 +22,7 @@ import com.platform.R
 import com.platform.adapters.CostInvoicesRecyclerAdapter
 import com.platform.api.EmsApi
 import com.platform.databinding.FragmentCostInvoicesBinding
+import com.platform.pojo.costInvoice.create.CostInvoiceCreate
 import com.platform.pojo.costInvoices.CostInvoices
 import com.platform.utils.ErrorUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,9 +73,7 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
         addButton.setOnClickListener(){
             Toast.makeText(activity,"Wszystkie",Toast.LENGTH_SHORT).show()
             createNewCostInvoice()
-            /*val costInvoiceIntent = Intent(context, CostInvoiceActivity::class.java)
-            costInvoiceIntent.putExtra("index",0)
-            startActivity(costInvoiceIntent)*/
+
         }
         getCostInvoices()
         /**
@@ -336,18 +335,27 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
 
 
     /**
-     * Metoda pobierająca niezapłacone faktory sprzedażowe
+     * Metoda tworząca nową fakturę sprzedażową
      * @author Rafał Pasternak
      * **/
     private fun createNewCostInvoice(){
         val call = emsApi.createCostInvoice(
-
+            "application/json, text/plain, */*",
+            "gzip, deflate, br",
+            "pl,en-US;q=0.7,en;q=0.3",
+            "no-cache",
+            "keep-alive",
+            2,
+            "application/json;charset=utf-8"
         )
-        call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) =
+        call.enqueue(object : Callback<CostInvoiceCreate> {
+            override fun onResponse(call: Call<CostInvoiceCreate>, response: Response<CostInvoiceCreate>) =
                 if (response.isSuccessful) {
-                    println(response)
-                    println(response.body())
+                   var costInvoice= response.body()
+                    var index =costInvoice?.id
+                    val costInvoiceIntent = Intent(context, CostInvoiceActivity::class.java)
+                               costInvoiceIntent.putExtra("index",index)
+                               startActivity(costInvoiceIntent)
                 } else {
                     val errorUtil = ee.parseError(response)
                     if (errorUtil != null) {
@@ -355,7 +363,7 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
                     } else
                         Toast.makeText(activity,"Failed to download data",Toast.LENGTH_SHORT).show()                }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<CostInvoiceCreate>, t: Throwable) {
                 Log.e("APP", t.localizedMessage)
                 Log.e("APP", t.message.toString())
                 responseCode = t.message.toString()

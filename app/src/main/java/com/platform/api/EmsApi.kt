@@ -4,6 +4,7 @@ import com.platform.pojo.UserProfile
 import com.platform.pojo.contractors.Contractors
 import com.platform.pojo.contracts.Contracts
 import com.platform.pojo.costInvoice.CostInvoice
+import com.platform.pojo.costInvoice.create.CostInvoiceCreate
 import com.platform.pojo.costInvoices.CostInvoices
 import com.platform.pojo.currencies.Currencies
 import com.platform.pojo.employees.Employees
@@ -85,10 +86,28 @@ interface EmsApi {
 
     @POST("rest/costinvoices")
     fun createCostInvoice(
+        @Header("Accept") accept :String,
+        @Header("Accept-Encoding") acceptEncoding :String,
+        @Header("Accept-Language") acceptLanguage :String,
+        @Header("Cache-Control") cacheControl :String,
+        @Header("Connection") connection :String,
+        @Header("Content-Length") contentLength :Int,
+        @Header("Content-Type") contentType :String
+    ): Call<CostInvoiceCreate>
+    @DELETE("rest/costinvoices/{id}")
+    fun deleateCostInvoice(
+        @Path("id") id: Int?,
+        @Header("Accept") accept :String,
+        @Header("Accept-Encoding") acceptEncoding :String,
+        @Header("Accept-Language") acceptLanguage :String,
+        @Header("Cache-Control") cacheControl :String,
+        @Header("Connection") connection :String,
+        @Header("Content-Length") contentLength :Int,
+        @Header("Content-Type") contentType :String
     ): Call<ResponseBody>
 
 
-
+//--------------------------------------------ZAŁĄCZNIKI--------------------------------------------
     @GET("rest/attachments/com.platform.finanse.model.CostInvoice/{id}?section=document")
     fun getCostInvoiceAttachments(
         @Path("id") id: Int?
@@ -98,8 +117,6 @@ interface EmsApi {
     fun downloadAttachment(
         @Path("id") id: Int?
     ):Call<ResponseBody>
-
-
 
     @DELETE("rest/attachments/{id}")
     fun removeAttachment(
