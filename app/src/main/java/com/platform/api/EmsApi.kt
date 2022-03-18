@@ -13,6 +13,14 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 import retrofit2.http.GET
+import java.io.File
+import okhttp3.MultipartBody
+
+import okhttp3.RequestBody
+
+import retrofit2.http.POST
+
+import retrofit2.http.Multipart
 
 
 
@@ -125,14 +133,17 @@ interface EmsApi {
 
 
 
-    @FormUrlEncoded
+    @Multipart
     @POST("upload")
-    fun uploadAttachment(
-        @Field("parentId") parentId: Long?,
-        @Field("parentEntityType") parentEntityType: String?,
-        @Field("section") section: String?,
-        @Field("single") single: Boolean?
-    ): Call<Contracts>
+    fun addAttachment(
+        @Part("parentId") parentId: Int?,
+        @Part("parentEntityType") parentEntityType: RequestBody?,
+        @Part("section") section:  RequestBody?,
+        @Part("single") single: Boolean?,
+        @Part("filename") filename:  RequestBody?,
+        @Part file: MultipartBody.Part?
+        //@PartMap map: HashMap<String, RequestBody>
+    ): Call<ResponseBody>
     //---------------------------------------------RESOURCES---------------------------------------------
     @GET("rest/currencies?max=50")
     fun getCurrencies(

@@ -1,6 +1,7 @@
 package com.platform.Myfragments.attachments
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -15,7 +16,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
+import com.platform.CostInvoiceActivity
+import com.platform.ImageActivity
 import com.platform.R
 import com.platform.adapters.CostInvoicesAttachmentsAdapter
 import com.platform.api.EmsApi
@@ -23,10 +27,13 @@ import com.platform.databinding.FragmentAttachmentsBinding
 import com.platform.pojo.costInvoice.attachments.Attachments
 import com.platform.utils.ErrorUtil
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import javax.inject.Inject
@@ -46,7 +53,7 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
     lateinit var progresbar : ProgressBar
     lateinit var nestedScrollView : NestedScrollView
     lateinit var swipeContainer: SwipeRefreshLayout
-
+    lateinit var addButton:FloatingActionButton
 
     private var binding: FragmentAttachmentsBinding? = null
 
@@ -64,6 +71,7 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
         attachmentsViewModel!!.text.observe(viewLifecycleOwner, Observer { })
         progresbar= binding!!.AProgresBarPB
         nestedScrollView= binding!!.ANestedScrollViewNS
+        addButton=binding!!.AAddButtonFAB
 
         /**
          *Funkcja króra przy pociągnięciu w dół odświeża dane
@@ -73,6 +81,16 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
         swipeContainer.setOnRefreshListener {
             attachments.attachments.clear()
             getAttachmentAttachments()
+        }
+        /**
+         * Funkcja obsługująca dodawanie załączników
+         *@author Rafał Pasternak
+         **/
+        addButton.setOnClickListener(){
+            Toast.makeText(activity,"Dodawanie załącznika",Toast.LENGTH_SHORT).show()
+            val addImageIntent = Intent(context, ImageActivity::class.java)
+            addImageIntent.putExtra("index",index)
+            startActivity(addImageIntent)
         }
         return root
     }
@@ -198,9 +216,7 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
      * @return data w formacie ludzkim
      **/
     fun downloadAttachment(position: Int){
-
         val call: Call<ResponseBody> = emsApi.downloadAttachment(attachments.attachments[position].id)
-
         call.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
                 if (response.isSuccessful()) {
@@ -217,7 +233,6 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
                     Toast.makeText(activity, "Nie udało się pobrać załącznika", Toast.LENGTH_SHORT).show()
                 }
             }
-
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
                 Log.e(TAG, "error")
             }
