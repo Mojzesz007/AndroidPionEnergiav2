@@ -79,7 +79,6 @@ class ImageActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if(v.id==R.id.pickImageFromGalery){
-            Toast.makeText(this,"wybor zdjecia",Toast.LENGTH_SHORT).show()
             val galleryIntent = Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(galleryIntent, REQUEST_PICK_PHOTO)
@@ -88,7 +87,6 @@ class ImageActivity : AppCompatActivity(), View.OnClickListener {
             captureImage()
         }
         if(v.id==R.id.upload){
-            Toast.makeText(this,"Wyślij zdjecie",Toast.LENGTH_SHORT).show()
             uploadFile()
         }
 
@@ -124,7 +122,7 @@ class ImageActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         } else if (resultCode != Activity.RESULT_CANCELED) {
-            Toast.makeText(this, "Sorry, there was an error!", Toast.LENGTH_LONG).show()
+            openDialog("Wystąpił bład spróbuj jeszcze raz","Error")
         }
     }
 
@@ -230,7 +228,7 @@ class ImageActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun uploadFile() {
         if (postPath == null || postPath == "") {
-            Toast.makeText(this, "please select an image ", Toast.LENGTH_LONG).show()
+            openDialog("Wstaw zdjęcie","Error")
             return
         } else {
             showpDialog()
@@ -252,16 +250,16 @@ class ImageActivity : AppCompatActivity(), View.OnClickListener {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) =
                     if (response.isSuccessful) {
                         hidepDialog()
-                        openDialog("Przesłano :-)")
+                        openDialog("Przesłano :-)","Przesyłanie powiodło się")
 
                     } else {
                         val errorUtil = ee.parseError(response)
                         if (errorUtil != null) {
-                            openDialog(errorUtil.message)
+                            openDialog(errorUtil.message,"Error")
                             hidepDialog()
                         } else{
                             hidepDialog()
-                            openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
+                            openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}","Error")
                         }
                     }
 
@@ -317,9 +315,9 @@ class ImageActivity : AppCompatActivity(), View.OnClickListener {
      * Metoda do wyświetlenia komunikatu użytkownikowi
      * @author Rafał Pasternak
      **/
-    fun openDialog(message: String) {
+    fun openDialog(message: String,title:String?) {
         MaterialAlertDialogBuilder(this)
-            .setTitle(resources.getString(R.string.messageTitle)) //jako res string
+            .setTitle(title) //jako res string
             .setMessage(message)
             .setPositiveButton("OK") { dialog, which ->
             }

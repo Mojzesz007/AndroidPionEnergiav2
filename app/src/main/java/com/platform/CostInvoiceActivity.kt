@@ -11,13 +11,13 @@ import android.view.View
 import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
+
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.platform.api.EmsApi
 import com.platform.databinding.ActivityCostInvoiceBinding
 import com.platform.databinding.ActivityCostInvoiceBinding.inflate
-import com.platform.pojo.contracts.Contracts
 import com.platform.pojo.costInvoice.CostInvoice
 import com.platform.pojo.currencies.Currencies
 import com.platform.utils.ErrorUtil
@@ -31,21 +31,22 @@ import java.sql.Date
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
-import kotlin.math.cos
 import android.widget.ArrayAdapter
-import com.platform.pojo.currencies.Result
 import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
+import android.app.Fragment;
+import com.platform.Myfragments.attachments.contractors.ContractorsFragment
+//import androidx.fragment.app.Fragment
 import com.platform.pojo.contractors.Contractors
 import com.platform.pojo.costInvoice.Contractor
 import com.platform.pojo.costInvoice.Currency
 import com.platform.pojo.costInvoice.User
 import com.platform.pojo.employees.Employees
-import com.platform.ui.costInvoices.CostInvoicesFragment
+import com.platform.ui.costInvoices.CostInvoicesFragment.Companion.newInstance
 
 
 @AndroidEntryPoint
-class CostInvoiceActivity : AppCompatActivity(){
+class CostInvoiceActivity : AppCompatActivity(),
+    ContractorsFragment.OnFragmentInteractionListener {
     @Inject
     lateinit var emsApi: EmsApi
 
@@ -55,7 +56,7 @@ class CostInvoiceActivity : AppCompatActivity(){
     private lateinit var binding: ActivityCostInvoiceBinding
     private lateinit var foreignNumber : TextView
     private lateinit var issueDate: TextView
-    private lateinit var contractor: Spinner
+    private lateinit var contractor: TextView
     private lateinit var user: Spinner
     private lateinit var paid: Switch
     private lateinit var paymentDate: TextView
@@ -83,7 +84,7 @@ class CostInvoiceActivity : AppCompatActivity(){
         setContentView(binding.root)
         foreignNumber=binding.CINumberTV
         issueDate=binding.CIIssueDateTV
-        contractor=binding.CIContractorS
+        contractor=binding.CIContractorTV
         user=binding.CIUserS
         paid=binding.CIPaidS
         paymentDate=binding.CIPaymentDateTV
@@ -104,7 +105,7 @@ class CostInvoiceActivity : AppCompatActivity(){
         //wybór waluty,kontrachenta,pracownika inicjalizacja
         getCurrencies()
         getEmployees()
-        getContractors()
+        //getContractors()
         /**
          * Metoda pozwalająca wybrać datę
          *@author Rafał Pasternak
@@ -131,8 +132,6 @@ class CostInvoiceActivity : AppCompatActivity(){
         setSupportActionBar(toolbar_typical)
         toolbar_typical.setTitle(R.string.Cost_Invoice)
 
-
-
         currency.adapter=ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,listOfCurrenciesName)
         currency.onItemSelectedListener= object :AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
@@ -148,21 +147,9 @@ class CostInvoiceActivity : AppCompatActivity(){
             }
 
         }
-        contractor.adapter=ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,listOfContractorsName)
-        contractor.onItemSelectedListener= object :AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                costInvoice?.contractor?.id=contractors?.results[position]?.id
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-
-
+        contractor.setOnClickListener(){
+            var index=costInvoice.id
+            openFragmentSelectContractor()
         }
         user.adapter=ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,listOfEmployeesName)
         user.onItemSelectedListener= object :AdapterView.OnItemSelectedListener{
@@ -181,7 +168,7 @@ class CostInvoiceActivity : AppCompatActivity(){
 
         attachments.setOnClickListener(){
             var index=costInvoice.id
-            openFragmentRestorePassword(index)
+            openFragmentAttachments(index)
         }
         if(index!=-1)
             getCostInvoice()
@@ -228,7 +215,7 @@ class CostInvoiceActivity : AppCompatActivity(){
         foreignNumber.text = costInvoice.foreignNumber
         if(costInvoice.issueDate!=null)
             issueDate.text = convertLongToTime(costInvoice.issueDate)
-        contractor.setSelection(listOfContractorsName.indexOf(costInvoice?.contractor?.name?.toString()))
+        contractor.text=costInvoice.contractor.name
         user.setSelection(listOfEmployeesName.indexOf(costInvoice?.user?.name?.toString()+" "+costInvoice.user.surname.toString()))
         paid.isChecked=costInvoice?.paid
         if(costInvoice.paymentDate!=null)
@@ -249,10 +236,13 @@ class CostInvoiceActivity : AppCompatActivity(){
         costInvoice.draft=false
         if(costInvoice.paymentDate!=null)
             costInvoice.paymentDate = convertStingToLong(paymentDate.text.toString())
-        costInvoice?.netTotal=netTotal.text?.toString()?.toDouble()
-        costInvoice?.vatTotal=vatTotal.text?.toString()?.toDouble()
-         costInvoice?.grossTotal = grossTotal.text?.toString()?.toDouble()
-        costInvoice?.comments= comment.text?.toString()
+        if(netTotal.text.isNotEmpty())
+            costInvoice?.netTotal=netTotal?.text?.toString()?.toDouble()
+        if(vatTotal.text.isNotEmpty())
+        costInvoice?.vatTotal=vatTotal?.text?.toString()?.toDouble()
+        if(grossTotal.text.isNotEmpty())
+         costInvoice?.grossTotal = grossTotal?.text?.toString()?.toDouble()
+        costInvoice?.comments= comment?.text?.toString()
         updateCostInvocie()
 
     }
@@ -274,7 +264,10 @@ class CostInvoiceActivity : AppCompatActivity(){
 
                     val errorUtil = ee.parseError(response)
                     if (errorUtil != null) {
+                        if(errorUtil.message.isNotEmpty())
                         openDialog(errorUtil.message)
+                        else
+                            openDialog("Uzupełnij brakujące dane")
                     } else
                         openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
                 }
@@ -313,32 +306,6 @@ class CostInvoiceActivity : AppCompatActivity(){
                 }
 
             override fun onFailure(call: Call<Currencies>, t: Throwable) {
-                Log.e("APP", t.localizedMessage)
-                Log.e("APP", t.message.toString())
-            }
-        })
-    }
-    private fun getContractors() {
-        val call = emsApi.getContractors()
-        call.enqueue(object : Callback<Contractors> {
-            override fun onResponse(call: Call<Contractors>, response: Response<Contractors>) =
-                if (response.isSuccessful) {
-                    contractors = response.body()!!
-                    var i=0;
-                    listOfContractorsName.clear()
-                    while(i!=contractors.results.size){
-                        listOfContractorsName.add(contractors.results[i].name)
-                        i++
-                    }
-                } else {
-                    val errorUtil = ee.parseError(response)
-                    if (errorUtil != null) {
-                        openDialog(errorUtil.message)
-                    } else
-                        openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
-                }
-
-            override fun onFailure(call: Call<Contractors>, t: Throwable) {
                 Log.e("APP", t.localizedMessage)
                 Log.e("APP", t.message.toString())
             }
@@ -440,9 +407,14 @@ class CostInvoiceActivity : AppCompatActivity(){
         val milis=date.time
         return milis
     }
-    fun openFragmentRestorePassword(text: Int?) {
+    /**
+     * Metoda otwiera fragment z Załącznikami
+     * @author Rafał Pasternak
+     **/
+    fun openFragmentAttachments(text: Int?) {
         val fragment = com.platform.Myfragments.attachments.AttachmentsFragment.newInstance(text)
         val fragmentManager = supportFragmentManager
+
         val transaction = fragmentManager.beginTransaction()
         transaction.setCustomAnimations(
             R.anim.enter_from_right,
@@ -451,8 +423,43 @@ class CostInvoiceActivity : AppCompatActivity(){
             R.anim.exit_to_right
         )
         transaction.addToBackStack(null)
-        transaction.add(R.id.fragment_container, fragment, "RESTORE_PASSWORD_FRAGMENT").commit()
+        transaction.replace(R.id.fragment_container,fragment).commit()
+
     }
+    /**
+     * Metoda otwiera fragment z Załącznikami
+     * @author Rafał Pasternak
+     **/
+    fun openFragmentSelectContractor() {
+        val fragment = com.platform.Myfragments.attachments.contractors.ContractorsFragment!!.newInstance("")
+        val fragmentManager = supportFragmentManager
+
+            val transaction = fragmentManager.beginTransaction()
+            transaction.setCustomAnimations(
+                R.anim.enter_from_right,
+                R.anim.exit_to_right,
+                R.anim.enter_from_right,
+                R.anim.exit_to_right
+            )
+        transaction.addToBackStack(null)
+        transaction.replace(R.id.fragment_container,fragment).commit()
+    }
+
+    override fun onBackPressed() {
+        val fragment : Fragment? = fragmentManager.findFragmentById(R.id.fragment_container)
+        if(fragment!=null)
+        {
+            val transaction = fragmentManager.beginTransaction()
+            transaction.remove(fragment)
+            transaction.commit()
+        }
+            else
+                super.onBackPressed()
+    }
+    /**
+     * Metoda usuwająca Faktórę
+     * @author Rafał Pasternak
+     **/
     private fun deleteCostInvocie(){
         val call = emsApi.deleateCostInvoice(
             index,
@@ -488,5 +495,11 @@ class CostInvoiceActivity : AppCompatActivity(){
                 t.printStackTrace()
             }
         })
+    }
+    override fun onFragmentInteraction(sendBackText: String?, name: String?) {
+       // binding.LAUsernameTI.setText(sendBackText)
+        costInvoice.contractor.id=sendBackText.toString().toInt()
+        contractor.text=name
+        onBackPressed()
     }
 }

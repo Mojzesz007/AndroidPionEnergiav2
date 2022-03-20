@@ -65,7 +65,7 @@ class ContractRecyclerAdapter(
         init {
             date = itemView.findViewById(R.id.IL_Date_TV)
             title = itemView.findViewById(R.id.IL_Title_TV)
-            number = itemView.findViewById(R.id.IL_Number_TV)
+            number = itemView.findViewById(R.id.CIL_Name_TV)
             recipientName = itemView.findViewById(R.id.IL_RecipientName_TV)
             background = itemView.findViewById(R.id.IL_Layout_TV)
             itemView.setOnClickListener(this)

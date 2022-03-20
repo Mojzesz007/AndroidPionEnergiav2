@@ -149,8 +149,11 @@ interface EmsApi {
     fun getCurrencies(
     ): Call<Currencies>
 
-    @GET("rest/contractors?branch=true&max=50&start=0")
+    @GET("rest/contractors")
     fun getContractors(
+        @Query("max") max :Integer,
+        @Query("start") start:Integer?,
+        @Query("name") name:String?
     ): Call<Contractors>
 
     @GET("rest/users/employees?max=10&start=0")

@@ -18,6 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.platform.CostInvoiceActivity
+import com.platform.Myfragments.attachments.AttachmentsFragment
 import com.platform.R
 import com.platform.adapters.CostInvoicesRecyclerAdapter
 import com.platform.api.EmsApi
@@ -283,14 +284,14 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
      * @author Rafał Pasternak
      **/
     fun openDialog(message: String) {
-        activity?.let {
+       /* activity?.let {
             MaterialAlertDialogBuilder(it.applicationContext)
                 .setTitle(resources.getString(R.string.messageTitle)) //jako res string
                 .setMessage(message)
                 .setPositiveButton("OK") { _, _ ->
                 }
                 .show()
-        }
+        }*/
     }
     /**
      * Metoda inicjalizująca Recycler Viewer dla umów
@@ -313,7 +314,6 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
      * @author Rafał Pasternak
      * **/
     override fun onItemClick(position: Int) {
-        Toast.makeText(activity, "Item $position clicked", Toast.LENGTH_SHORT).show()
         var index=costInvoices.results[position].id
         val costInvoiceIntent = Intent(context, CostInvoiceActivity::class.java)
         costInvoiceIntent.putExtra("index",index)
@@ -370,5 +370,15 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
                 t.printStackTrace()
             }
         })
+    }
+    ///////Nie zapomij usunac
+    companion object {
+        private const val TEXT = -1
+        fun newInstance(): CostInvoicesFragment {
+            val fragment = CostInvoicesFragment()
+            val args = Bundle()
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

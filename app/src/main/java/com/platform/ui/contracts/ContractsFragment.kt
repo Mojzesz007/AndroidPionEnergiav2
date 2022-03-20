@@ -302,7 +302,6 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
      * @author Rafał Pasternak
      * **/
     override fun onItemClick(position: Int) {
-        Toast.makeText(activity, "Item $position clicked", Toast.LENGTH_SHORT).show()
         //tu bedize odsyłka do nowego activity z przesłanym id
     }
     /**

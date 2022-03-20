@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingRight="8dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -48,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:paddingRight="8dp"
                 android:text="Title"
                 app:layout_constraintStart_toEndOf="@+id/TitleDescription"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -63,7 +65,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/DateDescription"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TitleDescription" />
+                app:layout_constraintTop_toBottomOf="@+id/CL_Title_TV" />
 
             <TextView
                 android:id="@+id/TitleDescription"

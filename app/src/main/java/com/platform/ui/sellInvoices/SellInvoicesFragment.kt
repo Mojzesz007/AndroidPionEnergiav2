@@ -272,14 +272,14 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
      * @author Rafał Pasternak
      **/
     fun openDialog(message: String) {
-        activity?.let {
+        /*activity?.let {
             MaterialAlertDialogBuilder(it.applicationContext)
                 .setTitle(resources.getString(R.string.messageTitle)) //jako res string
                 .setMessage(message)
                 .setPositiveButton("OK") { _, _ ->
                 }
                 .show()
-        }
+        }*/
     }
     /**
      * Metoda inicjalizująca Recycler Viewer dla umów
@@ -302,7 +302,6 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
      * @author Rafał Pasternak
      * **/
     override fun onItemClick(position: Int) {
-        Toast.makeText(activity, "Item $position clicked", Toast.LENGTH_SHORT).show()
         //tu bedize odsyłka do nowego activity z przesłanym id
     }
     /**
