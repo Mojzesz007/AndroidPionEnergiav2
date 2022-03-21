@@ -156,7 +156,11 @@ interface EmsApi {
         @Query("name") name:String?
     ): Call<Contractors>
 
-    @GET("rest/users/employees?max=10&start=0")
+    @GET("rest/users/employees")
     fun getEmployees(
+        @Query("max") max :Integer,
+        @Query("start") start:Integer?,
+        @Query("searchFilter") filter:String?
+
     ): Call<Employees>
 }

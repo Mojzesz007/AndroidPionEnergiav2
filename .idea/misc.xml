@@ -9,7 +9,7 @@
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/drawable/drawable_spinner_border.xml" value="0.18888888888888888" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.225" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/drawable/outline_delete_forever_24.xml" value="0.10694444444444444" />
-        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/activity_cost_invoice.xml" value="0.2" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/activity_cost_invoice.xml" value="0.4" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/activity_cost_invoice_attachments.xml" value="0.2" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/activity_main.xml" value="0.12360688956433637" />
@@ -28,6 +28,7 @@
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_contractors.xml" value="0.24814814814814815" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_contracts.xml" value="0.24567474048442905" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_cost_invoices.xml" value="0.264" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_currencies.xml" value="0.25416666666666665" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_first.xml" value="0.190625" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_gallery.xml" value="0.1" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_header.xml" value="0.10326086956521739" />
@@ -37,12 +38,14 @@
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_sellInvoices.xml" value="0.12360688956433637" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_sell_invoices.xml" value="0.3923611111111111" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_slideshow.xml" value="0.13360507246376813" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/fragment_users.xml" value="0.264" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/image_layout.xml" value="0.17592592592592593" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/list_group.xml" value="0.10326086956521739" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/nav_header_navigation_drawer.xml" value="0.43014705882352944" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/recycler_view_item.xml" value="0.14027777777777778" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/sell_invoice_list_item.xml" value="0.4" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/typical_toolbar.xml" value="0.22592592592592592" />
+        <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/layout/user_list_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/menu/activity_navigation_drawer_drawer.xml" value="0.8" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/menu/navigation_drawer.xml" value="0.2" />
         <entry key="..\:/Praca/ANDROID_PionEnergia/portalandroid_rp_v2/app/src/main/res/menu/typical_menu.xml" value="0.2" />

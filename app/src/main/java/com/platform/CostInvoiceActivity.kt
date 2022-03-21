@@ -35,6 +35,7 @@ import android.widget.ArrayAdapter
 import android.widget.AdapterView
 import android.app.Fragment;
 import com.platform.Myfragments.attachments.contractors.ContractorsFragment
+import com.platform.Myfragments.attachments.users.UsersFragment
 //import androidx.fragment.app.Fragment
 import com.platform.pojo.contractors.Contractors
 import com.platform.pojo.costInvoice.Contractor
@@ -46,7 +47,8 @@ import com.platform.ui.costInvoices.CostInvoicesFragment.Companion.newInstance
 
 @AndroidEntryPoint
 class CostInvoiceActivity : AppCompatActivity(),
-    ContractorsFragment.OnFragmentInteractionListener {
+    ContractorsFragment.OnFragmentInteractionListener,
+    UsersFragment.OnFragmentInteractionListener2{
     @Inject
     lateinit var emsApi: EmsApi
 
@@ -57,7 +59,7 @@ class CostInvoiceActivity : AppCompatActivity(),
     private lateinit var foreignNumber : TextView
     private lateinit var issueDate: TextView
     private lateinit var contractor: TextView
-    private lateinit var user: Spinner
+    private lateinit var user: TextView
     private lateinit var paid: Switch
     private lateinit var paymentDate: TextView
     private lateinit var netTotal: TextView
@@ -70,14 +72,11 @@ class CostInvoiceActivity : AppCompatActivity(),
     private var index=-1
     var costInvoice: CostInvoice = CostInvoice()
     var currencies: Currencies= Currencies()
-    var employees: Employees= Employees()
+
     var contractors: Contractors= Contractors()
-    val x : List<String> = listOf("Kontrahent", "bar", "baz")
     val y : List<String> = listOf("Waluta", "bar", "baz")
-    val z : List<String> = listOf("Wprowadził", "bar", "baz")
     val listOfCurrenciesName: MutableList<String> = y.toMutableList()
-    val listOfContractorsName: MutableList<String> = x.toMutableList()
-    val listOfEmployeesName: MutableList<String> = z.toMutableList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = inflate(layoutInflater)
@@ -85,7 +84,7 @@ class CostInvoiceActivity : AppCompatActivity(),
         foreignNumber=binding.CINumberTV
         issueDate=binding.CIIssueDateTV
         contractor=binding.CIContractorTV
-        user=binding.CIUserS
+        user=binding.CIUserTV
         paid=binding.CIPaidS
         paymentDate=binding.CIPaymentDateTV
         netTotal=binding.CINetTotalTV
@@ -104,7 +103,7 @@ class CostInvoiceActivity : AppCompatActivity(),
 
         //wybór waluty,kontrachenta,pracownika inicjalizacja
         getCurrencies()
-        getEmployees()
+        //getEmployees()
         //getContractors()
         /**
          * Metoda pozwalająca wybrać datę
@@ -151,20 +150,10 @@ class CostInvoiceActivity : AppCompatActivity(),
             var index=costInvoice.id
             openFragmentSelectContractor()
         }
-        user.adapter=ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,listOfEmployeesName)
-        user.onItemSelectedListener= object :AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                costInvoice?.user?.id=employees.results[position].id
+        user.setOnClickListener(){
+            var index=costInvoice.id
+            openFragmentSelectCurrency()
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
 
         attachments.setOnClickListener(){
             var index=costInvoice.id
@@ -215,8 +204,8 @@ class CostInvoiceActivity : AppCompatActivity(),
         foreignNumber.text = costInvoice.foreignNumber
         if(costInvoice.issueDate!=null)
             issueDate.text = convertLongToTime(costInvoice.issueDate)
-        contractor.text=costInvoice.contractor.name
-        user.setSelection(listOfEmployeesName.indexOf(costInvoice?.user?.name?.toString()+" "+costInvoice.user.surname.toString()))
+        contractor.text=costInvoice.contractor.shortName
+        user.setText(costInvoice?.user?.name?.toString()+" "+costInvoice.user.surname.toString())
         paid.isChecked=costInvoice?.paid
         if(costInvoice.paymentDate!=null)
             paymentDate.text = convertLongToTime(costInvoice.paymentTerm)
@@ -311,32 +300,6 @@ class CostInvoiceActivity : AppCompatActivity(),
             }
         })
     }
-    private fun getEmployees() {
-        val call = emsApi.getEmployees()
-        call.enqueue(object : Callback<Employees> {
-            override fun onResponse(call: Call<Employees>, response: Response<Employees>) =
-                if (response.isSuccessful) {
-                    employees = response.body()!!
-                    var i=0;
-                    listOfEmployeesName.clear()
-                    while(i!=employees.results.size){
-                        listOfEmployeesName.add(employees.results[i].fullname)
-                        i++
-                    }
-                } else {
-                    val errorUtil = ee.parseError(response)
-                    if (errorUtil != null) {
-                        openDialog(errorUtil.message)
-                    } else
-                        openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
-                }
-
-            override fun onFailure(call: Call<Employees>, t: Throwable) {
-                Log.e("APP", t.localizedMessage)
-                Log.e("APP", t.message.toString())
-            }
-        })
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.typical_menu,menu)
@@ -346,7 +309,6 @@ class CostInvoiceActivity : AppCompatActivity(),
         val id= item.itemId
         if(id==R.id.action_save){
             PackData()
-            //Toast.makeText(this,"Wszystkie",Toast.LENGTH_SHORT).show()
         }
         if(id==R.id.action_delete){
             deleteCostInvocie()
@@ -444,6 +406,20 @@ class CostInvoiceActivity : AppCompatActivity(),
         transaction.addToBackStack(null)
         transaction.replace(R.id.fragment_container,fragment).commit()
     }
+    fun openFragmentSelectCurrency() {
+        val fragment = com.platform.Myfragments.attachments.users.UsersFragment!!.newInstance("")
+        val fragmentManager = supportFragmentManager
+
+        val transaction = fragmentManager.beginTransaction()
+        transaction.setCustomAnimations(
+            R.anim.enter_from_right,
+            R.anim.exit_to_right,
+            R.anim.enter_from_right,
+            R.anim.exit_to_right
+        )
+        transaction.addToBackStack(null)
+        transaction.replace(R.id.fragment_container,fragment).commit()
+    }
 
     override fun onBackPressed() {
         val fragment : Fragment? = fragmentManager.findFragmentById(R.id.fragment_container)
@@ -500,6 +476,12 @@ class CostInvoiceActivity : AppCompatActivity(),
        // binding.LAUsernameTI.setText(sendBackText)
         costInvoice.contractor.id=sendBackText.toString().toInt()
         contractor.text=name
+        onBackPressed()
+    }
+    override fun onFragmentInteraction2(sendBackText: String?, name: String?) {
+        // binding.LAUsernameTI.setText(sendBackText)
+        costInvoice.user.id=sendBackText.toString().toInt()
+        user.text=name
         onBackPressed()
     }
 }

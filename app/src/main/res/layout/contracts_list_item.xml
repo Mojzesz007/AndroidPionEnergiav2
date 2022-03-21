@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/CIL_Name_TV"
+                android:id="@+id/UIL_Name_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -57,7 +57,7 @@
                 android:layout_marginTop="8dp"
                 android:text="RecipientName"
                 app:layout_constraintStart_toEndOf="@+id/RecipientDescription"
-                app:layout_constraintTop_toBottomOf="@+id/CIL_Name_TV" />
+                app:layout_constraintTop_toBottomOf="@+id/UIL_Name_TV" />
 
             <TextView
                 android:id="@+id/NumberDescription"

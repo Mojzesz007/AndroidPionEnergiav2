@@ -1,25 +1,25 @@
 package com.platform.adapters
+
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.platform.R
-import com.platform.adapters.ContractorsRecyclerAdapter.MyViewHolder
-import com.platform.pojo.contractors.Contractors
+import com.platform.pojo.employees.Employees
 
-class ContractorsRecyclerAdapter(
+class UsersRecyclerAdapter (
+
     var context: Context,
-    var contractors: Contractors = Contractors(),//orginalne dane
+    var users: Employees = Employees(),
 
     private val listener:OnItemClickListener
-) : RecyclerView.Adapter<MyViewHolder>() {
+) : RecyclerView.Adapter<UsersRecyclerAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(R.layout.contractor_list_item, parent, false)
+        val view = inflater.inflate(R.layout.user_list_item, parent, false)
         return MyViewHolder(view)
     }
     /**
@@ -28,31 +28,28 @@ class ContractorsRecyclerAdapter(
      **/
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.name.text=contractors.results[position].shortName
-        if(contractors.results[position].isCompany==false)
-        holder.icon.setImageResource(R.drawable.outline_person_black_36)
+        holder.name.text=users.results[position].name+" "+users.results[position].surname
 
     }
 
     override fun getItemCount(): Int {
-        return contractors.results.size
+        return users.results.size
     }
 
 
     inner class MyViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView),View.OnClickListener{
+        RecyclerView.ViewHolder(itemView), View.OnClickListener{
         var name: TextView
-        var icon: ImageView
+
 
         init {
             name = itemView.findViewById(R.id.UIL_Name_TV)
-            icon = itemView.findViewById(R.id.CIL_Icon_IV)
             itemView.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
             val position=adapterPosition
-            if(position!=RecyclerView.NO_POSITION){
+            if(position!= RecyclerView.NO_POSITION){
                 listener.onItemClick(position)}
         }
     }

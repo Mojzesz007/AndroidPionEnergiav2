@@ -1,4 +1,4 @@
-package com.platform.Myfragments.attachments.contractors
+package com.platform.Myfragments.attachments.users
 
 import android.content.Context
 import android.os.Bundle
@@ -15,11 +15,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.platform.Myfragments.attachments.users.UsersViewModel
 import com.platform.R
 import com.platform.adapters.ContractorsRecyclerAdapter
+import com.platform.adapters.UsersRecyclerAdapter
 import com.platform.api.EmsApi
-import com.platform.databinding.FragmentContractorsBinding
+import com.platform.databinding.FragmentUsersBinding
 import com.platform.pojo.contractors.Contractors
+import com.platform.pojo.employees.Employees
 import com.platform.utils.ErrorUtil
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Call
@@ -29,49 +32,49 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class ContractorsFragment : Fragment(), ContractorsRecyclerAdapter.OnItemClickListener {
+class UsersFragment : Fragment(), UsersRecyclerAdapter.OnItemClickListener {
     @Inject
     lateinit var emsApi: EmsApi
 
     @Inject
     lateinit var ee : ErrorUtil
     lateinit var sendBackText:String
-    private lateinit var contractorsViewModel: ContractorsViewModel
+    private lateinit var usersViewModel: UsersViewModel
     lateinit var progresbar : ProgressBar
     lateinit var nestedScrollView : NestedScrollView
     lateinit var swipeContainer: SwipeRefreshLayout
-    private var mListener: ContractorsFragment.OnFragmentInteractionListener? = null
-
-    var contractors: Contractors = Contractors()
-    private var binding: FragmentContractorsBinding? = null
+    private var mListener: UsersFragment.OnFragmentInteractionListener2? = null
+   private var name : String? = null
+    private var surname: String? = null
+    private var binding: FragmentUsersBinding? = null
     var start=0 as Integer
     var max=15 as Integer
-
+    var employees: Employees= Employees()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        contractorsViewModel = ViewModelProvider(this).get(
-            ContractorsViewModel::class.java
+        usersViewModel = ViewModelProvider(this).get(
+            UsersViewModel::class.java
         )
-        binding = FragmentContractorsBinding.inflate(inflater, container, false)
+        binding = FragmentUsersBinding.inflate(inflater, container, false)
         val root: View = binding!!.root
-        contractorsViewModel!!.text.observe(viewLifecycleOwner, Observer { })
+        usersViewModel!!.text.observe(viewLifecycleOwner, Observer { })
         progresbar= binding!!.ConProgresBarPB
         nestedScrollView= binding!!.ConNestedScrollViewNS
-        getContractors(null)
+        getEmployees()
         /**
          * Metoda obsługująca paginację danych
          * @author Rafał Pasternak
          **/
         nestedScrollView!!.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { nestedScrollView, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if(scrollY==nestedScrollView.getChildAt(0).measuredHeight-nestedScrollView.measuredHeight&&start<=contractors.totalCount) {
+            if(scrollY==nestedScrollView.getChildAt(0).measuredHeight-nestedScrollView.measuredHeight&&start<=employees.totalCount) {
                 start = max;
                 progresbar!!.visibility=View.VISIBLE
                 var step =max.toInt()+10
                 max= step as Integer
-                getContractors(null)
+                getEmployees()
             }
         })
         /**
@@ -82,23 +85,20 @@ class ContractorsFragment : Fragment(), ContractorsRecyclerAdapter.OnItemClickLi
         swipeContainer.setOnRefreshListener {
             start=0 as Integer
             max=15 as Integer
-            contractors.results.clear()
-                getContractors(null)
+            employees.results.clear()
+                getEmployees()
         }
-        binding!!.CIContractorTV.addTextChangedListener(object : TextWatcher {
+        binding!!.CINameTV.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
-
             override fun afterTextChanged(s: Editable?) {
-                getContractors(binding!!.CIContractorTV.text?.toString())
+               name= binding!!.CINameTV.text?.toString()
+                getEmployees()
             }
 
         })
-
-
         return root
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,54 +112,42 @@ class ContractorsFragment : Fragment(), ContractorsRecyclerAdapter.OnItemClickLi
     }
     var responseCode: String =""
     /**
-     * Metoda pobierająca Kontrahentów
+     * Metoda pobierająca użytkowiników
      * @author Rafał Pasternak
      * **/
-    private fun getContractors(name :String?){
-        if(name!=null){
+    private fun getEmployees() {
+        if(!name.isNullOrEmpty()||!surname.isNullOrEmpty()){
             start=0 as Integer
             max=15 as Integer
         }
         if(start.equals(0)) {
-            contractors.results?.clear()
+            employees.results?.clear()
         }
-        val call = emsApi.getContractors(
+        val call = emsApi.getEmployees(
             max,start,name
         )
-        call.enqueue(object : Callback<Contractors> {
-            override fun onResponse(call: Call<Contractors>, response: Response<Contractors>) =
+        call.enqueue(object : Callback<Employees> {
+            override fun onResponse(call: Call<Employees>, response: Response<Employees>) =
                 if (response.isSuccessful) {
-                    if(name==null) {
-                        if (contractors.results == null)
-                            contractors = response.body()!!
-                        else if (!response.body()!!.results.isEmpty())
-                            contractors.results.addAll(response.body()!!.results)
-                    }else{
-                        contractors.results?.clear()
-                        contractors = response.body()!!
-                    }
+                    employees = response.body()!!
                     progresbar?.visibility=View.GONE
                     swipeContainer.setRefreshing(false)
                     initRecyclerView()
                 } else {
-
                     val errorUtil = ee.parseError(response)
                     if (errorUtil != null) {
                         openDialog(errorUtil.message)
                         progresbar?.visibility=View.GONE
                         swipeContainer.setRefreshing(false)
                     } else
+                        progresbar?.visibility=View.GONE
+                    swipeContainer.setRefreshing(false)
                         openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
                 }
 
-            override fun onFailure(call: Call<Contractors>, t: Throwable) {
+            override fun onFailure(call: Call<Employees>, t: Throwable) {
                 Log.e("APP", t.localizedMessage)
                 Log.e("APP", t.message.toString())
-                responseCode = t.message.toString()
-                openDialog(resources.getString(R.string.connectiontimeout))
-                t.printStackTrace()
-                progresbar?.visibility=View.GONE
-                swipeContainer.setRefreshing(false)
             }
         })
     }
@@ -185,9 +173,9 @@ class ContractorsFragment : Fragment(), ContractorsRecyclerAdapter.OnItemClickLi
      * **/
     fun initRecyclerView() {
         val recycleAdapter= activity?.let {
-            ContractorsRecyclerAdapter(
+            UsersRecyclerAdapter(
                 it,
-                contractors,this
+                employees,this
             )
         }
         val recyclerView = binding!!.ConRowsRV
@@ -201,21 +189,21 @@ class ContractorsFragment : Fragment(), ContractorsRecyclerAdapter.OnItemClickLi
      * **/
 
     override fun onItemClick(position: Int) {
-        sendBackText = contractors.results[position].id.toString()
-        val name =contractors.results[position].shortName.toString()
+        sendBackText = employees.results[position].id.toString()
+        val name =employees.results[position].name.toString()+" "+employees.results[position].surname.toString()
         sendBack(sendBackText,name)
     }
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(sendBackText: String?,name: String?)
+    interface OnFragmentInteractionListener2 {
+        fun onFragmentInteraction2(sendBackText: String?,name: String?)
     }
     fun sendBack(sendBackText: String?,name: String?) {
         if (mListener != null) {
-            mListener!!.onFragmentInteraction(sendBackText,name)
+            mListener!!.onFragmentInteraction2(sendBackText,name)
         }
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        mListener = if (context is ContractorsFragment.OnFragmentInteractionListener) {
+        mListener = if (context is UsersFragment.OnFragmentInteractionListener2) {
             context
         } else {
             throw RuntimeException("$context must implement OnFragmentInteractionListener")
@@ -228,8 +216,8 @@ class ContractorsFragment : Fragment(), ContractorsRecyclerAdapter.OnItemClickLi
     }
     companion object {
         private const val TEXT = "text"
-        fun newInstance(text: String?): ContractorsFragment {
-            val fragment = ContractorsFragment()
+        fun newInstance(text: String?): UsersFragment {
+            val fragment = UsersFragment()
             val args = Bundle()
             args.putString(TEXT, text)
             fragment.arguments = args

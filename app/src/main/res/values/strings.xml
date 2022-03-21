@@ -87,5 +87,9 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="Name">Nazwa</string>
+    <string name="Name_and_Surname">Imię i Nazwisko</string>
+    <string name="Name1">Imię</string>
+    <string name="Surname">Nazwisko</string>
+    <string name="Name_or_Surname">Imię lub Nazwisko</string>
 
 </resources>
