@@ -3,6 +3,7 @@ package com.platform.api
 import com.platform.pojo.UserProfile
 import com.platform.pojo.contractors.Contractors
 import com.platform.pojo.contracts.Contracts
+import com.platform.pojo.contracts.contract.Contract
 import com.platform.pojo.costInvoice.CostInvoice
 import com.platform.pojo.costInvoice.create.CostInvoiceCreate
 import com.platform.pojo.costInvoices.CostInvoices
@@ -55,6 +56,12 @@ interface EmsApi {
         @Query("max") max :Integer,
         @Query("start") start :Integer
     ): Call<Contracts>
+
+    @GET("rest/contracts/{id}")
+    fun getContractById(
+        @Path("id") id: Int?
+    ): Call<Contract>
+
     //---------------------------------------------SELL INVOICES---------------------------------------------
     @GET("rest/sellinvoices")
     fun getSellInvoices(

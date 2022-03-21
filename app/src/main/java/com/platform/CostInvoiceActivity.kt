@@ -74,7 +74,7 @@ class CostInvoiceActivity : AppCompatActivity(),
     var currencies: Currencies= Currencies()
 
     var contractors: Contractors= Contractors()
-    val y : List<String> = listOf("Waluta", "bar", "baz")
+    val y : List<String> = listOf("Waluta", "error", "error")
     val listOfCurrenciesName: MutableList<String> = y.toMutableList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,7 +139,7 @@ class CostInvoiceActivity : AppCompatActivity(),
                 position: Int,
                 id: Long
             ) {
-                costInvoice.currency.id=currencies.results[position].id
+                costInvoice?.currency?.id=currencies?.results[position]?.id
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

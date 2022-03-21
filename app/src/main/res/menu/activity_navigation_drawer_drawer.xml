@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <item android:title="Umowy">
+    <item android:title="Sprzedaż energii">
         <menu>
     <group android:checkableBehavior="single"
         android:id="@+id/group_feature">

@@ -1,6 +1,7 @@
 package com.platform.ui.contracts
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
+import com.platform.ContractActivity
+import com.platform.CostInvoiceActivity
 import com.platform.adapters.ContractRecyclerAdapter
 import com.platform.R
 import com.platform.api.EmsApi
@@ -272,14 +275,14 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
      * @author Rafał Pasternak
      **/
     fun openDialog(message: String) {
-        activity?.let {
+        /*activity?.let {
             MaterialAlertDialogBuilder(it.applicationContext)
                 .setTitle(resources.getString(R.string.messageTitle)) //jako res string
                 .setMessage(message)
                 .setPositiveButton("OK") { _, _ ->
                 }
                 .show()
-        }
+        }*/
     }
     /**
      * Metoda inicjalizująca Recycler Viewer dla umów
@@ -302,7 +305,10 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
      * @author Rafał Pasternak
      * **/
     override fun onItemClick(position: Int) {
-        //tu bedize odsyłka do nowego activity z przesłanym id
+        var index=contracts.results[position].id
+        val costInvoiceIntent = Intent(context, ContractActivity::class.java)
+        costInvoiceIntent.putExtra("index",index)
+        startActivity(costInvoiceIntent)
     }
     /**
      *Metoda konwertująca datę w formacie Long do formatu czytelnego dla użytkownika

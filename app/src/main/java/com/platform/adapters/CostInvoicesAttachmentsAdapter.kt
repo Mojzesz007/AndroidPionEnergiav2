@@ -39,7 +39,6 @@ class CostInvoicesAttachmentsAdapter(
         if(attachments.attachments[position].updatedAt!=null)
             holder.date.text = attachments.attachments[position].updatedAt.toString()
         if(attachments.attachments[position].size!=null){
-            //holder.size.text=(attachments.attachments[position].size/1 000 000).toString()
             var size:Double= attachments.attachments[position].size.toDouble()
             size /= 1000000
             val rounded = String.format("%.2f", size)

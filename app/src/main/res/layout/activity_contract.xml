@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ContractActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_typical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Umowa"
+        app:titleTextColor="#FFFFFF"
+        ></androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_typical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/left1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/right1"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/Number_just"
+                android:minWidth="190dp"
+                android:minHeight="60dp"
+                android:textColorHint="#757575"
+                app:endIconMode="clear_text"
+                app:hintTextColor="#757575"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/CTR_Number_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:focusable="false"
+                    android:textColorHint="#757575" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/Date_From"
+                android:minWidth="190dp"
+                android:minHeight="60dp"
+                android:textColorHint="#757575"
+                app:endIconMode="clear_text"
+                app:hintTextColor="#757575"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/CTR_DateFrom_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:focusable="false"
+                    android:textColorHint="#757575" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/right1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintLeft_toRightOf="@+id/left1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/State"
+                android:inputType="none"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/CTR_State_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:focusable="false"
+
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/Date_To"
+                android:minWidth="190dp"
+                android:minHeight="60dp"
+                android:textColorHint="#757575"
+                app:endIconMode="clear_text"
+                app:hintTextColor="#757575"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/CTR_DateTo_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:focusable="false"
+                    android:textColorHint="#757575" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout4"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="@string/Supplier"
+            android:inputType="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/left1">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/CTR_Supplier_TV"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:focusable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout47"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="@string/Recipient_hint"
+            android:inputType="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/CTR_Recipient_TV"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:focusable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout3"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="@string/Title_just"
+            android:inputType="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout47">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/CTR_Title_TV"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:focusable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="@string/Description"
+            android:inputType="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/CTR_Subject_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="100dp"
+                android:minHeight="60dp"
+                android:focusable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

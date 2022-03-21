@@ -91,5 +91,13 @@
     <string name="Name1">Imię</string>
     <string name="Surname">Nazwisko</string>
     <string name="Name_or_Surname">Imię lub Nazwisko</string>
+    <string name="State">Sataus</string>
+    <string name="Number_just">Numer</string>
+    <string name="Date_From">Data od</string>
+    <string name="Date_To">Data do</string>
+    <string name="Title_just">Tytuł</string>
+    <string name="Description">Opis</string>
+    <string name="Supplier">Dostawca</string>
+    <string name="Recipient_hint">Odbiorca</string>
 
 </resources>

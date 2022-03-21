@@ -7,6 +7,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.platform.RestorePasswordFragment.OnFragmentInteractionListener
 import com.platform.api.EmsApi
@@ -52,7 +53,7 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
         setContentView(binding.root)
         anim=binding.LALogoIV
         readCredentials()
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         binding.LAForgotTV.setOnClickListener { t: View? ->
             openFragmentRestorePassword(binding.LAUsernameTI.text.toString())
         }
