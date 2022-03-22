@@ -10,6 +10,7 @@ import com.platform.pojo.costInvoices.CostInvoices
 import com.platform.pojo.currencies.Currencies
 import com.platform.pojo.employees.Employees
 import com.platform.pojo.sellInvoices.SellInvoices
+import com.platform.pojo.sellInvoices.sellInvoice.SellInvoice
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -74,6 +75,12 @@ interface EmsApi {
         @Query("max") max :Integer,
         @Query("start") start :Integer
     ): Call<SellInvoices>
+
+    @GET("rest/sellinvoices/{id}")
+    fun getSellInvoiceById(
+        @Path("id") id: Int?
+    ): Call<SellInvoice>
+
     //---------------------------------------------COST INVOICES---------------------------------------------
     @GET("rest/costinvoices")
     fun getCostInvoices(
@@ -125,6 +132,11 @@ interface EmsApi {
 //--------------------------------------------ZAŁĄCZNIKI--------------------------------------------
     @GET("rest/attachments/com.platform.finanse.model.CostInvoice/{id}?section=document")
     fun getCostInvoiceAttachments(
+        @Path("id") id: Int?
+    ): Call<ResponseBody>
+
+    @GET("rest/attachments/com.platform.finanse.model.SellInvoice/{id}?section=document")
+    fun getSellInvoiceAttachments(
         @Path("id") id: Int?
     ): Call<ResponseBody>
 

@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Myfragments.attachments.AttachmentsFragment"
     android:background="@color/white"
-   >
+    >
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_typical3"
         android:layout_width="match_parent"
@@ -18,29 +17,17 @@
         app:title="Załączniki"
         app:titleTextColor="#FFFFFF"
         ></androidx.appcompat.widget.Toolbar>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/A_addButton_FAB"
-        app:backgroundTint="@color/blue"
-        app:tint="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:src="@drawable/outline_add_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/A_swipeRefresh_SR"
+        android:id="@+id/VOA_swipeRefresh_SR"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_typical3">
 
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/A_nestedScrollView_NS"
+            android:id="@+id/VOA_nestedScrollView_NS"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -49,13 +36,13 @@
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/A_rows_RV"
+                    android:id="@+id/VOA_rows_RV"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ProgressBar
-                    android:id="@+id/A_progresBar_PB"
+                    android:id="@+id/VOA_progresBar_PB"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"

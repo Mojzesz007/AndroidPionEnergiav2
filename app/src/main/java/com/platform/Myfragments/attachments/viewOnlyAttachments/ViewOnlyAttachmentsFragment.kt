@@ -1,4 +1,4 @@
-package com.platform.Myfragments.attachments
+package com.platform.Myfragments.attachments.viewOnlyAttachments
 
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -18,12 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
-import com.platform.CostInvoiceActivity
+
 import com.platform.ImageActivity
 import com.platform.R
-import com.platform.adapters.CostInvoicesAttachmentsAdapter
+
+import com.platform.adapters.ViewOnlyAttachmentsAdapter
 import com.platform.api.EmsApi
 import com.platform.databinding.FragmentAttachmentsBinding
+import com.platform.databinding.FragmentViewOnlyAttachmentsBinding
 import com.platform.pojo.costInvoice.attachments.Attachments
 import com.platform.utils.ErrorUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +42,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemClickListener {
+class  ViewOnlyAttachmentsFragment : Fragment(), ViewOnlyAttachmentsAdapter.OnItemClickListener {
     @Inject
     lateinit var emsApi: EmsApi
 
@@ -49,13 +51,12 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
     var index: Int =-1
     var attachments: Attachments=Attachments()
     var downloadid: Long = 0
-    private lateinit var attachmentsViewModel: AttachmentsViewModel
+    private lateinit var viewOnlyattachmentsViewModel: ViewOnlyAttachmentsViewModel
     lateinit var progresbar : ProgressBar
     lateinit var nestedScrollView : NestedScrollView
     lateinit var swipeContainer: SwipeRefreshLayout
-    lateinit var addButton:FloatingActionButton
 
-    private var binding: FragmentAttachmentsBinding? = null
+    private var binding: FragmentViewOnlyAttachmentsBinding? = null
 
 
 
@@ -63,34 +64,24 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        attachmentsViewModel = ViewModelProvider(this).get(
-           AttachmentsViewModel::class.java
+        viewOnlyattachmentsViewModel = ViewModelProvider(this).get(
+           ViewOnlyAttachmentsViewModel::class.java
         )
-        binding = FragmentAttachmentsBinding.inflate(inflater, container, false)
+        binding = FragmentViewOnlyAttachmentsBinding.inflate(inflater, container, false)
         val root: View = binding!!.root
-        attachmentsViewModel!!.text.observe(viewLifecycleOwner, Observer { })
-        progresbar= binding!!.AProgresBarPB
-        nestedScrollView= binding!!.ANestedScrollViewNS
-        addButton=binding!!.AAddButtonFAB
+        viewOnlyattachmentsViewModel!!.text.observe(viewLifecycleOwner, Observer { })
+        progresbar= binding!!.VOAProgresBarPB
+        nestedScrollView= binding!!.VOANestedScrollViewNS
+
 
         /**
          *Funkcja króra przy pociągnięciu w dół odświeża dane
          * @author Rafał Pasternak
          **/
-        swipeContainer= binding!!.ASwipeRefreshSR
+        swipeContainer= binding!!.VOASwipeRefreshSR
         swipeContainer.setOnRefreshListener {
             attachments.attachments.clear()
             getAttachmentAttachments()
-        }
-        /**
-         * Funkcja obsługująca dodawanie załączników
-         *@author Rafał Pasternak
-         **/
-        addButton.setOnClickListener(){
-            Toast.makeText(activity,"Dodawanie załącznika",Toast.LENGTH_SHORT).show()
-            val addImageIntent = Intent(context, ImageActivity::class.java)
-            addImageIntent.putExtra("index",index)
-            startActivity(addImageIntent)
         }
         return root
     }
@@ -118,7 +109,7 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
 
     }
     private fun getAttachmentAttachments() {
-        val call = emsApi.getCostInvoiceAttachments(
+        val call = emsApi.getSellInvoiceAttachments(
             index
         )
         call.enqueue(object : Callback<ResponseBody> {
@@ -129,15 +120,14 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
                     attachments= Gson().fromJson(rawJsonString, Attachments::class.java)
                     initRecyclerView()
                     swipeContainer.setRefreshing(false)
-                    progresbar?.visibility=View.GONE
                 } else {
                     val errorUtil = ee.parseError(response)
                     if (errorUtil != null) {
+                        swipeContainer.setRefreshing(false)
                         openDialog(errorUtil.message)
-                        progresbar?.visibility=View.GONE
                     } else
                         openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
-                    progresbar?.visibility=View.GONE
+                    swipeContainer.setRefreshing(false)
                 }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -152,12 +142,12 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
      * **/
     fun initRecyclerView() {
         val recycleAdapter= activity?.let {
-            CostInvoicesAttachmentsAdapter(
+            ViewOnlyAttachmentsAdapter(
                 it,
                 attachments,this
             )
         }
-        val recyclerView = binding!!.ARowsRV
+        val recyclerView = binding!!.VOARowsRV
         recyclerView.adapter = recycleAdapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
     }
@@ -166,52 +156,21 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
      * odsyła do wybranej przez użytkownika umowy
      * @author Rafał Pasternak
      * **/
-    override fun onItemClick(position: Int,type :Int) {
-        if(type==0){
+    override fun onItemClick(position: Int) {
             downloadAttachment(position)
             Toast.makeText(activity, "Pobieranie załącznika", Toast.LENGTH_SHORT).show()
         }
-        else if(type==1) {
-            removeAttachment(attachments.attachments[position].id)
-            Toast.makeText(activity, "Item $position Usuń", Toast.LENGTH_SHORT).show()
-        }
-    }
+
 
     companion object {
         private const val TEXT = -1
-        fun newInstance(text: Int?): AttachmentsFragment {
-            val fragment = AttachmentsFragment()
+        fun newInstance(text: Int?): ViewOnlyAttachmentsFragment {
+            val fragment = ViewOnlyAttachmentsFragment()
             val args = Bundle()
             args.putString(TEXT.toString(), text.toString())
             fragment.arguments = args
             return fragment
         }
-    }
-    /**
-     *Metoda usuwająca załącznik
-     * @return data w formacie ludzkim
-     **/
-    fun removeAttachment(position: Int){
-
-        val call = emsApi.removeAttachment(position)
-        call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) =
-                if (response.isSuccessful) {
-                   getAttachmentAttachments()
-
-                } else {
-                    val errorUtil = ee.parseError(response)
-                    if (errorUtil != null) {
-                        openDialog(errorUtil.message)
-                    } else
-                        openDialog("${resources.getString(R.string.FailedToConnect)} ${response.message()}")
-                }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("APP", t.localizedMessage)
-                Log.e("APP", t.message.toString())
-            }
-        })
     }
 
     /**
@@ -270,5 +229,4 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
         }
         return ""
     }
-
 }

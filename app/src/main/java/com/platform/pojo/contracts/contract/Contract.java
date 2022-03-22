@@ -32,7 +32,7 @@ public class Contract {
     private String supplierNumber;
     @SerializedName("status")
     @Expose
-    private Object status;
+    private Status status;
     @SerializedName("date")
     @Expose
     private Long date;
@@ -165,11 +165,11 @@ public class Contract {
         this.supplierNumber = supplierNumber;
     }
 
-    public Object getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Object status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

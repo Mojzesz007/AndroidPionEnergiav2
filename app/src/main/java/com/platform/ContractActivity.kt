@@ -43,6 +43,7 @@ class ContractActivity : AppCompatActivity() {
     lateinit var subject :TextView
 
     private var index: Int =-1;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contract)
@@ -84,13 +85,13 @@ class ContractActivity : AppCompatActivity() {
 
     private fun importData() {
         number?.text=contract?.number?.toString()
-        state?.text=contract?.status?.toString()
+        state?.text=contract?.status?.name.toString()
         if(contract?.date!=null)
             dateFrom?.text=convertLongToTime(contract?.date)
         if(contract?.endDate!=null)
             dateTo?.text=convertLongToTime(contract?.endDate)
-        supplier?.text=contract?.supplier?.name
-        recipient?.text=contract?.recipient?.name
+        supplier?.text=contract?.supplier?.shortName
+        recipient?.text=contract?.recipient?.shortName
         title?.text=contract?.title?.toString()
         if(contract?.description!=null)
         subject?.text= contract?.description?.toString()?.let { cleanFromCKEditor(it) }
@@ -124,6 +125,11 @@ class ContractActivity : AppCompatActivity() {
         val format = SimpleDateFormat("yyyy.MM.dd")
         return format.format(date)
     }
+    /**
+     *  Metoda czyści wyniki z pozostałości ckeditora
+     * @param time data w formacie long
+     * @return data w formacie ludzkim
+     **/
     fun cleanFromCKEditor(text : String): String {
         var str =text
         str = str.replace("[<]*[a-z]*[>]".toRegex(),"")

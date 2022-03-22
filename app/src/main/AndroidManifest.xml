@@ -23,6 +23,10 @@
         android:theme="@style/Theme.EMS"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".SellInvoiceActivity"
+            android:exported="false"
+            android:theme="@style/ActionBar"/>
+        <activity
             android:name=".ContractActivity"
             android:exported="false"
             android:theme="@style/ActionBar" />

@@ -46,7 +46,6 @@
                 android:minWidth="190dp"
                 android:minHeight="60dp"
                 android:textColorHint="#757575"
-                app:endIconMode="clear_text"
                 app:hintTextColor="#757575"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +70,6 @@
                 android:minWidth="190dp"
                 android:minHeight="60dp"
                 android:textColorHint="#757575"
-                app:endIconMode="clear_text"
                 app:hintTextColor="#757575"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,11 +104,10 @@
                 android:layout_marginEnd="8dp"
                 android:hint="@string/State"
                 android:inputType="none"
-                app:endIconMode="clear_text"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -133,7 +130,6 @@
                 android:minWidth="190dp"
                 android:minHeight="60dp"
                 android:textColorHint="#757575"
-                app:endIconMode="clear_text"
                 app:hintTextColor="#757575"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

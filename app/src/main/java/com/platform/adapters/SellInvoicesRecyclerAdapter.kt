@@ -42,8 +42,8 @@ class SellInvoicesRecyclerAdapter(
             holder.date.text = convertLongToTime(sellInvoices.results[position].issueDate)
         if(sellInvoices.results[position].grossTotal!=null)
             holder.grossAmount.text = sellInvoices.results[position].grossTotal.toString()
-        if(sellInvoices.results[position].contractorName!=null)
-            holder.contractorName.text = sellInvoices.results[position].contractorName
+        if(sellInvoices.results[position].contractor?.shortName!=null)
+            holder.contractorName.text = sellInvoices.results[position].contractor.shortName
         if(sellInvoices.results[position].currency.name!=null)
             holder.currency.text = sellInvoices.results[position].currency.name
         val color: Int = Color.rgb(230,230,230)
@@ -66,9 +66,9 @@ class SellInvoicesRecyclerAdapter(
         var background: ConstraintLayout
         init {
             date = itemView.findViewById(R.id.SL_Date_TV)
-            number = itemView.findViewById(R.id.SL_Number_TV)
-            grossAmount=itemView.findViewById(R.id.SL_GrossAmount_TV)
-            contractorName=itemView.findViewById(R.id.SL_Contractor_TV)
+            number = itemView.findViewById(R.id.SIIL_Number_TV)
+            grossAmount=itemView.findViewById(R.id.SIIL_GrossAmount_TV)
+            contractorName=itemView.findViewById(R.id.SIIL_Ammount_TV)
             currency=itemView.findViewById(R.id.SL_Currency_TV)
             background = itemView.findViewById(R.id.SL_Layout_TV)
             itemView.setOnClickListener(this)

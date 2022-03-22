@@ -91,7 +91,7 @@
     <string name="Name1">Imię</string>
     <string name="Surname">Nazwisko</string>
     <string name="Name_or_Surname">Imię lub Nazwisko</string>
-    <string name="State">Sataus</string>
+    <string name="State">Status</string>
     <string name="Number_just">Numer</string>
     <string name="Date_From">Data od</string>
     <string name="Date_To">Data do</string>
@@ -99,5 +99,10 @@
     <string name="Description">Opis</string>
     <string name="Supplier">Dostawca</string>
     <string name="Recipient_hint">Odbiorca</string>
+    <string name="Items_hint">Pozycje faktury</string>
+    <string name="Name_of_service">Nazwa usługi/towaru</string>
+    <string name="Ammount">Ilość</string>
+    <string name="netTotal">Kwota netto:</string>
+    <string name="VatStake">Stawka VAT:</string>
 
 </resources>

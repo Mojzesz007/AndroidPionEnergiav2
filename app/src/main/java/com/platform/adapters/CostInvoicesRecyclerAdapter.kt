@@ -66,9 +66,9 @@ class CostInvoicesRecyclerAdapter(
         var background: ConstraintLayout
         init {
             date = itemView.findViewById(R.id.SL_Date_TV)
-            number = itemView.findViewById(R.id.SL_Number_TV)
-            grossAmount=itemView.findViewById(R.id.SL_GrossAmount_TV)
-            contractorName=itemView.findViewById(R.id.SL_Contractor_TV)
+            number = itemView.findViewById(R.id.SIIL_Number_TV)
+            grossAmount=itemView.findViewById(R.id.SIIL_GrossAmount_TV)
+            contractorName=itemView.findViewById(R.id.SIIL_Ammount_TV)
             currency=itemView.findViewById(R.id.SL_Currency_TV)
             background = itemView.findViewById(R.id.SL_Layout_TV)
             itemView.setOnClickListener(this)

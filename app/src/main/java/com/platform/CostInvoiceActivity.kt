@@ -74,7 +74,7 @@ class CostInvoiceActivity : AppCompatActivity(),
     var currencies: Currencies= Currencies()
 
     var contractors: Contractors= Contractors()
-    val y : List<String> = listOf("Waluta", "error", "error")
+    val y : List<String> = listOf("PLN", "error", "error")
     val listOfCurrenciesName: MutableList<String> = y.toMutableList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,8 +103,6 @@ class CostInvoiceActivity : AppCompatActivity(),
 
         //wybór waluty,kontrachenta,pracownika inicjalizacja
         getCurrencies()
-        //getEmployees()
-        //getContractors()
         /**
          * Metoda pozwalająca wybrać datę
          *@author Rafał Pasternak
@@ -141,7 +139,6 @@ class CostInvoiceActivity : AppCompatActivity(),
             ) {
                 costInvoice?.currency?.id=currencies?.results[position]?.id
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
@@ -161,7 +158,6 @@ class CostInvoiceActivity : AppCompatActivity(),
         }
         if(index!=-1)
             getCostInvoice()
-
     }
     /**
      * Pobranie informacji faktury kosztowej
@@ -389,7 +385,7 @@ class CostInvoiceActivity : AppCompatActivity(),
 
     }
     /**
-     * Metoda otwiera fragment z Załącznikami
+     * Metoda otwiera fragment wyborem kontrachentów
      * @author Rafał Pasternak
      **/
     fun openFragmentSelectContractor() {

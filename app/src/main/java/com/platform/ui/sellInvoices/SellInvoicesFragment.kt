@@ -1,6 +1,7 @@
 package com.platform.ui.sellInvoices
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -15,7 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
+import com.platform.CostInvoiceActivity
 import com.platform.R
+import com.platform.SellInvoiceActivity
 import com.platform.adapters.SellInvoicesRecyclerAdapter
 import com.platform.api.EmsApi
 import com.platform.databinding.FragmentSellInvoicesBinding
@@ -302,7 +305,10 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
      * @author Rafał Pasternak
      * **/
     override fun onItemClick(position: Int) {
-        //tu bedize odsyłka do nowego activity z przesłanym id
+        var index=sellInvoices.results[position].id
+        val sellInvoiceIntent = Intent(context, SellInvoiceActivity::class.java)
+        sellInvoiceIntent.putExtra("index",index)
+        startActivity(sellInvoiceIntent)
     }
     /**
      *Metoda konwertująca datę w formacie Long do formatu czytelnego dla użytkownika
