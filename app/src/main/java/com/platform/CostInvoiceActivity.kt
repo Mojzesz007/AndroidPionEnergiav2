@@ -250,7 +250,7 @@ class CostInvoiceActivity : AppCompatActivity(),
                     val errorUtil = ee.parseError(response)
                     if (errorUtil != null) {
                         if(errorUtil.message.isNotEmpty())
-                        openDialog(errorUtil.message)
+                            openDialog(errorUtil.message)
                         else
                             openDialog("Uzupełnij brakujące dane")
                     } else

@@ -70,7 +70,7 @@ public class Contractor {
     private Long operationsDate;
     @SerializedName("regonDate")
     @Expose
-    private Object regonDate;
+    private Long regonDate;
     @SerializedName("suspensionDate")
     @Expose
     private Object suspensionDate;
@@ -368,7 +368,7 @@ public class Contractor {
         return regonDate;
     }
 
-    public void setRegonDate(Object regonDate) {
+    public void setRegonDate(Long regonDate) {
         this.regonDate = regonDate;
     }
 

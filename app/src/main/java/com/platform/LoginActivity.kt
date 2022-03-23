@@ -1,13 +1,18 @@
 package com.platform
 
+import android.Manifest
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.platform.RestorePasswordFragment.OnFragmentInteractionListener
 import com.platform.api.EmsApi
@@ -20,6 +25,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+import android.os.Build
+import androidx.fragment.app.FragmentActivity
 
 
 /**
@@ -53,6 +60,8 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
         setContentView(binding.root)
         anim=binding.LALogoIV
         readCredentials()
+        isStoragePermissionReadGranted()
+        isStoragePermissionWriteGranted()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         binding.LAForgotTV.setOnClickListener { t: View? ->
             openFragmentRestorePassword(binding.LAUsernameTI.text.toString())
@@ -223,4 +232,51 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
         val loginIntent = Intent(this, NavigationDrawerActivity::class.java)
         startActivity(loginIntent)
     }
+    /**
+     *Metoda Prosi o możliwość zapisywania na urządzeniu użytkownika
+     * @author Rafał Pasternak
+     **/
+    fun isStoragePermissionWriteGranted(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                true
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    1
+                )
+                false
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            true
+        }
+    }
+    /**
+     *Metoda Prosi o możliwość odczytywania urządzenia użytkownika
+     * @author Rafał Pasternak
+     **/
+    fun isStoragePermissionReadGranted(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                true
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    1
+                )
+                false
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            true
+        }
+    }
+
+
+
 }
