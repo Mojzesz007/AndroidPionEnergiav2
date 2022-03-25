@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <item android:title="Sprzedaż energii">
+    <item android:title="Umowy">
         <menu>
     <group android:checkableBehavior="single"
         android:id="@+id/group_feature">
         <item
             android:id="@+id/nav_contractors"
             android:icon="@drawable/outline_article_24"
-            android:title="@string/Contracts" />
+            android:title="Sprzedaż energii" />
     </group>
         </menu>
     </item>

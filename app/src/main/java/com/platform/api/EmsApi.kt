@@ -130,14 +130,10 @@ interface EmsApi {
 
 
 //--------------------------------------------ZAŁĄCZNIKI--------------------------------------------
-    @GET("rest/attachments/com.platform.finanse.model.CostInvoice/{id}?section=document")
-    fun getCostInvoiceAttachments(
-        @Path("id") id: Int?
-    ): Call<ResponseBody>
-
-    @GET("rest/attachments/com.platform.finanse.model.SellInvoice/{id}?section=document")
-    fun getSellInvoiceAttachments(
-        @Path("id") id: Int?
+    @GET("rest/attachments/{model}/{id}?section=document")
+    fun getAttachments(
+        @Path("id") id: Int?,
+        @Path("model")model: String?
     ): Call<ResponseBody>
 
     @GET("rest/attachments/{id}")

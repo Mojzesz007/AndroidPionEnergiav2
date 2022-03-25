@@ -52,7 +52,7 @@ class SellInvoiceActivity : AppCompatActivity() {
 
         attachments.setOnClickListener(){
             var index=sellInvoice.id
-            openFragmentAttachmentsViewOnly(index)
+            openFragmentAttachmentsViewOnly(index,"com.platform.finanse.model.SellInvoice")
         }
         items.setOnClickListener(){
             var index=sellInvoice.id
@@ -95,8 +95,8 @@ class SellInvoiceActivity : AppCompatActivity() {
      * Metoda otwiera fragment z Załącznikami
      * @author Rafał Pasternak
      **/
-    fun openFragmentAttachmentsViewOnly(text: Int?) {
-        val fragment = com.platform.Myfragments.attachments.viewOnlyAttachments.ViewOnlyAttachmentsFragment.newInstance(text)
+    fun openFragmentAttachmentsViewOnly(text: Int?, model: String) {
+        val fragment = com.platform.Myfragments.attachments.viewOnlyAttachments.ViewOnlyAttachmentsFragment.newInstance(text,model)
         val fragmentManager = supportFragmentManager
 
         val transaction = fragmentManager.beginTransaction()

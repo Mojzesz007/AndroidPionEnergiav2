@@ -49,6 +49,7 @@ class  ViewOnlyAttachmentsFragment : Fragment(), ViewOnlyAttachmentsAdapter.OnIt
     @Inject
     lateinit var ee : ErrorUtil
     var index: Int =-1
+    var modelPath: String =""
     var attachments: Attachments=Attachments()
     var downloadid: Long = 0
     private lateinit var viewOnlyattachmentsViewModel: ViewOnlyAttachmentsViewModel
@@ -89,6 +90,7 @@ class  ViewOnlyAttachmentsFragment : Fragment(), ViewOnlyAttachmentsAdapter.OnIt
         setHasOptionsMenu(true)
         if (arguments != null) {
             index = requireArguments().getString(TEXT.toString()).toString().toInt()
+            modelPath= requireArguments().getString(MODELPATH.toString()).toString()
             println(index) }
         getAttachmentAttachments()
         super.onCreate(savedInstanceState)
@@ -109,8 +111,8 @@ class  ViewOnlyAttachmentsFragment : Fragment(), ViewOnlyAttachmentsAdapter.OnIt
 
     }
     private fun getAttachmentAttachments() {
-        val call = emsApi.getSellInvoiceAttachments(
-            index
+        val call = emsApi.getAttachments(
+            index,modelPath
         )
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) =
@@ -164,10 +166,12 @@ class  ViewOnlyAttachmentsFragment : Fragment(), ViewOnlyAttachmentsAdapter.OnIt
 
     companion object {
         private const val TEXT = -1
-        fun newInstance(text: Int?): ViewOnlyAttachmentsFragment {
+        private const val MODELPATH = ""
+        fun newInstance(text: Int?, modelPath: String?): ViewOnlyAttachmentsFragment {
             val fragment = ViewOnlyAttachmentsFragment()
             val args = Bundle()
             args.putString(TEXT.toString(), text.toString())
+            args.putString(MODELPATH.toString(),modelPath.toString())
             fragment.arguments = args
             return fragment
         }
