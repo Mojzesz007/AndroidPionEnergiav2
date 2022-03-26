@@ -66,7 +66,7 @@
     <string name="contact">Contact</string>
     <string name="activities">Activities</string>
     <string name="contractors">Contractors</string>
-    <string name="contactPerson">Contact person</string>
+    <string name="contactPerson">Osoba kontaktowa</string>
     <string name="documents">Documents</string>
     <string name="calendar">Calendar</string>
     <string name="service">Service</string>
@@ -104,5 +104,8 @@
     <string name="Ammount">Ilość</string>
     <string name="netTotal">Kwota netto:</string>
     <string name="VatStake">Stawka VAT:</string>
+    <string name="Contract_Date">Data umowy:</string>
+    <string name="Date_just">Data</string>
+    <string name="Module_hint">Modół</string>
 
 </resources>

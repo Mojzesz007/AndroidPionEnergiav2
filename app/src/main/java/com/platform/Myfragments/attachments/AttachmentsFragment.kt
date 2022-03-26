@@ -48,6 +48,7 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
     lateinit var ee : ErrorUtil
     var index: Int =-1
     var modelPath: String =""
+    lateinit var section :String
     var attachments: Attachments=Attachments()
     var downloadid: Long = 0
     private lateinit var attachmentsViewModel: AttachmentsViewModel
@@ -100,6 +101,8 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
         if (arguments != null) {
             index = requireArguments().getString(TEXT.toString()).toString().toInt()
             modelPath =requireArguments().getString(MODELPATH).toString()
+
+            section =requireArguments().getString(SECTION).toString()
             println(index) }
         getAttachmentAttachments()
         super.onCreate(savedInstanceState)
@@ -121,7 +124,7 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
     }
     private fun getAttachmentAttachments() {
         val call = emsApi.getAttachments(
-            index,modelPath
+            index,modelPath,section
         )
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) =
@@ -181,12 +184,15 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
 
     companion object {
         private const val TEXT = -1
-        private const val MODELPATH = ""
-        fun newInstance(text: Int?,modelPath: String?): AttachmentsFragment {
+        private const val MODELPATH = "ModelPath"
+        private const val SECTION = "Section"
+
+        fun newInstance(text: Int?,modelPath: String?,section:String?): AttachmentsFragment {
             val fragment = AttachmentsFragment()
             val args = Bundle()
             args.putString(TEXT.toString(), text.toString())
-            args.putString(MODELPATH.toString(), modelPath.toString())
+            args.putString(SECTION.toString(), section.toString())
+            args.putString(MODELPATH, modelPath.toString())
             fragment.arguments = args
             return fragment
         }

@@ -15,12 +15,12 @@
         app:cardPreventCornerOverlap="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/IL_Layout_TV"
+            android:id="@+id/SCIL_Layout_TV"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/UIL_Name_TV"
+                android:id="@+id/SCIL_Name_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -30,38 +30,26 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/IL_Date_TV"
+                android:id="@+id/SCIL_Date_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Date"
-                app:layout_constraintStart_toEndOf="@+id/DateDescription"
-                app:layout_constraintTop_toBottomOf="@+id/IL_RecipientName_TV" />
-
-            <TextView
-                android:id="@+id/IL_Title_TV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="Title"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="Date"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/TitleDescription"
-                app:layout_constraintTop_toBottomOf="@+id/DateDescription" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/IL_RecipientName_TV"
+                android:id="@+id/SCIL_RecipientName_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="RecipientName"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/RecipientDescription"
-                app:layout_constraintTop_toBottomOf="@+id/UIL_Name_TV" />
+                app:layout_constraintTop_toBottomOf="@+id/SCIL_Name_TV" />
 
             <TextView
                 android:id="@+id/NumberDescription"
@@ -69,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/SuplierNumber"
+                android:text="@string/Number"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -86,26 +74,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/NumberDescription" />
 
             <TextView
-                android:id="@+id/TitleDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/Title"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/DateDescription" />
-
-            <TextView
                 android:id="@+id/DateDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/Date"
+                android:layout_marginEnd="8dp"
+                android:text="@string/Contract_Date"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/RecipientDescription" />
+                app:layout_constraintEnd_toStartOf="@+id/SCIL_Date_TV"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

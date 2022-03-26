@@ -154,7 +154,7 @@ class CostInvoiceActivity : AppCompatActivity(),
 
         attachments.setOnClickListener(){
             var index=costInvoice.id
-            openFragmentAttachments(index,"com.platform.finanse.model.CostInvoice")
+            openFragmentAttachments(index,"com.platform.finanse.model.CostInvoice","document")
         }
         if(index!=-1)
             getCostInvoice()
@@ -369,8 +369,8 @@ class CostInvoiceActivity : AppCompatActivity(),
      * Metoda otwiera fragment z Załącznikami
      * @author Rafał Pasternak
      **/
-    fun openFragmentAttachments(text: Int?, modelPath: String?) {
-        val fragment = com.platform.Myfragments.attachments.AttachmentsFragment.newInstance(text, modelPath)
+    fun openFragmentAttachments(text: Int?, modelPath: String?, section:String?) {
+        val fragment = com.platform.Myfragments.attachments.AttachmentsFragment.newInstance(text, modelPath,section)
         val fragmentManager = supportFragmentManager
 
         val transaction = fragmentManager.beginTransaction()

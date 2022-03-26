@@ -11,6 +11,8 @@ import com.platform.pojo.currencies.Currencies
 import com.platform.pojo.employees.Employees
 import com.platform.pojo.sellInvoices.SellInvoices
 import com.platform.pojo.sellInvoices.sellInvoice.SellInvoice
+import com.platform.pojo.solarContracts.SolarContracts
+import com.platform.pojo.solarContracts.solarContract.SolarContract
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -45,6 +47,19 @@ interface EmsApi {
 
     @GET("rest/userprofile")
         fun getEntityByLogin(): Call<UserProfile>
+    //---------------------------------------------CONTRACTS SOLARS---------------------------------------------
+
+    @GET("rest/solarContracts")
+    fun getSolarContracts(
+        @Query("max") max :Integer,
+        @Query("start") start :Integer
+    ): Call<SolarContracts>
+
+    @GET("rest/solarContracts/{id}")
+    fun getSolarContractById(
+        @Path("id") id: Int?
+    ): Call<SolarContract>
+
     //---------------------------------------------CONTRACTS---------------------------------------------
     @GET("rest/contracts/listAllEnding")
     fun getContracts(
@@ -130,10 +145,11 @@ interface EmsApi {
 
 
 //--------------------------------------------ZAŁĄCZNIKI--------------------------------------------
-    @GET("rest/attachments/{model}/{id}?section=document")
+    @GET("rest/attachments/{model}/{id}")
     fun getAttachments(
         @Path("id") id: Int?,
-        @Path("model")model: String?
+        @Path("model")model: String?,
+        @Query("section")section: String?
     ): Call<ResponseBody>
 
     @GET("rest/attachments/{id}")
@@ -145,8 +161,6 @@ interface EmsApi {
     fun removeAttachment(
         @Path("id") id: Int?
     ):Call<ResponseBody>
-
-
 
     @Multipart
     @POST("upload")

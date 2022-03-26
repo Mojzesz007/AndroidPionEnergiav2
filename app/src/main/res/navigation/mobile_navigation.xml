@@ -10,6 +10,11 @@
         android:name="com.platform.ui.contracts.ContractsFragment"
         android:label="@string/Contracts"
         tools:layout="@layout/fragment_contracts" />
+    <fragment
+        android:id="@+id/nav_solar_contractors"
+        android:name="com.platform.ui.solarContracts.SolarontractsFragment"
+        android:label="Fotowoltaika"
+        tools:layout="@layout/fragment_solar_contacts" />
 
     <fragment
         android:id="@+id/nav_sell_invoices"

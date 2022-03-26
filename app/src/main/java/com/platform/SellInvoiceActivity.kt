@@ -52,7 +52,7 @@ class SellInvoiceActivity : AppCompatActivity() {
 
         attachments.setOnClickListener(){
             var index=sellInvoice.id
-            openFragmentAttachmentsViewOnly(index,"com.platform.finanse.model.SellInvoice")
+            openFragmentAttachmentsViewOnly(index,"com.platform.finanse.model.SellInvoice","document")
         }
         items.setOnClickListener(){
             var index=sellInvoice.id
@@ -95,8 +95,8 @@ class SellInvoiceActivity : AppCompatActivity() {
      * Metoda otwiera fragment z Załącznikami
      * @author Rafał Pasternak
      **/
-    fun openFragmentAttachmentsViewOnly(text: Int?, model: String) {
-        val fragment = com.platform.Myfragments.attachments.viewOnlyAttachments.ViewOnlyAttachmentsFragment.newInstance(text,model)
+    fun openFragmentAttachmentsViewOnly(text: Int?, model: String, section:String?) {
+        val fragment = com.platform.Myfragments.attachments.viewOnlyAttachments.ViewOnlyAttachmentsFragment.newInstance(text,model,section)
         val fragmentManager = supportFragmentManager
 
         val transaction = fragmentManager.beginTransaction()
@@ -128,13 +128,6 @@ class SellInvoiceActivity : AppCompatActivity() {
         transaction.addToBackStack(null)
         transaction.replace(R.id.fragment_container,fragment).commit()
     }
-
-
-
-
-
-
-
 
     /**
      * Metoda do wyświetlenia komunikatu użytkownikowi
