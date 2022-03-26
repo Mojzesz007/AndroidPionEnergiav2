@@ -94,7 +94,7 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
         swipeContainer.setOnRefreshListener {
             start=0 as Integer
             max=10 as Integer
-            contracts.results.clear()
+            contracts?.results?.clear()
             if(currentDataSource.equals(dataSourceAll))
                 getContracts()
             else if(currentDataSource.equals(dataSourceIn90Days))
@@ -134,7 +134,7 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
             }
             else
             {
-                contracts.results.clear()
+                contracts?.results?.clear()
                 var i=0
                 while(i!=contractsAll.results.size){
                     if(contractsAll?.results[i]?.title?.toLowerCase()?.contains(newText.toLowerCase())==true
@@ -164,7 +164,7 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
         val id= item.itemId
         if(id==R.id.action_settings){
             currentDataSource=dataSourceAll
-            contracts.results.clear()
+            contracts?.results?.clear()
             start=0 as Integer
             max=10 as Integer
             getContracts()
@@ -172,7 +172,7 @@ class ContractsFragment : Fragment(), ContractRecyclerAdapter.OnItemClickListene
         }
         if(id==R.id.action_settings2){
             currentDataSource=dataSourceIn90Days
-            contracts.results.clear()
+            contracts?.results?.clear()
             start=0 as Integer
             max=10 as Integer
             getEndingIn90Days()

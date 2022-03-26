@@ -85,7 +85,7 @@ class UsersFragment : Fragment(), UsersRecyclerAdapter.OnItemClickListener {
         swipeContainer.setOnRefreshListener {
             start=0 as Integer
             max=15 as Integer
-            employees.results.clear()
+            employees?.results?.clear()
                 getEmployees()
         }
         binding!!.CINameTV.addTextChangedListener(object : TextWatcher {

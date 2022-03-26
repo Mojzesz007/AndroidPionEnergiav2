@@ -92,7 +92,7 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
         swipeContainer.setOnRefreshListener {
             start=0 as Integer
             max=10 as Integer
-            sellInvoices.results.clear()
+            sellInvoices?.results?.clear()
             if(currentDataSource.equals(dataSourceAll))
                 getSellInvoices()
             else if(currentDataSource.equals(dataSourcePaid))
@@ -223,7 +223,7 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
                 }
                 else
                 {
-                    sellInvoices.results.clear()
+                    sellInvoices?.results?.clear()
                     var i=0
                     while(i!=sellInvoicesAll.results.size){
                         if( sellInvoicesAll.results[i].grossTotal?.toString()?.toLowerCase()?.contains(newText.toLowerCase())==true
@@ -253,7 +253,7 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
         val id= item.itemId
         if(id==R.id.action_settings){
             currentDataSource=dataSourceAll
-            sellInvoices.results.clear()
+            sellInvoices?.results?.clear()
             start=0 as Integer
             max=10 as Integer
             getSellInvoices()
@@ -261,7 +261,7 @@ class SellInvoicesFragment : Fragment(), SellInvoicesRecyclerAdapter.OnItemClick
         }
         if(id==R.id.action_settings2){
             currentDataSource=dataSourcePaid
-            sellInvoices.results.clear()
+            sellInvoices?.results?.clear()
             start=0 as Integer
             max=10 as Integer
             getUnpaidSellInvoices()

@@ -85,7 +85,7 @@ class SolarontractsFragment : Fragment(), SolarContractRecyclerAdapter.OnItemCli
         swipeContainer.setOnRefreshListener {
             start=0 as Integer
             max=10 as Integer
-            solarContracts.results.clear()
+            solarContracts?.results?.clear()
             getSolarContracts()
         }
         return root
@@ -121,7 +121,7 @@ class SolarontractsFragment : Fragment(), SolarContractRecyclerAdapter.OnItemCli
             }
             else
             {
-                solarContracts.results.clear()
+                solarContracts?.results?.clear()
                 var i=0
                 while(i!=solarContractsAll.results.size){
                     if(solarContractsAll?.results[i]?.number?.toLowerCase()?.contains(newText.toLowerCase())==true

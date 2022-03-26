@@ -82,7 +82,7 @@ class ContractorsFragment : Fragment(), ContractorsRecyclerAdapter.OnItemClickLi
         swipeContainer.setOnRefreshListener {
             start=0 as Integer
             max=15 as Integer
-            contractors.results.clear()
+            contractors?.results?.clear()
                 getContractors(null)
         }
         binding!!.CIContractorTV.addTextChangedListener(object : TextWatcher {
@@ -121,7 +121,7 @@ class ContractorsFragment : Fragment(), ContractorsRecyclerAdapter.OnItemClickLi
             max=15 as Integer
         }
         if(start.equals(0)) {
-            contractors.results?.clear()
+            contractors?.results?.clear()
         }
         val call = emsApi.getContractors(
             max,start,name

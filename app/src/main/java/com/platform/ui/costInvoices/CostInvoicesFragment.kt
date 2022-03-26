@@ -101,7 +101,7 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
         swipeContainer.setOnRefreshListener {
             start=0 as Integer
             max=10 as Integer
-            costInvoices.results.clear()
+            costInvoices?.results?.clear()
             if(currentDataSource.equals(dataSourceAll))
                 getCostInvoices()
             else if(currentDataSource.equals(dataSourcePaid))
@@ -232,7 +232,7 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
                 }
                 else
                 {
-                    costInvoices.results.clear()
+                    costInvoices?.results?.clear()
                     var i=0
                     while(i!=costInvoicesAll.results.size){
                         if( costInvoicesAll.results[i].grossTotal?.toString()?.toLowerCase()?.contains(newText.toLowerCase())==true
@@ -262,7 +262,7 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
         val id= item.itemId
         if(id==R.id.action_settings){
             currentDataSource=dataSourceAll
-            costInvoices.results.clear()
+            costInvoices?.results?.clear()
             start=0 as Integer
             max=10 as Integer
             getCostInvoices()
@@ -270,7 +270,7 @@ class CostInvoicesFragment : Fragment(), CostInvoicesRecyclerAdapter.OnItemClick
         }
         if(id==R.id.action_settings2){
             currentDataSource=dataSourcePaid
-            costInvoices.results.clear()
+            costInvoices?.results?.clear()
             start=0 as Integer
             max=10 as Integer
             getUnpaidCostInvoices()

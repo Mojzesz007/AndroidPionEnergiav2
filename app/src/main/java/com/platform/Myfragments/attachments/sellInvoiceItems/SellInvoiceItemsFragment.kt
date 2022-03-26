@@ -82,7 +82,7 @@ class  SellInvoiceItemsFragment : Fragment(), SellInvoiceItemsRecyclerAdapter.On
          **/
         swipeContainer= binding!!.SIISwipeRefreshSR
         swipeContainer.setOnRefreshListener {
-            sellInvoice.items.clear()
+            sellInvoice?.items?.clear()
             getSellInvoiceByID()
         }
         return root

@@ -82,7 +82,7 @@ class  ViewOnlyAttachmentsFragment : Fragment(), ViewOnlyAttachmentsAdapter.OnIt
          **/
         swipeContainer= binding!!.VOASwipeRefreshSR
         swipeContainer.setOnRefreshListener {
-            attachments.attachments.clear()
+            attachments?.attachments?.clear()
             getAttachmentAttachments()
         }
         return root
