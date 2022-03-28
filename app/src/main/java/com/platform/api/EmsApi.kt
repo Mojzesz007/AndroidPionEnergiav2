@@ -40,7 +40,8 @@ interface EmsApi {
     @FormUrlEncoded
     @POST("auth")
     @Headers("Accept: application/json")
-    fun login(@Field("j_username") login: String, @Field("j_password") password: String): Call<ResponseBody>
+    fun login(@Field("j_username") login: String,
+              @Field("j_password") password: String): Call<ResponseBody>
 
     @GET("rest/serviceorders")
     fun getServiceOrders(): Call<ResponseBody>

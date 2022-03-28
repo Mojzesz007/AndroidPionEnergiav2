@@ -429,7 +429,7 @@ class CostInvoiceActivity : AppCompatActivity(),
                 super.onBackPressed()
     }
     /**
-     * Metoda usuwająca Faktórę
+     * Metoda usuwająca Fakturę
      * @author Rafał Pasternak
      **/
     private fun deleteCostInvocie(){
