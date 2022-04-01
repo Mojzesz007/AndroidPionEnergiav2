@@ -178,7 +178,7 @@ class AttachmentsFragment : Fragment(), CostInvoicesAttachmentsAdapter.OnItemCli
         }
         else if(type==1) {
             removeAttachment(attachments.attachments[position].id)
-            Toast.makeText(activity, "Item $position Usuń", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Usuń", Toast.LENGTH_SHORT).show()
         }
     }
 

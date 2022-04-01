@@ -231,6 +231,7 @@ class LoginActivity : AppCompatActivity(), OnFragmentInteractionListener {
     fun loginActivity() {
         val loginIntent = Intent(this, NavigationDrawerActivity::class.java)
         startActivity(loginIntent)
+        finish()
     }
     /**
      *Metoda Prosi o możliwość zapisywania na urządzeniu użytkownika

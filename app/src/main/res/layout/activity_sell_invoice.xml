@@ -103,6 +103,31 @@
                 android:textColorHint="#757575" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:focusable="false"
+            android:hint="@string/IssueDate_hint"
+            android:minWidth="190dp"
+            android:minHeight="60dp"
+            android:textColorHint="#757575"
+            app:hintTextColor="#757575"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/SI_IssueDate_TV"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:focusable="false"
+                android:textColorHint="#757575" />
+        </com.google.android.material.textfield.TextInputLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -135,7 +160,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:focusable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/PaymentDate_hint"
+            android:inputType="none"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/SI_PaymentDate_TV"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:focusable="false"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -145,26 +191,26 @@
         style="@style/MyTextStyle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
         android:minHeight="48dp"
         android:text="@string/Attachments_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/left1" />
+        app:layout_constraintTop_toBottomOf="@+id/SI_Items_TV" />
 
     <TextView
         android:id="@+id/SI_Items_TV"
         style="@style/MyTextStyle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:clickable="true"
         android:minHeight="48dp"
         android:text="@string/Items_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SI_Attachments_TV" />
+        app:layout_constraintTop_toBottomOf="@+id/left1" />
 
     <FrameLayout
         android:id="@+id/fragment_container2"

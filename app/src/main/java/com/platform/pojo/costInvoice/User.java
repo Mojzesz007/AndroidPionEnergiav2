@@ -14,9 +14,6 @@ public class User {
     @SerializedName("createdAt")
     @Expose
     private Long createdAt;
-    @SerializedName("updatedAt")
-    @Expose
-    private Object updatedAt;
     @SerializedName("draft")
     @Expose
     private Boolean draft;
@@ -35,9 +32,6 @@ public class User {
     @SerializedName("login")
     @Expose
     private String login;
-    @SerializedName("currentPassword")
-    @Expose
-    private Object currentPassword;
     @SerializedName("securityPrincipalName")
     @Expose
     private String securityPrincipalName;
@@ -68,14 +62,6 @@ public class User {
 
     public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Object getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Object updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Boolean getDraft() {
@@ -124,14 +110,6 @@ public class User {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public Object getCurrentPassword() {
-        return currentPassword;
-    }
-
-    public void setCurrentPassword(Object currentPassword) {
-        this.currentPassword = currentPassword;
     }
 
     public String getSecurityPrincipalName() {

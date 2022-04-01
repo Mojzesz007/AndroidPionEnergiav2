@@ -211,7 +211,7 @@ class  ViewOnlyAttachmentsFragment : Fragment(), ViewOnlyAttachmentsAdapter.OnIt
     }
     /**
      *Metoda zapisująca załącznik do pamięci wewnętrznej urządzenia
-     * @return data w formacie ludzkim
+     * @author Rafał Pasternak
      **/
     fun saveFile(body: ResponseBody?, pathWhereYouWantToSaveFile: String):String{
         if (body==null)

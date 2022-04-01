@@ -1,5 +1,6 @@
 package com.platform
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
@@ -15,6 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.sql.Date
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -29,6 +33,8 @@ class SellInvoiceActivity : AppCompatActivity() {
     private lateinit var recipient: TextView
     private lateinit var netTotal: TextView
     private lateinit var grossTotal: TextView
+    private lateinit var issueDate: TextView
+    private lateinit var paymentDate: TextView
     private lateinit var attachments: TextView
     private lateinit var items: TextView
     private var sellInvoice: SellInvoice=SellInvoice()
@@ -47,6 +53,8 @@ class SellInvoiceActivity : AppCompatActivity() {
         recipient=binding.SIRecipientTV
         netTotal=binding.SINetTotalTV
         grossTotal=binding.SIGrossTotalTV
+        issueDate=binding.SIIssueDateTV
+        paymentDate=binding.SIPaymentDateTV
         attachments=binding.SIAttachmentsTV
         items=binding.SIItemsTV
 
@@ -88,6 +96,10 @@ class SellInvoiceActivity : AppCompatActivity() {
         recipient.text=sellInvoice?.recipientContractor?.shortName
         netTotal.text=sellInvoice?.netTotal?.toString()
         grossTotal.text=sellInvoice?.grossTotal?.toString()
+        if(sellInvoice?.issueDate!=null)
+            issueDate.text=convertLongToTime(sellInvoice?.issueDate)
+        if(sellInvoice.paymentTerm!=null)
+            paymentDate.text=convertLongToTime(sellInvoice.paymentTerm)
     }
 
 
@@ -140,5 +152,16 @@ class SellInvoiceActivity : AppCompatActivity() {
             .setPositiveButton("OK") { dialog, which ->
             }
             .show()
+    }
+    @SuppressLint("SimpleDateFormat")
+    fun convertLongToTime(time: Long): String {
+        var date = Date(time)
+        val calendar= Calendar.getInstance()
+        calendar.time = date
+        calendar.add(Calendar.DATE,1)
+        val utilDate= calendar.time as java.util.Date
+        date= java.sql.Date(utilDate.getTime() )
+        val format = SimpleDateFormat("yyyy.MM.dd")
+        return format.format(date)
     }
 }

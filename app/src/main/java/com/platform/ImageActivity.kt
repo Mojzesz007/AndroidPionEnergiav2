@@ -129,7 +129,7 @@ class ImageActivity : AppCompatActivity(), View.OnClickListener {
     protected fun initDialog() {
 
         pDialog = ProgressDialog(this)
-        pDialog.setMessage("msg_loading")
+        pDialog.setMessage("Przesyłanie pliku")
         pDialog.setCancelable(true)
     }
 

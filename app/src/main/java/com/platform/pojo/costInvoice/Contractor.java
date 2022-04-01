@@ -74,9 +74,6 @@ public class Contractor {
     @SerializedName("suspensionDate")
     @Expose
     private Object suspensionDate;
-    @SerializedName("terminstionDate")
-    @Expose
-    private Object terminstionDate;
     @SerializedName("registrationAuthority")
     @Expose
     private String registrationAuthority;
@@ -119,18 +116,6 @@ public class Contractor {
     @SerializedName("phoneNoPrefix")
     @Expose
     private String phoneNoPrefix;
-    @SerializedName("phoneNo")
-    @Expose
-    private Object phoneNo;
-    @SerializedName("notice")
-    @Expose
-    private Object notice;
-    @SerializedName("accountManagers")
-    @Expose
-    private Object accountManagers;
-    @SerializedName("parentContractor")
-    @Expose
-    private Object parentContractor;
     @SerializedName("client")
     @Expose
     private Boolean client;
@@ -140,48 +125,12 @@ public class Contractor {
     @SerializedName("supplier")
     @Expose
     private Boolean supplier;
-    @SerializedName("markupProfitPercent")
-    @Expose
-    private Object markupProfitPercent;
-    @SerializedName("contractProfitPercent")
-    @Expose
-    private Object contractProfitPercent;
-    @SerializedName("profitAmount")
-    @Expose
-    private Object profitAmount;
     @SerializedName("agent")
     @Expose
     private Boolean agent;
-    @SerializedName("firstname")
-    @Expose
-    private Object firstname;
-    @SerializedName("lastname")
-    @Expose
-    private Object lastname;
-    @SerializedName("pesel")
-    @Expose
-    private Object pesel;
     @SerializedName("streetNo")
     @Expose
     private String streetNo;
-    @SerializedName("flatNo")
-    @Expose
-    private Object flatNo;
-    @SerializedName("fatherName")
-    @Expose
-    private Object fatherName;
-    @SerializedName("motherName")
-    @Expose
-    private Object motherName;
-    @SerializedName("birthDate")
-    @Expose
-    private Object birthDate;
-    @SerializedName("birthPlace")
-    @Expose
-    private Object birthPlace;
-    @SerializedName("identityDocuments")
-    @Expose
-    private Object identityDocuments;
     @SerializedName("isCompany")
     @Expose
     private Boolean isCompany;
@@ -380,14 +329,6 @@ public class Contractor {
         this.suspensionDate = suspensionDate;
     }
 
-    public Object getTerminstionDate() {
-        return terminstionDate;
-    }
-
-    public void setTerminstionDate(Object terminstionDate) {
-        this.terminstionDate = terminstionDate;
-    }
-
     public String getRegistrationAuthority() {
         return registrationAuthority;
     }
@@ -500,38 +441,6 @@ public class Contractor {
         this.phoneNoPrefix = phoneNoPrefix;
     }
 
-    public Object getPhoneNo() {
-        return phoneNo;
-    }
-
-    public void setPhoneNo(Object phoneNo) {
-        this.phoneNo = phoneNo;
-    }
-
-    public Object getNotice() {
-        return notice;
-    }
-
-    public void setNotice(Object notice) {
-        this.notice = notice;
-    }
-
-    public Object getAccountManagers() {
-        return accountManagers;
-    }
-
-    public void setAccountManagers(Object accountManagers) {
-        this.accountManagers = accountManagers;
-    }
-
-    public Object getParentContractor() {
-        return parentContractor;
-    }
-
-    public void setParentContractor(Object parentContractor) {
-        this.parentContractor = parentContractor;
-    }
-
     public Boolean getClient() {
         return client;
     }
@@ -556,60 +465,12 @@ public class Contractor {
         this.supplier = supplier;
     }
 
-    public Object getMarkupProfitPercent() {
-        return markupProfitPercent;
-    }
-
-    public void setMarkupProfitPercent(Object markupProfitPercent) {
-        this.markupProfitPercent = markupProfitPercent;
-    }
-
-    public Object getContractProfitPercent() {
-        return contractProfitPercent;
-    }
-
-    public void setContractProfitPercent(Object contractProfitPercent) {
-        this.contractProfitPercent = contractProfitPercent;
-    }
-
-    public Object getProfitAmount() {
-        return profitAmount;
-    }
-
-    public void setProfitAmount(Object profitAmount) {
-        this.profitAmount = profitAmount;
-    }
-
     public Boolean getAgent() {
         return agent;
     }
 
     public void setAgent(Boolean agent) {
         this.agent = agent;
-    }
-
-    public Object getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(Object firstname) {
-        this.firstname = firstname;
-    }
-
-    public Object getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(Object lastname) {
-        this.lastname = lastname;
-    }
-
-    public Object getPesel() {
-        return pesel;
-    }
-
-    public void setPesel(Object pesel) {
-        this.pesel = pesel;
     }
 
     public String getStreetNo() {
@@ -620,53 +481,6 @@ public class Contractor {
         this.streetNo = streetNo;
     }
 
-    public Object getFlatNo() {
-        return flatNo;
-    }
-
-    public void setFlatNo(Object flatNo) {
-        this.flatNo = flatNo;
-    }
-
-    public Object getFatherName() {
-        return fatherName;
-    }
-
-    public void setFatherName(Object fatherName) {
-        this.fatherName = fatherName;
-    }
-
-    public Object getMotherName() {
-        return motherName;
-    }
-
-    public void setMotherName(Object motherName) {
-        this.motherName = motherName;
-    }
-
-    public Object getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Object birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public Object getBirthPlace() {
-        return birthPlace;
-    }
-
-    public void setBirthPlace(Object birthPlace) {
-        this.birthPlace = birthPlace;
-    }
-
-    public Object getIdentityDocuments() {
-        return identityDocuments;
-    }
-
-    public void setIdentityDocuments(Object identityDocuments) {
-        this.identityDocuments = identityDocuments;
-    }
 
     public Boolean getIsCompany() {
         return isCompany;
